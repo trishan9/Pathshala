@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 
-export const Route = createLazyFileRoute("/_layout/search")({
+export const Route = createLazyFileRoute("/_auth/search")({
   component: RouteComponent,
 });
 

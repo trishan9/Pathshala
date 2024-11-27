@@ -13,110 +13,246 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as LayoutImport } from './routes/_layout'
-import { Route as LayoutIndexImport } from './routes/_layout.index'
+import { Route as LoginImport } from './routes/login'
+import { Route as AuthImport } from './routes/_auth'
+import { Route as AuthIndexImport } from './routes/_auth/index'
+import { Route as AuthInstructorInstructorImport } from './routes/_auth/instructor/_instructor'
+import { Route as AuthInstructorInstructorCoursesImport } from './routes/_auth/instructor/_instructor/courses'
+import { Route as AuthInstructorInstructorAnalyticsImport } from './routes/_auth/instructor/_instructor/analytics'
 
 // Create Virtual Routes
 
-const LayoutSearchLazyImport = createFileRoute('/_layout/search')()
+const AuthInstructorImport = createFileRoute('/_auth/instructor')()
+const AuthSearchLazyImport = createFileRoute('/_auth/search')()
 
 // Create/Update Routes
 
-const LayoutRoute = LayoutImport.update({
-  id: '/_layout',
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRoute,
 } as any)
 
-const LayoutIndexRoute = LayoutIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => LayoutRoute,
+const AuthRoute = AuthImport.update({
+  id: '/_auth',
+  getParentRoute: () => rootRoute,
 } as any)
 
-const LayoutSearchLazyRoute = LayoutSearchLazyImport.update({
+const AuthInstructorRoute = AuthInstructorImport.update({
+  id: '/instructor',
+  path: '/instructor',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthIndexRoute = AuthIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthSearchLazyRoute = AuthSearchLazyImport.update({
   id: '/search',
   path: '/search',
-  getParentRoute: () => LayoutRoute,
-} as any).lazy(() =>
-  import('./routes/_layout.search.lazy').then((d) => d.Route),
-)
+  getParentRoute: () => AuthRoute,
+} as any).lazy(() => import('./routes/_auth/search.lazy').then((d) => d.Route))
+
+const AuthInstructorInstructorRoute = AuthInstructorInstructorImport.update({
+  id: '/_instructor',
+  getParentRoute: () => AuthInstructorRoute,
+} as any)
+
+const AuthInstructorInstructorCoursesRoute =
+  AuthInstructorInstructorCoursesImport.update({
+    id: '/courses',
+    path: '/courses',
+    getParentRoute: () => AuthInstructorInstructorRoute,
+  } as any)
+
+const AuthInstructorInstructorAnalyticsRoute =
+  AuthInstructorInstructorAnalyticsImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthInstructorInstructorRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_layout': {
-      id: '/_layout'
+    '/_auth': {
+      id: '/_auth'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof LayoutImport
+      preLoaderRoute: typeof AuthImport
       parentRoute: typeof rootRoute
     }
-    '/_layout/search': {
-      id: '/_layout/search'
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/_auth/search': {
+      id: '/_auth/search'
       path: '/search'
       fullPath: '/search'
-      preLoaderRoute: typeof LayoutSearchLazyImport
-      parentRoute: typeof LayoutImport
+      preLoaderRoute: typeof AuthSearchLazyImport
+      parentRoute: typeof AuthImport
     }
-    '/_layout/': {
-      id: '/_layout/'
+    '/_auth/': {
+      id: '/_auth/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof LayoutIndexImport
-      parentRoute: typeof LayoutImport
+      preLoaderRoute: typeof AuthIndexImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/instructor': {
+      id: '/_auth/instructor'
+      path: '/instructor'
+      fullPath: '/instructor'
+      preLoaderRoute: typeof AuthInstructorImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/instructor/_instructor': {
+      id: '/_auth/instructor/_instructor'
+      path: '/instructor'
+      fullPath: '/instructor'
+      preLoaderRoute: typeof AuthInstructorInstructorImport
+      parentRoute: typeof AuthInstructorRoute
+    }
+    '/_auth/instructor/_instructor/analytics': {
+      id: '/_auth/instructor/_instructor/analytics'
+      path: '/analytics'
+      fullPath: '/instructor/analytics'
+      preLoaderRoute: typeof AuthInstructorInstructorAnalyticsImport
+      parentRoute: typeof AuthInstructorInstructorImport
+    }
+    '/_auth/instructor/_instructor/courses': {
+      id: '/_auth/instructor/_instructor/courses'
+      path: '/courses'
+      fullPath: '/instructor/courses'
+      preLoaderRoute: typeof AuthInstructorInstructorCoursesImport
+      parentRoute: typeof AuthInstructorInstructorImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface LayoutRouteChildren {
-  LayoutSearchLazyRoute: typeof LayoutSearchLazyRoute
-  LayoutIndexRoute: typeof LayoutIndexRoute
+interface AuthInstructorInstructorRouteChildren {
+  AuthInstructorInstructorAnalyticsRoute: typeof AuthInstructorInstructorAnalyticsRoute
+  AuthInstructorInstructorCoursesRoute: typeof AuthInstructorInstructorCoursesRoute
 }
 
-const LayoutRouteChildren: LayoutRouteChildren = {
-  LayoutSearchLazyRoute: LayoutSearchLazyRoute,
-  LayoutIndexRoute: LayoutIndexRoute,
+const AuthInstructorInstructorRouteChildren: AuthInstructorInstructorRouteChildren =
+  {
+    AuthInstructorInstructorAnalyticsRoute:
+      AuthInstructorInstructorAnalyticsRoute,
+    AuthInstructorInstructorCoursesRoute: AuthInstructorInstructorCoursesRoute,
+  }
+
+const AuthInstructorInstructorRouteWithChildren =
+  AuthInstructorInstructorRoute._addFileChildren(
+    AuthInstructorInstructorRouteChildren,
+  )
+
+interface AuthInstructorRouteChildren {
+  AuthInstructorInstructorRoute: typeof AuthInstructorInstructorRouteWithChildren
 }
 
-const LayoutRouteWithChildren =
-  LayoutRoute._addFileChildren(LayoutRouteChildren)
+const AuthInstructorRouteChildren: AuthInstructorRouteChildren = {
+  AuthInstructorInstructorRoute: AuthInstructorInstructorRouteWithChildren,
+}
+
+const AuthInstructorRouteWithChildren = AuthInstructorRoute._addFileChildren(
+  AuthInstructorRouteChildren,
+)
+
+interface AuthRouteChildren {
+  AuthSearchLazyRoute: typeof AuthSearchLazyRoute
+  AuthIndexRoute: typeof AuthIndexRoute
+  AuthInstructorRoute: typeof AuthInstructorRouteWithChildren
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthSearchLazyRoute: AuthSearchLazyRoute,
+  AuthIndexRoute: AuthIndexRoute,
+  AuthInstructorRoute: AuthInstructorRouteWithChildren,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 export interface FileRoutesByFullPath {
-  '': typeof LayoutRouteWithChildren
-  '/search': typeof LayoutSearchLazyRoute
-  '/': typeof LayoutIndexRoute
+  '': typeof AuthRouteWithChildren
+  '/login': typeof LoginRoute
+  '/search': typeof AuthSearchLazyRoute
+  '/': typeof AuthIndexRoute
+  '/instructor': typeof AuthInstructorInstructorRouteWithChildren
+  '/instructor/analytics': typeof AuthInstructorInstructorAnalyticsRoute
+  '/instructor/courses': typeof AuthInstructorInstructorCoursesRoute
 }
 
 export interface FileRoutesByTo {
-  '/search': typeof LayoutSearchLazyRoute
-  '/': typeof LayoutIndexRoute
+  '/login': typeof LoginRoute
+  '/search': typeof AuthSearchLazyRoute
+  '/': typeof AuthIndexRoute
+  '/instructor': typeof AuthInstructorInstructorRouteWithChildren
+  '/instructor/analytics': typeof AuthInstructorInstructorAnalyticsRoute
+  '/instructor/courses': typeof AuthInstructorInstructorCoursesRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/_layout': typeof LayoutRouteWithChildren
-  '/_layout/search': typeof LayoutSearchLazyRoute
-  '/_layout/': typeof LayoutIndexRoute
+  '/_auth': typeof AuthRouteWithChildren
+  '/login': typeof LoginRoute
+  '/_auth/search': typeof AuthSearchLazyRoute
+  '/_auth/': typeof AuthIndexRoute
+  '/_auth/instructor': typeof AuthInstructorRouteWithChildren
+  '/_auth/instructor/_instructor': typeof AuthInstructorInstructorRouteWithChildren
+  '/_auth/instructor/_instructor/analytics': typeof AuthInstructorInstructorAnalyticsRoute
+  '/_auth/instructor/_instructor/courses': typeof AuthInstructorInstructorCoursesRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/search' | '/'
+  fullPaths:
+    | ''
+    | '/login'
+    | '/search'
+    | '/'
+    | '/instructor'
+    | '/instructor/analytics'
+    | '/instructor/courses'
   fileRoutesByTo: FileRoutesByTo
-  to: '/search' | '/'
-  id: '__root__' | '/_layout' | '/_layout/search' | '/_layout/'
+  to:
+    | '/login'
+    | '/search'
+    | '/'
+    | '/instructor'
+    | '/instructor/analytics'
+    | '/instructor/courses'
+  id:
+    | '__root__'
+    | '/_auth'
+    | '/login'
+    | '/_auth/search'
+    | '/_auth/'
+    | '/_auth/instructor'
+    | '/_auth/instructor/_instructor'
+    | '/_auth/instructor/_instructor/analytics'
+    | '/_auth/instructor/_instructor/courses'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  LayoutRoute: typeof LayoutRouteWithChildren
+  AuthRoute: typeof AuthRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  LayoutRoute: LayoutRouteWithChildren,
+  AuthRoute: AuthRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 
 export const routeTree = rootRoute
@@ -129,23 +265,51 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/_layout"
+        "/_auth",
+        "/login"
       ]
     },
-    "/_layout": {
-      "filePath": "_layout.tsx",
+    "/_auth": {
+      "filePath": "_auth.tsx",
       "children": [
-        "/_layout/search",
-        "/_layout/"
+        "/_auth/search",
+        "/_auth/",
+        "/_auth/instructor"
       ]
     },
-    "/_layout/search": {
-      "filePath": "_layout.search.lazy.tsx",
-      "parent": "/_layout"
+    "/login": {
+      "filePath": "login.tsx"
     },
-    "/_layout/": {
-      "filePath": "_layout.index.tsx",
-      "parent": "/_layout"
+    "/_auth/search": {
+      "filePath": "_auth/search.lazy.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/": {
+      "filePath": "_auth/index.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/instructor": {
+      "filePath": "_auth/instructor",
+      "parent": "/_auth",
+      "children": [
+        "/_auth/instructor/_instructor"
+      ]
+    },
+    "/_auth/instructor/_instructor": {
+      "filePath": "_auth/instructor/_instructor.tsx",
+      "parent": "/_auth/instructor",
+      "children": [
+        "/_auth/instructor/_instructor/analytics",
+        "/_auth/instructor/_instructor/courses"
+      ]
+    },
+    "/_auth/instructor/_instructor/analytics": {
+      "filePath": "_auth/instructor/_instructor/analytics.tsx",
+      "parent": "/_auth/instructor/_instructor"
+    },
+    "/_auth/instructor/_instructor/courses": {
+      "filePath": "_auth/instructor/_instructor/courses.tsx",
+      "parent": "/_auth/instructor/_instructor"
     }
   }
 }

@@ -2,11 +2,12 @@ import NavBar from "@/components/layouts/Navbar";
 import Sidebar from "@/components/layouts/Sidebar";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_layout")({
+export const Route = createFileRoute("/_auth")({
   component: LayoutComponent,
 });
 
 function LayoutComponent() {
+  console.log("Logged in user");
   return (
     <div className="h-full">
       <div className="fixed inset-y-0 md:pl-56 h-[80px] w-full z-10">
