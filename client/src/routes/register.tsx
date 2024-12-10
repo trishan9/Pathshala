@@ -3,17 +3,17 @@ import { createFileRoute } from "@tanstack/react-router";
 import googleLogo from "@/assets/google-logo.png";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import LoginForm from "@/components/auth/LoginForm";
+import SignupForm from "@/components/auth/SignupForm";
 import Logo from "@/components/layouts/Logo";
 import { Carousel } from "@/components/auth/Carousel";
 
-export const Route = createFileRoute("/login")({
-  component: LoginPage,
+export const Route = createFileRoute("/register")({
+  component: RegisterPage,
 });
 
-function LoginPage() {
+function RegisterPage() {
   return (
-    <div className="h-screen flex flex-col justify-between items-center overflow-hidden">
+    <div className="h-screen flex flex-col justify-between items-center">
       <nav className="w-full bg-white p-3.5 flex justify-between border-b border-gray-300 items-center">
         <Logo />
       </nav>
@@ -23,11 +23,7 @@ function LoginPage() {
           <Carousel />
         </div>
 
-        <div className="relative w-full text-sm flex flex-col items-center justify-center gap-6 px-6 sm:px-14 lg:px-8 xl:px-16 2xl:px-20">
-          <div className="bg-[#fbe2e3] absolute top-[10rem] -z-10 left-[20rem] h-[15.25rem] rounded-full blur-[10rem] w-[32.75rem] dark:bg-[#946263]"></div>
-
-          <div className="bg-[#dbd7fb] absolute top-[15rem] -z-10 left-[20rem] h-[15.25rem] rounded-full blur-[10rem] w-[32.75rem] md:left-[-33rem] lg:left-[-28rem] xl:left-[-15rem] 2xl:left-[-5rem] dark:bg-[#676394]"></div>
-
+        <div className="bg-neutral-100 w-full text-sm flex flex-col items-center justify-center py-1.5 gap-6 px-6 sm:px-14 lg:px-8 xl:px-16 2xl:px-20">
           <div className="space-y-8 min-w-full">
             <div className="flex flex-col gap-4 justify-center items-center">
               <img
@@ -37,20 +33,20 @@ function LoginPage() {
               />
 
               <p className="text-main font-semibold text-2xl sm:text-3xl">
-                Hi, Welcome Back!
+                Create your account!
               </p>
             </div>
 
-            <LoginForm />
+            <SignupForm />
           </div>
 
           <p className="font-medium">
-            Not registered yet?{" "}
+            Already have an account?{" "}
             <Link
-              to="/register"
+              to="/login"
               className="font-semibold text-main hover:underline"
             >
-              Create an account
+              Login now
             </Link>
           </p>
 
@@ -66,7 +62,7 @@ function LoginPage() {
             className="w-full flex justify-center items-center gap-2.5"
           >
             <img src={googleLogo} alt="Google Logo" className="w-5 h-5" />
-            Sign in with Google
+            Sign up with Google
           </Button>
         </div>
       </div>

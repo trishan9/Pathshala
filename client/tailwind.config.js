@@ -12,6 +12,7 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        main: "hsl(var(--main))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -42,7 +43,7 @@ export default {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
-        border: "hsl(var(--border))",
+        border: "#E2E1E5",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         chart: {

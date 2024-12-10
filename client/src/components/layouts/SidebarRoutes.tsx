@@ -1,17 +1,59 @@
-import { BarChart, Compass, Layout, List } from "lucide-react";
+import {
+  BarChart,
+  BookOpenText,
+  CalendarRange,
+  ClipboardMinus,
+  Layout,
+  List,
+  Megaphone,
+  NotebookPen,
+  NotebookText,
+  Settings,
+} from "lucide-react";
 import SidebarItem, { ISidebarItemProps } from "./SidebarItem";
 import { useLocation } from "@tanstack/react-router";
 
-const guestRoutes = [
+const studentRoutes = [
   {
     icon: Layout,
     label: "Dashboard",
     href: "/",
   },
   {
-    icon: Compass,
-    label: "Browse",
-    href: "/search",
+    icon: Megaphone,
+    label: "Announcements",
+    href: "/announcements",
+  },
+  {
+    icon: BookOpenText,
+    label: "Courses",
+    href: "/courses",
+  },
+  {
+    icon: CalendarRange,
+    label: "Attendance",
+    href: "/attendance",
+  },
+  {
+    icon: NotebookPen,
+    label: "Exams",
+    href: "/exams",
+  },
+  {
+    icon: ClipboardMinus,
+    label: "Results",
+    href: "/results",
+  },
+  {
+    icon: NotebookText,
+    label: "Assignments",
+    href: "/assignments",
+  },
+
+  {
+    icon: Settings,
+    label: "Settings",
+    href: "/settings",
   },
 ];
 
@@ -33,7 +75,7 @@ const SidebarRoutes = () => {
 
   const routes = pathname?.startsWith("/instructor")
     ? instructorRoutes
-    : guestRoutes;
+    : studentRoutes;
 
   return (
     <div className="flex flex-col w-full">
