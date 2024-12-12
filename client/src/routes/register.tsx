@@ -13,7 +13,7 @@ export const Route = createFileRoute("/register")({
 
 function RegisterPage() {
   return (
-    <div className="h-screen flex flex-col justify-between items-center">
+    <div className="h-screen flex flex-col justify-between items-center overflow-hidden">
       <nav className="w-full bg-white p-3.5 flex justify-between border-b border-gray-300 items-center">
         <Logo />
       </nav>
@@ -23,7 +23,11 @@ function RegisterPage() {
           <Carousel />
         </div>
 
-        <div className="bg-neutral-100 w-full text-sm flex flex-col items-center justify-center py-1.5 gap-6 px-6 sm:px-14 lg:px-8 xl:px-16 2xl:px-20">
+        <div className="bg-neutral-100/30 relative w-full text-sm flex flex-col items-center justify-center py-1.5 gap-6 px-6 sm:px-14 lg:px-8 xl:px-16 2xl:px-32">
+          <div className="bg-[#fbe2e3] absolute top-[10rem] -z-10 left-[20rem] h-[15.25rem] rounded-full blur-[10rem] w-[32.75rem] dark:bg-[#946263]"></div>
+
+          <div className="bg-[#dbd7fb] absolute top-[15rem] -z-10 left-[20rem] h-[15.25rem] rounded-full blur-[10rem] w-[32.75rem] md:left-[-33rem] lg:left-[-28rem] xl:left-[-15rem] 2xl:left-[-5rem] dark:bg-[#676394]"></div>
+
           <div className="space-y-8 min-w-full">
             <div className="flex flex-col gap-4 justify-center items-center">
               <img

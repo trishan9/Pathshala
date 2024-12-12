@@ -1,7 +1,7 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const BASE_URL = "http://localhost:5000/api/v1";
+const BASE_URL = "http://localhost:8000/api/v1";
 
 export async function getEmojis() {
   try {

@@ -23,7 +23,7 @@ function LoginPage() {
           <Carousel />
         </div>
 
-        <div className="relative w-full text-sm flex flex-col items-center justify-center gap-6 px-6 sm:px-14 lg:px-8 xl:px-16 2xl:px-20">
+        <div className="relative w-full bg-neutral-100/30  text-sm flex flex-col items-center justify-center gap-6 px-6 sm:px-14 lg:px-8 xl:px-16 2xl:px-40">
           <div className="bg-[#fbe2e3] absolute top-[10rem] -z-10 left-[20rem] h-[15.25rem] rounded-full blur-[10rem] w-[32.75rem] dark:bg-[#946263]"></div>
 
           <div className="bg-[#dbd7fb] absolute top-[15rem] -z-10 left-[20rem] h-[15.25rem] rounded-full blur-[10rem] w-[32.75rem] md:left-[-33rem] lg:left-[-28rem] xl:left-[-15rem] 2xl:left-[-5rem] dark:bg-[#676394]"></div>
