@@ -1,31 +1,25 @@
-import express from "express";
-import morgan from "morgan";
-import helmet from "helmet";
 import cors from "cors";
-import { config } from "dotenv";
-
-import * as middlewares from "./middlewares";
-import api from "./api";
-import MessageResponse from "./interfaces/MessageResponse";
+import express from "express";
+import cookieParser from "cookie-parser";
+import { errorHandler } from "@/middlewares/globalErrorHandler";
+import { apiRequestLogger } from "@/logging/logger";
+import { rootRouter } from "@/routes";
+import config from "./config";
 
 const app = express();
 
-config();
-
-app.use(morgan("dev"));
-app.use(helmet());
-app.use(cors());
+app.use(cors(config.cors));
 app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+app.use(apiRequestLogger);
 
-app.get<{}, MessageResponse>("/", (req, res) => {
-  res.json({
-    message: "🦄🌈✨👋🌎🌍🌏✨🌈🦄",
-  });
+app.get("/health", (_, res) => {
+  return res.send("healthy");
 });
 
-app.use("/api/v1", api);
+app.use("/v1", rootRouter);
 
-app.use(middlewares.notFound);
-app.use(middlewares.errorHandler);
+app.use(errorHandler);
 
-export default app;
+export { app };

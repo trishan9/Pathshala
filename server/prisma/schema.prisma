@@ -1,0 +1,190 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRESQL_URL")
+}
+
+model Admin {
+  id        String   @id @default(uuid())
+  name      String
+  username  String   @unique()
+  email     String   @unique()
+  password  String
+  googleId  String?  @unique
+  isOAuth   Boolean  @default(false)
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+}
+
+// model Student {
+//   id          String       @id @default(uuid())
+//   username    String       @unique
+//   name        String
+//   email       String?      @unique
+//   phone       String?      @unique
+//   address     String
+//   img         String?
+//   sex         UserSex
+//   createdAt   DateTime     @default(now())
+//   classId     Int
+//   class       Class        @relation(fields: [classId], references: [id])
+//   gradeId     String
+//   grade       Grade        @relation(fields: [gradeId], references: [id])
+//   attendances Attendance[]
+//   results     Result[]
+//   birthday    DateTime
+//   role        String       @default("student")
+// }
+
+// model Teacher {
+//   id        String    @id @default(uuid())
+//   username  String    @unique
+//   name      String
+//   email     String?   @unique
+//   phone     String?   @unique
+//   address   String
+//   img       String?
+//   sex       UserSex
+//   createdAt DateTime  @default(now())
+//   subjects  Subject[]
+//   lessons   Lesson[]
+//   classes   Class[]
+//   birthday  DateTime
+//   role      String    @default("teacher")
+// }
+
+// model Grade {
+//   id    String @id @default(uuid())
+//   level Int    @unique
+
+//   students Student[]
+//   classess Class[]
+// }
+
+// model Class {
+//   id       Int    @id @default(autoincrement())
+//   name     String @unique
+//   capacity Int
+
+//   supervisorId  String?
+//   supervisor    Teacher?       @relation(fields: [supervisorId], references: [id])
+//   lessons       Lesson[]
+//   students      Student[]
+//   gradeId       String
+//   grade         Grade          @relation(fields: [gradeId], references: [id])
+//   events        Event[]
+//   announcements Announcement[]
+// }
+
+// model Subject {
+//   id       String    @id @default(uuid())
+//   name     String    @unique
+//   teachers Teacher[]
+//   lessons  Lesson[]
+// }
+
+// model Lesson {
+//   id        String   @id @default(uuid())
+//   name      String
+//   day       Day
+//   startTime DateTime
+//   endTime   DateTime
+
+//   subjectId   String
+//   subject     Subject      @relation(fields: [subjectId], references: [id])
+//   classId     Int
+//   class       Class        @relation(fields: [classId], references: [id])
+//   teacherId   String
+//   teacher     Teacher      @relation(fields: [teacherId], references: [id])
+//   exams       Exam[]
+//   assignments Assignment[]
+//   attendances Attendance[]
+// }
+
+// model Exam {
+//   id        String   @id @default(uuid())
+//   title     String
+//   startTime DateTime
+//   endTime   DateTime
+
+//   lessonId String
+//   lesson   Lesson   @relation(fields: [lessonId], references: [id])
+//   results  Result[]
+// }
+
+// model Assignment {
+//   id        String   @id @default(uuid())
+//   title     String
+//   startDate DateTime
+//   dueDate   DateTime
+
+//   lessonId String
+//   lesson   Lesson   @relation(fields: [lessonId], references: [id])
+//   results  Result[]
+// }
+
+// model Result {
+//   id    String @id @default(uuid())
+//   score Int
+
+//   examId       String?
+//   exam         Exam?       @relation(fields: [examId], references: [id])
+//   assignmentId String?
+//   assignment   Assignment? @relation(fields: [assignmentId], references: [id])
+//   studentId    String
+//   student      Student     @relation(fields: [studentId], references: [id])
+// }
+
+// model Attendance {
+//   id      String   @id @default(uuid())
+//   date    DateTime
+//   present Boolean
+
+//   studentId String
+//   student   Student @relation(fields: [studentId], references: [id])
+//   lessonId  String
+//   lesson    Lesson  @relation(fields: [lessonId], references: [id])
+// }
+
+// model Event {
+//   id          String   @id @default(uuid())
+//   title       String
+//   description String
+//   startTime   DateTime
+//   endTime     DateTime
+
+//   classId Int?
+//   class   Class? @relation(fields: [classId], references: [id])
+// }
+
+// model Announcement {
+//   id          String   @id @default(uuid())
+//   title       String
+//   description String
+//   date        DateTime
+
+//   classId Int?
+//   class   Class? @relation(fields: [classId], references: [id])
+// }
+
+// enum UserSex {
+//   MALE
+//   FEMALE
+// }
+
+// enum Day {
+//   MONDAY
+//   TUESDAY
+//   WEDNESDAY
+//   THURSDAY
+//   FRIDAY
+// }
