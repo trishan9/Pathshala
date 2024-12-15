@@ -11,14 +11,20 @@ import token from "@/lib/token";
 import { logger } from "@/logging/logger";
 
 export const registerAdmin = async (data: Prisma.AdminCreateInput) => {
-  const exists = await client.admin.findUnique({
+  const exists = await client.admin.findFirst({
     where: {
-      email: data.email,
+      OR: [{ username: data.username }, { email: data.email }],
     },
   });
 
   if (exists) {
-    throw new ApiError(StatusCodes.CONFLICT, errorResponse.EMAIL.CONFLICT);
+    if (exists.username === data.username) {
+      throw new ApiError(StatusCodes.CONFLICT, errorResponse.USERNAME.CONFLICT);
+    }
+
+    if (exists.email === data.email) {
+      throw new ApiError(StatusCodes.CONFLICT, errorResponse.EMAIL.CONFLICT);
+    }
   }
 
   const hashedPassword = await hash.generate(data.password);
