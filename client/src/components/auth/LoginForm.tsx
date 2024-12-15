@@ -4,21 +4,11 @@ import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
-
-const formSchema = z.object({
-  userName: z
-    .string()
-    .min(1, "Username can't be empty.")
-    .min(3, "Username can't be less than 3 characters."),
-  password: z
-    .string()
-    .min(1, "Password can't be empty.")
-    .min(8, "Password can't be less than 8 characters."),
-});
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { loginFormSchema } from "@/schemas";
 
 const LoginForm = () => {
   const {
@@ -26,13 +16,13 @@ const LoginForm = () => {
     reset,
     formState: { errors },
     handleSubmit,
-  } = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  } = useForm<z.infer<typeof loginFormSchema>>({
+    resolver: zodResolver(loginFormSchema),
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const handleLogin = async (values: z.infer<typeof formSchema>) => {
+  const handleLogin = async (values: z.infer<typeof loginFormSchema>) => {
     try {
       setIsLoading(true);
       console.log(values);

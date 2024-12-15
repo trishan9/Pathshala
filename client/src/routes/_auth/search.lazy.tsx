@@ -1,9 +1,9 @@
-import { getEmojis } from "@/actions/emojis";
-import { Button } from "@/components/ui/button";
-import { useCounterStore } from "@/stores/counter";
 import { useQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
+import { apiActions } from "@/api/apiActions";
+import { Button } from "@/components/ui/button";
+import { useCounterStore } from "@/stores/counter";
 
 export const Route = createLazyFileRoute("/_auth/search")({
   component: RouteComponent,
@@ -18,7 +18,7 @@ function RouteComponent() {
     data: emojis,
   } = useQuery({
     queryKey: ["emojis"],
-    queryFn: getEmojis,
+    queryFn: apiActions.getEmojis,
     staleTime: 60 * 1000,
   });
 

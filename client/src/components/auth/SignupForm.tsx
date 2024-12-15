@@ -4,29 +4,11 @@ import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
-
-const formSchema = z.object({
-  fullName: z
-    .string()
-    .min(1, "Name can't be empty.")
-    .min(7, "Name can't be less than 7 characters."),
-  userName: z
-    .string()
-    .min(1, "Username can't be empty.")
-    .min(3, "Username can't be less than 3 characters."),
-  emailAddress: z
-    .string()
-    .min(1, "Email address can't be empty.")
-    .email("Email address must be valid."),
-  password: z
-    .string()
-    .min(1, "Password can't be empty.")
-    .min(8, "Password can't be less than 8 characters."),
-});
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { signupFormSchema } from "@/schemas";
 
 const SignupForm = () => {
   const {
@@ -34,13 +16,13 @@ const SignupForm = () => {
     reset,
     formState: { errors },
     handleSubmit,
-  } = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  } = useForm<z.infer<typeof signupFormSchema>>({
+    resolver: zodResolver(signupFormSchema),
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const handleRegister = async (values: z.infer<typeof formSchema>) => {
+  const handleRegister = async (values: z.infer<typeof signupFormSchema>) => {
     try {
       setIsLoading(true);
       console.log(values);
