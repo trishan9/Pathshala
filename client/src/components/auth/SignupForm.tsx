@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
-import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -9,34 +6,21 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { signupFormSchema } from "@/schemas";
+import { useSignup } from "@/hooks/useAuth";
 
 const SignupForm = () => {
   const {
     register,
-    reset,
     formState: { errors },
     handleSubmit,
   } = useForm<z.infer<typeof signupFormSchema>>({
     resolver: zodResolver(signupFormSchema),
   });
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const navigate = useNavigate();
+  const signup = useSignup();
 
   const handleRegister = async (values: z.infer<typeof signupFormSchema>) => {
-    try {
-      setIsLoading(true);
-      console.log(values);
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to create your account!");
-    } finally {
-      setTimeout(() => {
-        setIsLoading(false);
-        toast.success("Account created succesfully!");
-        reset();
-        navigate({ to: "/login" });
-      }, 2000);
-    }
+    console.log(values);
+    signup.mutate(values);
   };
 
   return (
@@ -51,13 +35,13 @@ const SignupForm = () => {
 
           <Input
             id="fullName"
-            {...register("fullName")}
+            {...register("name")}
             type="text"
             placeholder="Trishan Wagle"
           />
 
           <p className="text-sm font-semibold text-red-500">
-            {errors?.fullName?.message}
+            {errors?.name?.message}
           </p>
         </div>
 
@@ -66,13 +50,13 @@ const SignupForm = () => {
 
           <Input
             id="username"
-            {...register("userName")}
+            {...register("username")}
             type="text"
             placeholder="trishan9"
           />
 
           <p className="text-sm font-semibold text-red-500">
-            {errors?.userName?.message}
+            {errors?.username?.message}
           </p>
         </div>
       </div>
@@ -80,10 +64,10 @@ const SignupForm = () => {
       <div className="flex flex-col gap-2 items-start">
         <Label htmlFor="email">Email Address</Label>
 
-        <Input id="email" {...register("emailAddress")} type="email" />
+        <Input id="email" {...register("email")} type="email" />
 
         <p className="text-sm font-semibold text-red-500">
-          {errors?.emailAddress?.message}
+          {errors?.email?.message}
         </p>
       </div>
 
@@ -97,9 +81,14 @@ const SignupForm = () => {
         </p>
       </div>
 
-      <Button disabled={isLoading} size="lg" className="w-full" type="submit">
-        {isLoading ? "Creating account..." : "Create an account"}
-        {isLoading && <Loader2 className="w-14 h-14 animate-spin" />}
+      <Button
+        disabled={signup.isPending}
+        size="lg"
+        className="w-full"
+        type="submit"
+      >
+        {signup.isPending ? "Creating account..." : "Create an account"}
+        {signup.isPending && <Loader2 className="w-14 h-14 animate-spin" />}
       </Button>
     </form>
   );

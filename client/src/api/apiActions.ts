@@ -1,5 +1,4 @@
 import z from "zod";
-import toast from "react-hot-toast";
 import { api } from "./axiosInstance";
 import { API_URLS } from "./apiUrls";
 import { loginFormSchema, signupFormSchema } from "@/schemas";
@@ -19,18 +18,16 @@ export const apiActions = {
       return await api.post(API_URLS.AUTH.REFRESH);
     },
     getMe: async () => {
+      await new Promise((resolve) => setTimeout(resolve, 1500));
       return await api.get(API_URLS.AUTH.ME);
     },
   },
   getEmojis: async () => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
       const response = await api.get("/emojis");
-      toast.success("Emojis fetched successfuly!");
       return response;
     } catch (error) {
       console.log(error);
-      toast.error("Emojis failed to fetch!");
     } finally {
       console.log("Cleanups");
     }

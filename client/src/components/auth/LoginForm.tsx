@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
-import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -9,34 +6,22 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { loginFormSchema } from "@/schemas";
+import { useLogin } from "@/hooks/useAuth";
 
 const LoginForm = () => {
   const {
     register,
-    reset,
     formState: { errors },
     handleSubmit,
   } = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
   });
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const navigate = useNavigate();
+
+  const login = useLogin();
 
   const handleLogin = async (values: z.infer<typeof loginFormSchema>) => {
-    try {
-      setIsLoading(true);
-      console.log(values);
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to login!");
-    } finally {
-      setTimeout(() => {
-        setIsLoading(false);
-        toast.success("Logged in succesfully!");
-        reset();
-        navigate({ to: "/" });
-      }, 2000);
-    }
+    console.log(values);
+    login.mutate(values);
   };
 
   return (
@@ -46,13 +31,13 @@ const LoginForm = () => {
 
         <Input
           id="username"
-          {...register("userName")}
+          {...register("username")}
           type="text"
           placeholder="trishan9"
         />
 
         <p className="text-sm font-semibold text-red-500">
-          {errors?.userName?.message}
+          {errors?.username?.message}
         </p>
       </div>
 
@@ -66,9 +51,14 @@ const LoginForm = () => {
         </p>
       </div>
 
-      <Button disabled={isLoading} size="lg" className="w-full" type="submit">
-        {isLoading ? "Signing in..." : "Sign in"}
-        {isLoading && <Loader2 className="w-14 h-14 animate-spin" />}
+      <Button
+        disabled={login.isPending}
+        size="lg"
+        className="w-full"
+        type="submit"
+      >
+        {login.isPending ? "Signing in..." : "Sign in"}
+        {login.isPending && <Loader2 className="w-14 h-14 animate-spin" />}
       </Button>
     </form>
   );

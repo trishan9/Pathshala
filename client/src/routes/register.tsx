@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, Navigate } from "@tanstack/react-router";
 import { createFileRoute } from "@tanstack/react-router";
 import googleLogo from "@/assets/google-logo.png";
 import { Button } from "@/components/ui/button";
@@ -6,12 +6,17 @@ import { Separator } from "@/components/ui/separator";
 import SignupForm from "@/components/auth/SignupForm";
 import Logo from "@/components/layouts/Logo";
 import { Carousel } from "@/components/auth/Carousel";
+import { useAuthStore } from "@/stores/authStore";
 
 export const Route = createFileRoute("/register")({
   component: RegisterPage,
 });
 
 function RegisterPage() {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
   return (
     <div className="h-screen flex flex-col justify-between items-center overflow-hidden">
       <nav className="w-full bg-white p-3.5 flex justify-between border-b border-gray-300 items-center">

@@ -1,13 +1,20 @@
+import { createFileRoute, Navigate, Outlet } from "@tanstack/react-router";
 import NavBar from "@/components/layouts/Navbar";
 import Sidebar from "@/components/layouts/Sidebar";
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { useAuthStore } from "@/stores/authStore";
 
 export const Route = createFileRoute("/_auth")({
   component: LayoutComponent,
 });
 
 function LayoutComponent() {
-  console.log("Logged in user");
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
+  if (!isAuthenticated) {
+    console.log("User is not authenicated!");
+    return <Navigate to="/login" replace />;
+  }
+
   return (
     <div className="h-full">
       <div className="fixed inset-y-0 md:pl-56 h-[80px] w-full z-10">

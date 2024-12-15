@@ -1,10 +1,20 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { API_URLS } from "./apiUrls";
 import { useAuthStore } from "@/stores/authStore";
 import { apiActions } from "./apiActions";
 
+// @ts-expect-error "ssss"
+export interface CustomAxiosError extends AxiosError {
+  response?: {
+    data: {
+      message: string;
+    };
+  };
+}
+
 export const api = axios.create({
   baseURL: API_URLS.BASE,
+  withCredentials: true,
 });
 
 api.interceptors.request.use(
@@ -27,13 +37,11 @@ api.interceptors.response.use(
       try {
         const response = await apiActions.auth.refresh();
         const { accessToken } = response.data;
-
         useAuthStore.getState().setAccessToken(accessToken, null);
         return api(originalRequest);
       } catch (refreshError) {
         useAuthStore.getState().setAccessToken(null, null);
         useAuthStore.getState().setIsAuthenticated(false);
-        window.location.href = "/login";
         return Promise.reject(refreshError);
       }
     }
