@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useAuthStore } from "@/stores/authStore";
 import { useGetMe } from "@/hooks/useAuth";
 import loadingSpinner from "@/assets/loader.gif";
+import NotFound from "@/components/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -37,4 +38,5 @@ export const Route = createRootRoute({
       <AuthWrapper />
     </QueryClientProvider>
   ),
+  notFoundComponent: NotFound,
 });
