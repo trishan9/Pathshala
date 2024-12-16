@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "react-toastify";
 import { useAuthStore } from "@/stores/authStore";
@@ -8,12 +8,14 @@ import { CustomAxiosError } from "@/api/axiosInstance";
 export const useLogin = () => {
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: apiActions.auth.login,
     onSuccess: (response) => {
       const { accessToken } = response.data;
       setAccessToken(accessToken);
+      queryClient.invalidateQueries({ queryKey: ["me"] });
       toast.success(response.data.message);
       navigate({ to: "/" });
     },
@@ -46,6 +48,7 @@ export const useGetMe = () => {
   return useQuery({
     queryKey: ["me"],
     queryFn: apiActions.auth.getMe,
+    retry: false,
   });
 };
 

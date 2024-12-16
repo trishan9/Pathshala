@@ -24,7 +24,7 @@ import { Route as AuthInstructorInstructorAnalyticsImport } from './routes/_auth
 // Create Virtual Routes
 
 const AuthInstructorImport = createFileRoute('/_auth/instructor')()
-const AuthSearchLazyImport = createFileRoute('/_auth/search')()
+const AuthAnnouncementsLazyImport = createFileRoute('/_auth/announcements')()
 
 // Create/Update Routes
 
@@ -57,11 +57,13 @@ const AuthIndexRoute = AuthIndexImport.update({
   getParentRoute: () => AuthRoute,
 } as any)
 
-const AuthSearchLazyRoute = AuthSearchLazyImport.update({
-  id: '/search',
-  path: '/search',
+const AuthAnnouncementsLazyRoute = AuthAnnouncementsLazyImport.update({
+  id: '/announcements',
+  path: '/announcements',
   getParentRoute: () => AuthRoute,
-} as any).lazy(() => import('./routes/_auth/search.lazy').then((d) => d.Route))
+} as any).lazy(() =>
+  import('./routes/_auth/announcements.lazy').then((d) => d.Route),
+)
 
 const AuthInstructorInstructorRoute = AuthInstructorInstructorImport.update({
   id: '/_instructor',
@@ -107,11 +109,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterImport
       parentRoute: typeof rootRoute
     }
-    '/_auth/search': {
-      id: '/_auth/search'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof AuthSearchLazyImport
+    '/_auth/announcements': {
+      id: '/_auth/announcements'
+      path: '/announcements'
+      fullPath: '/announcements'
+      preLoaderRoute: typeof AuthAnnouncementsLazyImport
       parentRoute: typeof AuthImport
     }
     '/_auth/': {
@@ -184,13 +186,13 @@ const AuthInstructorRouteWithChildren = AuthInstructorRoute._addFileChildren(
 )
 
 interface AuthRouteChildren {
-  AuthSearchLazyRoute: typeof AuthSearchLazyRoute
+  AuthAnnouncementsLazyRoute: typeof AuthAnnouncementsLazyRoute
   AuthIndexRoute: typeof AuthIndexRoute
   AuthInstructorRoute: typeof AuthInstructorRouteWithChildren
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
-  AuthSearchLazyRoute: AuthSearchLazyRoute,
+  AuthAnnouncementsLazyRoute: AuthAnnouncementsLazyRoute,
   AuthIndexRoute: AuthIndexRoute,
   AuthInstructorRoute: AuthInstructorRouteWithChildren,
 }
@@ -201,7 +203,7 @@ export interface FileRoutesByFullPath {
   '': typeof AuthRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/search': typeof AuthSearchLazyRoute
+  '/announcements': typeof AuthAnnouncementsLazyRoute
   '/': typeof AuthIndexRoute
   '/instructor': typeof AuthInstructorInstructorRouteWithChildren
   '/instructor/analytics': typeof AuthInstructorInstructorAnalyticsRoute
@@ -211,7 +213,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/search': typeof AuthSearchLazyRoute
+  '/announcements': typeof AuthAnnouncementsLazyRoute
   '/': typeof AuthIndexRoute
   '/instructor': typeof AuthInstructorInstructorRouteWithChildren
   '/instructor/analytics': typeof AuthInstructorInstructorAnalyticsRoute
@@ -223,7 +225,7 @@ export interface FileRoutesById {
   '/_auth': typeof AuthRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/_auth/search': typeof AuthSearchLazyRoute
+  '/_auth/announcements': typeof AuthAnnouncementsLazyRoute
   '/_auth/': typeof AuthIndexRoute
   '/_auth/instructor': typeof AuthInstructorRouteWithChildren
   '/_auth/instructor/_instructor': typeof AuthInstructorInstructorRouteWithChildren
@@ -237,7 +239,7 @@ export interface FileRouteTypes {
     | ''
     | '/login'
     | '/register'
-    | '/search'
+    | '/announcements'
     | '/'
     | '/instructor'
     | '/instructor/analytics'
@@ -246,7 +248,7 @@ export interface FileRouteTypes {
   to:
     | '/login'
     | '/register'
-    | '/search'
+    | '/announcements'
     | '/'
     | '/instructor'
     | '/instructor/analytics'
@@ -256,7 +258,7 @@ export interface FileRouteTypes {
     | '/_auth'
     | '/login'
     | '/register'
-    | '/_auth/search'
+    | '/_auth/announcements'
     | '/_auth/'
     | '/_auth/instructor'
     | '/_auth/instructor/_instructor'
@@ -295,7 +297,7 @@ export const routeTree = rootRoute
     "/_auth": {
       "filePath": "_auth.tsx",
       "children": [
-        "/_auth/search",
+        "/_auth/announcements",
         "/_auth/",
         "/_auth/instructor"
       ]
@@ -306,8 +308,8 @@ export const routeTree = rootRoute
     "/register": {
       "filePath": "register.tsx"
     },
-    "/_auth/search": {
-      "filePath": "_auth/search.lazy.tsx",
+    "/_auth/announcements": {
+      "filePath": "_auth/announcements.lazy.tsx",
       "parent": "/_auth"
     },
     "/_auth/": {

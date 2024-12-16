@@ -22,14 +22,4 @@ export const apiActions = {
       return await api.get(API_URLS.AUTH.ME);
     },
   },
-  getEmojis: async () => {
-    try {
-      const response = await api.get("/emojis");
-      return response;
-    } catch (error) {
-      console.log(error);
-    } finally {
-      console.log("Cleanups");
-    }
-  },
 };
