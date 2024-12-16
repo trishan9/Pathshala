@@ -14,7 +14,7 @@ type AuthStore = {
   user: User | null;
   isAuthenticated: boolean;
 
-  setAccessToken: (token: string | null, user: User | null) => void;
+  setAccessToken: (token: string | null) => void;
   setUser: (user: User | null) => void;
   setIsAuthenticated: (value: boolean) => void;
 };
@@ -24,8 +24,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
   user: null,
   isAuthenticated: false,
 
-  setAccessToken: (token, user) =>
-    set({ accessToken: token, user, isAuthenticated: !!token }),
+  setAccessToken: (token) =>
+    set({ accessToken: token, isAuthenticated: !!token }),
   setUser: (user) => set({ user }),
   setIsAuthenticated: (value) => set({ isAuthenticated: value }),
 }));

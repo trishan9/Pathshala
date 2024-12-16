@@ -89,3 +89,15 @@ export const refresh = asyncHandler(async (req: Request, res: Response) => {
     message: responseMessage.USER.REFRESH,
   });
 });
+
+export const logout = asyncHandler(async (req: Request, res: Response) => {
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+  });
+
+  return apiResponse(res, StatusCodes.OK, {
+    message: responseMessage.USER.LOGGED_OUT,
+  });
+});

@@ -2,6 +2,7 @@ const responseMessage = {
   USER: {
     CREATED: "User created successfully",
     LOGGED_IN: "User logged in successfully",
+    LOGGED_OUT: "User logged out successfully",
     UPDATED: "User details updated successfully",
     DELETE_USER: "User deleted successfully",
     RETRIEVED: "User data retrieved successfully",

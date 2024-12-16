@@ -10,6 +10,7 @@ export const Route = createFileRoute("/_auth/")({
 
 function RouteComponent() {
   const user = useAuthStore((state) => state.user);
+
   return (
     <div className="p-8">
       <h1>Hello {user?.name}</h1>

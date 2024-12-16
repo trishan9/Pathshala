@@ -12,9 +12,8 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: apiActions.auth.login,
     onSuccess: (response) => {
-      const { accessToken, user } = response.data;
-      console.log(response.data);
-      setAccessToken(accessToken, user);
+      const { accessToken } = response.data;
+      setAccessToken(accessToken);
       toast.success(response.data.message);
       navigate({ to: "/" });
     },
@@ -43,23 +42,24 @@ export const useSignup = () => {
   });
 };
 
-export const useLogout = () => {
-  const setAccessToken = useAuthStore((state) => state.setAccessToken);
-  const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated);
-
-  return useMutation({
-    mutationFn: apiActions.auth.logout,
-    onSuccess: () => {
-      setAccessToken(null, null);
-      setIsAuthenticated(false);
-    },
-  });
-};
-
 export const useGetMe = () => {
   return useQuery({
     queryKey: ["me"],
     queryFn: apiActions.auth.getMe,
-    retry: false,
+  });
+};
+
+export const useLogout = () => {
+  const setAccessToken = useAuthStore((state) => state.setAccessToken);
+  const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated);
+  const setUser = useAuthStore((state) => state.setUser);
+
+  return useMutation({
+    mutationFn: apiActions.auth.logout,
+    onSuccess: () => {
+      setUser(null);
+      setAccessToken(null);
+      setIsAuthenticated(false);
+    },
   });
 };

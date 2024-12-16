@@ -32,15 +32,20 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (
+      error.response.status === 401 &&
+      !originalRequest._retry &&
+      originalRequest.url !== API_URLS.AUTH.REFRESH
+    ) {
       originalRequest._retry = true;
       try {
         const response = await apiActions.auth.refresh();
         const { accessToken } = response.data;
-        useAuthStore.getState().setAccessToken(accessToken, null);
+
+        useAuthStore.getState().setAccessToken(accessToken);
         return api(originalRequest);
       } catch (refreshError) {
-        useAuthStore.getState().setAccessToken(null, null);
+        useAuthStore.getState().setAccessToken(null);
         useAuthStore.getState().setIsAuthenticated(false);
         return Promise.reject(refreshError);
       }

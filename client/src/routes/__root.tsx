@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useAuthStore } from "@/stores/authStore";
@@ -9,13 +8,14 @@ const queryClient = new QueryClient();
 
 const AuthWrapper = () => {
   const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated);
+  const setUser = useAuthStore((state) => state.setUser);
   const { data: user, isLoading } = useGetMe();
 
-  useEffect(() => {
-    if (user) {
-      setIsAuthenticated(true);
-    }
-  }, [user, setIsAuthenticated]);
+  if (user) {
+    console.log(user.data);
+    setUser(user?.data?.data);
+    setIsAuthenticated(true);
+  }
 
   if (isLoading)
     return (
