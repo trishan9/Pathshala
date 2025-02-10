@@ -10,8 +10,8 @@ import { generateAccessToken, generateRefreshToken } from "./token.services";
 import token from "@/lib/token";
 import { logger } from "@/logging/logger";
 
-export const registerAdmin = async (data: Prisma.AdminCreateInput) => {
-  const exists = await client.admin.findFirst({
+export const register = async (data: Prisma.UserCreateInput) => {
+  const exists = await client.user.findFirst({
     where: {
       OR: [{ username: data.username }, { email: data.email }],
     },
@@ -29,7 +29,7 @@ export const registerAdmin = async (data: Prisma.AdminCreateInput) => {
 
   const hashedPassword = await hash.generate(data.password);
 
-  return await client.admin.create({
+  return await client.user.create({
     data: {
       ...data,
       password: hashedPassword,
@@ -38,7 +38,7 @@ export const registerAdmin = async (data: Prisma.AdminCreateInput) => {
 };
 
 export const login = async (data: loginUserType) => {
-  const user = await client.admin.findUnique({
+  const user = await client.user.findUnique({
     where: {
       username: data.username,
     },
@@ -67,7 +67,7 @@ export const login = async (data: loginUserType) => {
 };
 
 export const getMe = async (userId: string) => {
-  const user = await client.admin.findUnique({ where: { id: userId } });
+  const user = await client.user.findUnique({ where: { id: userId } });
   if (!user) {
     throw new ApiError(StatusCodes.BAD_REQUEST, errorResponse.USER.NOT_FOUND);
   }
@@ -88,12 +88,10 @@ export const refresh = async (refreshToken: string) => {
 
   let user: any;
   if (decoded) {
-    user = await client.admin.findUnique({ where: { id: decoded.id } });
+    user = await client.user.findUnique({ where: { id: decoded.id } });
   }
   if (!user)
     throw new ApiError(StatusCodes.UNAUTHORIZED, errorResponse.TOKEN.EXPIRED);
-
-  logger.info(user.username);
 
   const accessToken = generateAccessToken(user);
   return accessToken;

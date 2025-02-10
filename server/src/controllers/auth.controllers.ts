@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import {
-  createAdminType,
-  createAdminValidator,
+  registerUserType,
+  registerUserValidator,
   loginUserType,
   loginUserValidator,
 } from "@/validators/user.validators";
@@ -14,32 +14,30 @@ import { asyncHandler } from "@/utils/asyncHandler";
 import { responseMessage } from "@/utils/responseMessage";
 import { errorResponse } from "@/utils/errorMessage";
 
-export const registerAdmin = asyncHandler(
-  async (req: Request, res: Response) => {
-    const body = req.body;
+export const register = asyncHandler(async (req: Request, res: Response) => {
+  const body = req.body;
 
-    const result = createAdminValidator.safeParse(body);
-    if (!result.success) {
-      throw new ApiError(StatusCodes.FORBIDDEN, result.error.issues);
-    }
+  const result = registerUserValidator.safeParse(body);
+  if (!result.success) {
+    throw new ApiError(StatusCodes.FORBIDDEN, result.error.issues);
+  }
 
-    const { username, email, name, password } = body as createAdminType;
+  const { username, email, name, password } = body as registerUserType;
 
-    const newAdminObj = {
-      username: `PS-${username}`,
-      email,
-      name,
-      password,
-    };
+  const newAdminObj = {
+    username: `PS-${username}`,
+    email,
+    name,
+    password,
+  };
 
-    const newAdmin = await authService.registerAdmin(newAdminObj);
+  const newAdmin = await authService.register(newAdminObj);
 
-    return apiResponse(res, StatusCodes.CREATED, {
-      data: newAdmin,
-      message: responseMessage.USER.CREATED,
-    });
-  },
-);
+  return apiResponse(res, StatusCodes.CREATED, {
+    data: newAdmin,
+    message: responseMessage.USER.CREATED,
+  });
+});
 
 export const login = asyncHandler(async (req: Request, res: Response) => {
   const body = req.body;

@@ -1,7 +1,7 @@
 import token from "@/lib/token";
 import { Prisma } from "@prisma/client";
 
-export const generateAccessToken = (user: Prisma.AdminCreateInput) => {
+export const generateAccessToken = (user: Prisma.UserCreateInput) => {
   const { id, name, email, username, role } = user;
 
   const accessToken = token.generate({
@@ -18,7 +18,7 @@ export const generateAccessToken = (user: Prisma.AdminCreateInput) => {
   return accessToken;
 };
 
-export const generateRefreshToken = (user: Prisma.AdminCreateInput) => {
+export const generateRefreshToken = (user: Prisma.UserCreateInput) => {
   const { id, name, email, username, role } = user;
 
   const accessToken = token.generate({

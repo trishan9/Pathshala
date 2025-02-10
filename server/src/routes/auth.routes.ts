@@ -5,7 +5,7 @@ import { isAuthenticated } from "@/middlewares/isAuthenicated";
 
 const authRouter = Router();
 
-authRouter.post("/register", authController.registerAdmin);
+authRouter.post("/register", authController.register);
 authRouter.post("/login", authController.login);
 authRouter.get("/me", isAuthenticated, authController.getMe);
 authRouter.post("/refresh", authController.refresh);

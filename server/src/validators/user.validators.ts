@@ -1,7 +1,7 @@
 import { errorResponse } from "@/utils/errorMessage";
 import { z } from "zod";
 
-export const createAdminValidator = z.object({
+export const registerUserValidator = z.object({
   email: z
     .string()
     .min(1, { message: errorResponse.EMAIL.REQUIRED })
@@ -11,7 +11,7 @@ export const createAdminValidator = z.object({
   password: z
     .string()
     .min(1, { message: errorResponse.PASSWORD.REQUIRED })
-    .min(6, { message: errorResponse.PASSWORD.LENGTH })
+    .min(8, { message: errorResponse.PASSWORD.LENGTH })
     .max(10, { message: errorResponse.PASSWORD.LENGTH }),
 });
 
@@ -20,7 +20,7 @@ export const loginUserValidator = z.object({
   password: z
     .string()
     .min(1, { message: errorResponse.PASSWORD.REQUIRED })
-    .min(6, { message: errorResponse.PASSWORD.LENGTH })
+    .min(8, { message: errorResponse.PASSWORD.LENGTH })
     .max(10, { message: errorResponse.PASSWORD.LENGTH }),
 });
 
@@ -29,5 +29,5 @@ export const updateUserValidator = z.object({
 });
 
 export type loginUserType = z.infer<typeof loginUserValidator>;
-export type createAdminType = z.infer<typeof createAdminValidator>;
+export type registerUserType = z.infer<typeof registerUserValidator>;
 export type updateUserType = z.infer<typeof updateUserValidator>;
