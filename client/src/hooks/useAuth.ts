@@ -32,7 +32,6 @@ export const useSignup = () => {
   return useMutation({
     mutationFn: apiActions.auth.register,
     onSuccess: (response) => {
-      console.log(response);
       toast.dismiss();
       toast.success(response?.data?.message);
       navigate({ to: "/login" });

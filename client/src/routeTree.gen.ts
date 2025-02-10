@@ -15,16 +15,31 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as RegisterImport } from './routes/register'
 import { Route as LoginImport } from './routes/login'
-import { Route as AuthImport } from './routes/_auth'
-import { Route as AuthIndexImport } from './routes/_auth/index'
-import { Route as AuthInstructorInstructorImport } from './routes/_auth/instructor/_instructor'
-import { Route as AuthInstructorInstructorCoursesImport } from './routes/_auth/instructor/_instructor/courses'
-import { Route as AuthInstructorInstructorAnalyticsImport } from './routes/_auth/instructor/_instructor/analytics'
+import { Route as ProtectedImport } from './routes/_protected'
+import { Route as ProtectedIndexImport } from './routes/_protected/index'
+import { Route as ProtectedDashboardImport } from './routes/_protected/_dashboard'
+import { Route as ProtectedDashboardStudentStudentImport } from './routes/_protected/_dashboard/student/_student'
+import { Route as ProtectedDashboardInstructorInstructorImport } from './routes/_protected/_dashboard/instructor/_instructor'
+import { Route as ProtectedDashboardAdminAdminImport } from './routes/_protected/_dashboard/admin/_admin'
+import { Route as ProtectedDashboardStudentStudentIndexImport } from './routes/_protected/_dashboard/student/_student/index'
+import { Route as ProtectedDashboardAdminAdminIndexImport } from './routes/_protected/_dashboard/admin/_admin/index'
+import { Route as ProtectedDashboardInstructorInstructorCoursesImport } from './routes/_protected/_dashboard/instructor/_instructor/courses'
+import { Route as ProtectedDashboardInstructorInstructorAnalyticsImport } from './routes/_protected/_dashboard/instructor/_instructor/analytics'
 
 // Create Virtual Routes
 
-const AuthInstructorImport = createFileRoute('/_auth/instructor')()
-const AuthAnnouncementsLazyImport = createFileRoute('/_auth/announcements')()
+const ProtectedDashboardStudentImport = createFileRoute(
+  '/_protected/_dashboard/student',
+)()
+const ProtectedDashboardInstructorImport = createFileRoute(
+  '/_protected/_dashboard/instructor',
+)()
+const ProtectedDashboardAdminImport = createFileRoute(
+  '/_protected/_dashboard/admin',
+)()
+const ProtectedDashboardAnnouncementsLazyImport = createFileRoute(
+  '/_protected/_dashboard/announcements',
+)()
 
 // Create/Update Routes
 
@@ -40,59 +55,107 @@ const LoginRoute = LoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthRoute = AuthImport.update({
-  id: '/_auth',
+const ProtectedRoute = ProtectedImport.update({
+  id: '/_protected',
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthInstructorRoute = AuthInstructorImport.update({
-  id: '/instructor',
-  path: '/instructor',
-  getParentRoute: () => AuthRoute,
-} as any)
-
-const AuthIndexRoute = AuthIndexImport.update({
+const ProtectedIndexRoute = ProtectedIndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AuthRoute,
+  getParentRoute: () => ProtectedRoute,
 } as any)
 
-const AuthAnnouncementsLazyRoute = AuthAnnouncementsLazyImport.update({
-  id: '/announcements',
-  path: '/announcements',
-  getParentRoute: () => AuthRoute,
-} as any).lazy(() =>
-  import('./routes/_auth/announcements.lazy').then((d) => d.Route),
-)
-
-const AuthInstructorInstructorRoute = AuthInstructorInstructorImport.update({
-  id: '/_instructor',
-  getParentRoute: () => AuthInstructorRoute,
+const ProtectedDashboardRoute = ProtectedDashboardImport.update({
+  id: '/_dashboard',
+  getParentRoute: () => ProtectedRoute,
 } as any)
 
-const AuthInstructorInstructorCoursesRoute =
-  AuthInstructorInstructorCoursesImport.update({
-    id: '/courses',
-    path: '/courses',
-    getParentRoute: () => AuthInstructorInstructorRoute,
+const ProtectedDashboardStudentRoute = ProtectedDashboardStudentImport.update({
+  id: '/student',
+  path: '/student',
+  getParentRoute: () => ProtectedDashboardRoute,
+} as any)
+
+const ProtectedDashboardInstructorRoute =
+  ProtectedDashboardInstructorImport.update({
+    id: '/instructor',
+    path: '/instructor',
+    getParentRoute: () => ProtectedDashboardRoute,
   } as any)
 
-const AuthInstructorInstructorAnalyticsRoute =
-  AuthInstructorInstructorAnalyticsImport.update({
+const ProtectedDashboardAdminRoute = ProtectedDashboardAdminImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => ProtectedDashboardRoute,
+} as any)
+
+const ProtectedDashboardAnnouncementsLazyRoute =
+  ProtectedDashboardAnnouncementsLazyImport.update({
+    id: '/announcements',
+    path: '/announcements',
+    getParentRoute: () => ProtectedDashboardRoute,
+  } as any).lazy(() =>
+    import('./routes/_protected/_dashboard/announcements.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+
+const ProtectedDashboardStudentStudentRoute =
+  ProtectedDashboardStudentStudentImport.update({
+    id: '/_student',
+    getParentRoute: () => ProtectedDashboardStudentRoute,
+  } as any)
+
+const ProtectedDashboardInstructorInstructorRoute =
+  ProtectedDashboardInstructorInstructorImport.update({
+    id: '/_instructor',
+    getParentRoute: () => ProtectedDashboardInstructorRoute,
+  } as any)
+
+const ProtectedDashboardAdminAdminRoute =
+  ProtectedDashboardAdminAdminImport.update({
+    id: '/_admin',
+    getParentRoute: () => ProtectedDashboardAdminRoute,
+  } as any)
+
+const ProtectedDashboardStudentStudentIndexRoute =
+  ProtectedDashboardStudentStudentIndexImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => ProtectedDashboardStudentStudentRoute,
+  } as any)
+
+const ProtectedDashboardAdminAdminIndexRoute =
+  ProtectedDashboardAdminAdminIndexImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => ProtectedDashboardAdminAdminRoute,
+  } as any)
+
+const ProtectedDashboardInstructorInstructorCoursesRoute =
+  ProtectedDashboardInstructorInstructorCoursesImport.update({
+    id: '/courses',
+    path: '/courses',
+    getParentRoute: () => ProtectedDashboardInstructorInstructorRoute,
+  } as any)
+
+const ProtectedDashboardInstructorInstructorAnalyticsRoute =
+  ProtectedDashboardInstructorInstructorAnalyticsImport.update({
     id: '/analytics',
     path: '/analytics',
-    getParentRoute: () => AuthInstructorInstructorRoute,
+    getParentRoute: () => ProtectedDashboardInstructorInstructorRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_auth': {
-      id: '/_auth'
+    '/_protected': {
+      id: '/_protected'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof AuthImport
+      preLoaderRoute: typeof ProtectedImport
       parentRoute: typeof rootRoute
     }
     '/login': {
@@ -109,128 +172,274 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterImport
       parentRoute: typeof rootRoute
     }
-    '/_auth/announcements': {
-      id: '/_auth/announcements'
-      path: '/announcements'
-      fullPath: '/announcements'
-      preLoaderRoute: typeof AuthAnnouncementsLazyImport
-      parentRoute: typeof AuthImport
+    '/_protected/_dashboard': {
+      id: '/_protected/_dashboard'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof ProtectedDashboardImport
+      parentRoute: typeof ProtectedImport
     }
-    '/_auth/': {
-      id: '/_auth/'
+    '/_protected/': {
+      id: '/_protected/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof AuthIndexImport
-      parentRoute: typeof AuthImport
+      preLoaderRoute: typeof ProtectedIndexImport
+      parentRoute: typeof ProtectedImport
     }
-    '/_auth/instructor': {
-      id: '/_auth/instructor'
+    '/_protected/_dashboard/announcements': {
+      id: '/_protected/_dashboard/announcements'
+      path: '/announcements'
+      fullPath: '/announcements'
+      preLoaderRoute: typeof ProtectedDashboardAnnouncementsLazyImport
+      parentRoute: typeof ProtectedDashboardImport
+    }
+    '/_protected/_dashboard/admin': {
+      id: '/_protected/_dashboard/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof ProtectedDashboardAdminImport
+      parentRoute: typeof ProtectedDashboardImport
+    }
+    '/_protected/_dashboard/admin/_admin': {
+      id: '/_protected/_dashboard/admin/_admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof ProtectedDashboardAdminAdminImport
+      parentRoute: typeof ProtectedDashboardAdminRoute
+    }
+    '/_protected/_dashboard/instructor': {
+      id: '/_protected/_dashboard/instructor'
       path: '/instructor'
       fullPath: '/instructor'
-      preLoaderRoute: typeof AuthInstructorImport
-      parentRoute: typeof AuthImport
+      preLoaderRoute: typeof ProtectedDashboardInstructorImport
+      parentRoute: typeof ProtectedDashboardImport
     }
-    '/_auth/instructor/_instructor': {
-      id: '/_auth/instructor/_instructor'
+    '/_protected/_dashboard/instructor/_instructor': {
+      id: '/_protected/_dashboard/instructor/_instructor'
       path: '/instructor'
       fullPath: '/instructor'
-      preLoaderRoute: typeof AuthInstructorInstructorImport
-      parentRoute: typeof AuthInstructorRoute
+      preLoaderRoute: typeof ProtectedDashboardInstructorInstructorImport
+      parentRoute: typeof ProtectedDashboardInstructorRoute
     }
-    '/_auth/instructor/_instructor/analytics': {
-      id: '/_auth/instructor/_instructor/analytics'
+    '/_protected/_dashboard/student': {
+      id: '/_protected/_dashboard/student'
+      path: '/student'
+      fullPath: '/student'
+      preLoaderRoute: typeof ProtectedDashboardStudentImport
+      parentRoute: typeof ProtectedDashboardImport
+    }
+    '/_protected/_dashboard/student/_student': {
+      id: '/_protected/_dashboard/student/_student'
+      path: '/student'
+      fullPath: '/student'
+      preLoaderRoute: typeof ProtectedDashboardStudentStudentImport
+      parentRoute: typeof ProtectedDashboardStudentRoute
+    }
+    '/_protected/_dashboard/instructor/_instructor/analytics': {
+      id: '/_protected/_dashboard/instructor/_instructor/analytics'
       path: '/analytics'
       fullPath: '/instructor/analytics'
-      preLoaderRoute: typeof AuthInstructorInstructorAnalyticsImport
-      parentRoute: typeof AuthInstructorInstructorImport
+      preLoaderRoute: typeof ProtectedDashboardInstructorInstructorAnalyticsImport
+      parentRoute: typeof ProtectedDashboardInstructorInstructorImport
     }
-    '/_auth/instructor/_instructor/courses': {
-      id: '/_auth/instructor/_instructor/courses'
+    '/_protected/_dashboard/instructor/_instructor/courses': {
+      id: '/_protected/_dashboard/instructor/_instructor/courses'
       path: '/courses'
       fullPath: '/instructor/courses'
-      preLoaderRoute: typeof AuthInstructorInstructorCoursesImport
-      parentRoute: typeof AuthInstructorInstructorImport
+      preLoaderRoute: typeof ProtectedDashboardInstructorInstructorCoursesImport
+      parentRoute: typeof ProtectedDashboardInstructorInstructorImport
+    }
+    '/_protected/_dashboard/admin/_admin/': {
+      id: '/_protected/_dashboard/admin/_admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof ProtectedDashboardAdminAdminIndexImport
+      parentRoute: typeof ProtectedDashboardAdminAdminImport
+    }
+    '/_protected/_dashboard/student/_student/': {
+      id: '/_protected/_dashboard/student/_student/'
+      path: '/'
+      fullPath: '/student/'
+      preLoaderRoute: typeof ProtectedDashboardStudentStudentIndexImport
+      parentRoute: typeof ProtectedDashboardStudentStudentImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface AuthInstructorInstructorRouteChildren {
-  AuthInstructorInstructorAnalyticsRoute: typeof AuthInstructorInstructorAnalyticsRoute
-  AuthInstructorInstructorCoursesRoute: typeof AuthInstructorInstructorCoursesRoute
+interface ProtectedDashboardAdminAdminRouteChildren {
+  ProtectedDashboardAdminAdminIndexRoute: typeof ProtectedDashboardAdminAdminIndexRoute
 }
 
-const AuthInstructorInstructorRouteChildren: AuthInstructorInstructorRouteChildren =
+const ProtectedDashboardAdminAdminRouteChildren: ProtectedDashboardAdminAdminRouteChildren =
   {
-    AuthInstructorInstructorAnalyticsRoute:
-      AuthInstructorInstructorAnalyticsRoute,
-    AuthInstructorInstructorCoursesRoute: AuthInstructorInstructorCoursesRoute,
+    ProtectedDashboardAdminAdminIndexRoute:
+      ProtectedDashboardAdminAdminIndexRoute,
   }
 
-const AuthInstructorInstructorRouteWithChildren =
-  AuthInstructorInstructorRoute._addFileChildren(
-    AuthInstructorInstructorRouteChildren,
+const ProtectedDashboardAdminAdminRouteWithChildren =
+  ProtectedDashboardAdminAdminRoute._addFileChildren(
+    ProtectedDashboardAdminAdminRouteChildren,
   )
 
-interface AuthInstructorRouteChildren {
-  AuthInstructorInstructorRoute: typeof AuthInstructorInstructorRouteWithChildren
+interface ProtectedDashboardAdminRouteChildren {
+  ProtectedDashboardAdminAdminRoute: typeof ProtectedDashboardAdminAdminRouteWithChildren
 }
 
-const AuthInstructorRouteChildren: AuthInstructorRouteChildren = {
-  AuthInstructorInstructorRoute: AuthInstructorInstructorRouteWithChildren,
+const ProtectedDashboardAdminRouteChildren: ProtectedDashboardAdminRouteChildren =
+  {
+    ProtectedDashboardAdminAdminRoute:
+      ProtectedDashboardAdminAdminRouteWithChildren,
+  }
+
+const ProtectedDashboardAdminRouteWithChildren =
+  ProtectedDashboardAdminRoute._addFileChildren(
+    ProtectedDashboardAdminRouteChildren,
+  )
+
+interface ProtectedDashboardInstructorInstructorRouteChildren {
+  ProtectedDashboardInstructorInstructorAnalyticsRoute: typeof ProtectedDashboardInstructorInstructorAnalyticsRoute
+  ProtectedDashboardInstructorInstructorCoursesRoute: typeof ProtectedDashboardInstructorInstructorCoursesRoute
 }
 
-const AuthInstructorRouteWithChildren = AuthInstructorRoute._addFileChildren(
-  AuthInstructorRouteChildren,
+const ProtectedDashboardInstructorInstructorRouteChildren: ProtectedDashboardInstructorInstructorRouteChildren =
+  {
+    ProtectedDashboardInstructorInstructorAnalyticsRoute:
+      ProtectedDashboardInstructorInstructorAnalyticsRoute,
+    ProtectedDashboardInstructorInstructorCoursesRoute:
+      ProtectedDashboardInstructorInstructorCoursesRoute,
+  }
+
+const ProtectedDashboardInstructorInstructorRouteWithChildren =
+  ProtectedDashboardInstructorInstructorRoute._addFileChildren(
+    ProtectedDashboardInstructorInstructorRouteChildren,
+  )
+
+interface ProtectedDashboardInstructorRouteChildren {
+  ProtectedDashboardInstructorInstructorRoute: typeof ProtectedDashboardInstructorInstructorRouteWithChildren
+}
+
+const ProtectedDashboardInstructorRouteChildren: ProtectedDashboardInstructorRouteChildren =
+  {
+    ProtectedDashboardInstructorInstructorRoute:
+      ProtectedDashboardInstructorInstructorRouteWithChildren,
+  }
+
+const ProtectedDashboardInstructorRouteWithChildren =
+  ProtectedDashboardInstructorRoute._addFileChildren(
+    ProtectedDashboardInstructorRouteChildren,
+  )
+
+interface ProtectedDashboardStudentStudentRouteChildren {
+  ProtectedDashboardStudentStudentIndexRoute: typeof ProtectedDashboardStudentStudentIndexRoute
+}
+
+const ProtectedDashboardStudentStudentRouteChildren: ProtectedDashboardStudentStudentRouteChildren =
+  {
+    ProtectedDashboardStudentStudentIndexRoute:
+      ProtectedDashboardStudentStudentIndexRoute,
+  }
+
+const ProtectedDashboardStudentStudentRouteWithChildren =
+  ProtectedDashboardStudentStudentRoute._addFileChildren(
+    ProtectedDashboardStudentStudentRouteChildren,
+  )
+
+interface ProtectedDashboardStudentRouteChildren {
+  ProtectedDashboardStudentStudentRoute: typeof ProtectedDashboardStudentStudentRouteWithChildren
+}
+
+const ProtectedDashboardStudentRouteChildren: ProtectedDashboardStudentRouteChildren =
+  {
+    ProtectedDashboardStudentStudentRoute:
+      ProtectedDashboardStudentStudentRouteWithChildren,
+  }
+
+const ProtectedDashboardStudentRouteWithChildren =
+  ProtectedDashboardStudentRoute._addFileChildren(
+    ProtectedDashboardStudentRouteChildren,
+  )
+
+interface ProtectedDashboardRouteChildren {
+  ProtectedDashboardAnnouncementsLazyRoute: typeof ProtectedDashboardAnnouncementsLazyRoute
+  ProtectedDashboardAdminRoute: typeof ProtectedDashboardAdminRouteWithChildren
+  ProtectedDashboardInstructorRoute: typeof ProtectedDashboardInstructorRouteWithChildren
+  ProtectedDashboardStudentRoute: typeof ProtectedDashboardStudentRouteWithChildren
+}
+
+const ProtectedDashboardRouteChildren: ProtectedDashboardRouteChildren = {
+  ProtectedDashboardAnnouncementsLazyRoute:
+    ProtectedDashboardAnnouncementsLazyRoute,
+  ProtectedDashboardAdminRoute: ProtectedDashboardAdminRouteWithChildren,
+  ProtectedDashboardInstructorRoute:
+    ProtectedDashboardInstructorRouteWithChildren,
+  ProtectedDashboardStudentRoute: ProtectedDashboardStudentRouteWithChildren,
+}
+
+const ProtectedDashboardRouteWithChildren =
+  ProtectedDashboardRoute._addFileChildren(ProtectedDashboardRouteChildren)
+
+interface ProtectedRouteChildren {
+  ProtectedDashboardRoute: typeof ProtectedDashboardRouteWithChildren
+  ProtectedIndexRoute: typeof ProtectedIndexRoute
+}
+
+const ProtectedRouteChildren: ProtectedRouteChildren = {
+  ProtectedDashboardRoute: ProtectedDashboardRouteWithChildren,
+  ProtectedIndexRoute: ProtectedIndexRoute,
+}
+
+const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
+  ProtectedRouteChildren,
 )
 
-interface AuthRouteChildren {
-  AuthAnnouncementsLazyRoute: typeof AuthAnnouncementsLazyRoute
-  AuthIndexRoute: typeof AuthIndexRoute
-  AuthInstructorRoute: typeof AuthInstructorRouteWithChildren
-}
-
-const AuthRouteChildren: AuthRouteChildren = {
-  AuthAnnouncementsLazyRoute: AuthAnnouncementsLazyRoute,
-  AuthIndexRoute: AuthIndexRoute,
-  AuthInstructorRoute: AuthInstructorRouteWithChildren,
-}
-
-const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
-
 export interface FileRoutesByFullPath {
-  '': typeof AuthRouteWithChildren
+  '': typeof ProtectedDashboardRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/announcements': typeof AuthAnnouncementsLazyRoute
-  '/': typeof AuthIndexRoute
-  '/instructor': typeof AuthInstructorInstructorRouteWithChildren
-  '/instructor/analytics': typeof AuthInstructorInstructorAnalyticsRoute
-  '/instructor/courses': typeof AuthInstructorInstructorCoursesRoute
+  '/': typeof ProtectedIndexRoute
+  '/announcements': typeof ProtectedDashboardAnnouncementsLazyRoute
+  '/admin': typeof ProtectedDashboardAdminAdminRouteWithChildren
+  '/instructor': typeof ProtectedDashboardInstructorInstructorRouteWithChildren
+  '/student': typeof ProtectedDashboardStudentStudentRouteWithChildren
+  '/instructor/analytics': typeof ProtectedDashboardInstructorInstructorAnalyticsRoute
+  '/instructor/courses': typeof ProtectedDashboardInstructorInstructorCoursesRoute
+  '/admin/': typeof ProtectedDashboardAdminAdminIndexRoute
+  '/student/': typeof ProtectedDashboardStudentStudentIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/announcements': typeof AuthAnnouncementsLazyRoute
-  '/': typeof AuthIndexRoute
-  '/instructor': typeof AuthInstructorInstructorRouteWithChildren
-  '/instructor/analytics': typeof AuthInstructorInstructorAnalyticsRoute
-  '/instructor/courses': typeof AuthInstructorInstructorCoursesRoute
+  '': typeof ProtectedDashboardRouteWithChildren
+  '/': typeof ProtectedIndexRoute
+  '/announcements': typeof ProtectedDashboardAnnouncementsLazyRoute
+  '/admin': typeof ProtectedDashboardAdminAdminIndexRoute
+  '/instructor': typeof ProtectedDashboardInstructorInstructorRouteWithChildren
+  '/student': typeof ProtectedDashboardStudentStudentIndexRoute
+  '/instructor/analytics': typeof ProtectedDashboardInstructorInstructorAnalyticsRoute
+  '/instructor/courses': typeof ProtectedDashboardInstructorInstructorCoursesRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/_auth': typeof AuthRouteWithChildren
+  '/_protected': typeof ProtectedRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/_auth/announcements': typeof AuthAnnouncementsLazyRoute
-  '/_auth/': typeof AuthIndexRoute
-  '/_auth/instructor': typeof AuthInstructorRouteWithChildren
-  '/_auth/instructor/_instructor': typeof AuthInstructorInstructorRouteWithChildren
-  '/_auth/instructor/_instructor/analytics': typeof AuthInstructorInstructorAnalyticsRoute
-  '/_auth/instructor/_instructor/courses': typeof AuthInstructorInstructorCoursesRoute
+  '/_protected/_dashboard': typeof ProtectedDashboardRouteWithChildren
+  '/_protected/': typeof ProtectedIndexRoute
+  '/_protected/_dashboard/announcements': typeof ProtectedDashboardAnnouncementsLazyRoute
+  '/_protected/_dashboard/admin': typeof ProtectedDashboardAdminRouteWithChildren
+  '/_protected/_dashboard/admin/_admin': typeof ProtectedDashboardAdminAdminRouteWithChildren
+  '/_protected/_dashboard/instructor': typeof ProtectedDashboardInstructorRouteWithChildren
+  '/_protected/_dashboard/instructor/_instructor': typeof ProtectedDashboardInstructorInstructorRouteWithChildren
+  '/_protected/_dashboard/student': typeof ProtectedDashboardStudentRouteWithChildren
+  '/_protected/_dashboard/student/_student': typeof ProtectedDashboardStudentStudentRouteWithChildren
+  '/_protected/_dashboard/instructor/_instructor/analytics': typeof ProtectedDashboardInstructorInstructorAnalyticsRoute
+  '/_protected/_dashboard/instructor/_instructor/courses': typeof ProtectedDashboardInstructorInstructorCoursesRoute
+  '/_protected/_dashboard/admin/_admin/': typeof ProtectedDashboardAdminAdminIndexRoute
+  '/_protected/_dashboard/student/_student/': typeof ProtectedDashboardStudentStudentIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -239,42 +448,56 @@ export interface FileRouteTypes {
     | ''
     | '/login'
     | '/register'
-    | '/announcements'
     | '/'
+    | '/announcements'
+    | '/admin'
     | '/instructor'
+    | '/student'
     | '/instructor/analytics'
     | '/instructor/courses'
+    | '/admin/'
+    | '/student/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
     | '/register'
-    | '/announcements'
+    | ''
     | '/'
+    | '/announcements'
+    | '/admin'
     | '/instructor'
+    | '/student'
     | '/instructor/analytics'
     | '/instructor/courses'
   id:
     | '__root__'
-    | '/_auth'
+    | '/_protected'
     | '/login'
     | '/register'
-    | '/_auth/announcements'
-    | '/_auth/'
-    | '/_auth/instructor'
-    | '/_auth/instructor/_instructor'
-    | '/_auth/instructor/_instructor/analytics'
-    | '/_auth/instructor/_instructor/courses'
+    | '/_protected/_dashboard'
+    | '/_protected/'
+    | '/_protected/_dashboard/announcements'
+    | '/_protected/_dashboard/admin'
+    | '/_protected/_dashboard/admin/_admin'
+    | '/_protected/_dashboard/instructor'
+    | '/_protected/_dashboard/instructor/_instructor'
+    | '/_protected/_dashboard/student'
+    | '/_protected/_dashboard/student/_student'
+    | '/_protected/_dashboard/instructor/_instructor/analytics'
+    | '/_protected/_dashboard/instructor/_instructor/courses'
+    | '/_protected/_dashboard/admin/_admin/'
+    | '/_protected/_dashboard/student/_student/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  AuthRoute: typeof AuthRouteWithChildren
+  ProtectedRoute: typeof ProtectedRouteWithChildren
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  AuthRoute: AuthRouteWithChildren,
+  ProtectedRoute: ProtectedRouteWithChildren,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
 }
@@ -289,17 +512,16 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/_auth",
+        "/_protected",
         "/login",
         "/register"
       ]
     },
-    "/_auth": {
-      "filePath": "_auth.tsx",
+    "/_protected": {
+      "filePath": "_protected.tsx",
       "children": [
-        "/_auth/announcements",
-        "/_auth/",
-        "/_auth/instructor"
+        "/_protected/_dashboard",
+        "/_protected/"
       ]
     },
     "/login": {
@@ -308,36 +530,82 @@ export const routeTree = rootRoute
     "/register": {
       "filePath": "register.tsx"
     },
-    "/_auth/announcements": {
-      "filePath": "_auth/announcements.lazy.tsx",
-      "parent": "/_auth"
-    },
-    "/_auth/": {
-      "filePath": "_auth/index.tsx",
-      "parent": "/_auth"
-    },
-    "/_auth/instructor": {
-      "filePath": "_auth/instructor",
-      "parent": "/_auth",
+    "/_protected/_dashboard": {
+      "filePath": "_protected/_dashboard.tsx",
+      "parent": "/_protected",
       "children": [
-        "/_auth/instructor/_instructor"
+        "/_protected/_dashboard/announcements",
+        "/_protected/_dashboard/admin",
+        "/_protected/_dashboard/instructor",
+        "/_protected/_dashboard/student"
       ]
     },
-    "/_auth/instructor/_instructor": {
-      "filePath": "_auth/instructor/_instructor.tsx",
-      "parent": "/_auth/instructor",
+    "/_protected/": {
+      "filePath": "_protected/index.tsx",
+      "parent": "/_protected"
+    },
+    "/_protected/_dashboard/announcements": {
+      "filePath": "_protected/_dashboard/announcements.lazy.tsx",
+      "parent": "/_protected/_dashboard"
+    },
+    "/_protected/_dashboard/admin": {
+      "filePath": "_protected/_dashboard/admin",
+      "parent": "/_protected/_dashboard",
       "children": [
-        "/_auth/instructor/_instructor/analytics",
-        "/_auth/instructor/_instructor/courses"
+        "/_protected/_dashboard/admin/_admin"
       ]
     },
-    "/_auth/instructor/_instructor/analytics": {
-      "filePath": "_auth/instructor/_instructor/analytics.tsx",
-      "parent": "/_auth/instructor/_instructor"
+    "/_protected/_dashboard/admin/_admin": {
+      "filePath": "_protected/_dashboard/admin/_admin.tsx",
+      "parent": "/_protected/_dashboard/admin",
+      "children": [
+        "/_protected/_dashboard/admin/_admin/"
+      ]
     },
-    "/_auth/instructor/_instructor/courses": {
-      "filePath": "_auth/instructor/_instructor/courses.tsx",
-      "parent": "/_auth/instructor/_instructor"
+    "/_protected/_dashboard/instructor": {
+      "filePath": "_protected/_dashboard/instructor",
+      "parent": "/_protected/_dashboard",
+      "children": [
+        "/_protected/_dashboard/instructor/_instructor"
+      ]
+    },
+    "/_protected/_dashboard/instructor/_instructor": {
+      "filePath": "_protected/_dashboard/instructor/_instructor.tsx",
+      "parent": "/_protected/_dashboard/instructor",
+      "children": [
+        "/_protected/_dashboard/instructor/_instructor/analytics",
+        "/_protected/_dashboard/instructor/_instructor/courses"
+      ]
+    },
+    "/_protected/_dashboard/student": {
+      "filePath": "_protected/_dashboard/student",
+      "parent": "/_protected/_dashboard",
+      "children": [
+        "/_protected/_dashboard/student/_student"
+      ]
+    },
+    "/_protected/_dashboard/student/_student": {
+      "filePath": "_protected/_dashboard/student/_student.tsx",
+      "parent": "/_protected/_dashboard/student",
+      "children": [
+        "/_protected/_dashboard/student/_student/"
+      ]
+    },
+    "/_protected/_dashboard/instructor/_instructor/analytics": {
+      "filePath": "_protected/_dashboard/instructor/_instructor/analytics.tsx",
+      "parent": "/_protected/_dashboard/instructor/_instructor"
+    },
+    "/_protected/_dashboard/instructor/_instructor/courses": {
+      "filePath": "_protected/_dashboard/instructor/_instructor/courses.tsx",
+      "parent": "/_protected/_dashboard/instructor/_instructor"
+    },
+    "/_protected/_dashboard/admin/_admin/": {
+      "filePath": "_protected/_dashboard/admin/_admin/index.tsx",
+      "parent": "/_protected/_dashboard/admin/_admin"
+    },
+    "/_protected/_dashboard/student/_student/": {
+      "filePath": "_protected/_dashboard/student/_student/index.tsx",
+      "parent": "/_protected/_dashboard/student/_student"
     }
   }
 }

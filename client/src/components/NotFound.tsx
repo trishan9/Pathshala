@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import notFoundImage from "@/assets/404.png";
 import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
 
 const NotFound = () => {
   return (
@@ -27,7 +28,10 @@ const NotFound = () => {
         </div>
 
         <Link to="/">
-          <Button className="mt-4 ">Back to Home</Button>
+          <Button className="mt-4 ">
+            <ArrowLeft />
+            Back to Home
+          </Button>
         </Link>
       </div>
     </main>

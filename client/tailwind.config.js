@@ -12,6 +12,12 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        lamaSky: "#C3EBFA",
+        lamaSkyLight: "#EDF9FD",
+        lamaPurple: "#CFCEFF",
+        lamaPurpleLight: "#F1F0FF",
+        lamaYellow: "#FAE27C",
+        lamaYellowLight: "#FEFCE8",
         main: "hsl(var(--main))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
