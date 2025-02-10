@@ -1,19 +1,20 @@
-import { MegaphoneIcon, MessageCircle } from "lucide-react";
+import { MegaphoneIcon, MessageCircle, Search } from "lucide-react";
 import MobileSidebar from "./MobileSidebar";
 import { UserButton } from "./UserButton";
+import { Input } from "../ui/input";
 
 const NavBar = () => {
   return (
     <div className="flex items-center justify-between p-4 h-full bg-white border-b">
       <MobileSidebar />
 
-      <div className="hidden md:flex items-center gap-2 text-xs rounded-full ring-[1.5px] ring-gray-300 px-2">
-        <img src="/search.png" alt="" width={14} height={14} />
-        <input
-          type="text"
+      <div className="relative flex items-center">
+        <Input
+          type="search"
           placeholder="Search..."
-          className="w-[200px] p-2 bg-transparent outline-none"
+          className="w-[350px] h-10 outline-none focus:border-blue-400 pl-9"
         />
+        <Search className="text-neutral-300 w-5 h-5 absolute left-2" />
       </div>
 
       <div className="flex items-center gap-6 justify-end w-full">
