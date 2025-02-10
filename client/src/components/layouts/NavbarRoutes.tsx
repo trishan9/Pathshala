@@ -19,10 +19,14 @@ const NavBarRoutes = () => {
   };
 
   return (
-    <div className="flex gap-2 ml-auto">
+    <div className="flex gap-2 ml-auto w-full items-center justify-center">
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button variant="ghost" size="sm">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-red-600 hover:text-red-600 w-full"
+          >
             <LogOut className="w-4 mr-2" />
             Logout
           </Button>
