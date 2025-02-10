@@ -10,8 +10,8 @@ import {
   NotebookText,
   Settings,
 } from "lucide-react";
-import SidebarItem, { ISidebarItemProps } from "./SidebarItem";
 import { useLocation } from "@tanstack/react-router";
+import SidebarItem, { ISidebarItemProps } from "./SidebarItem";
 
 const studentRoutes = [
   {
@@ -70,12 +70,58 @@ const instructorRoutes = [
   },
 ];
 
+const adminRoutes = [
+  {
+    icon: Layout,
+    label: "Admin Dashboard",
+    href: "/admin",
+  },
+  {
+    icon: Megaphone,
+    label: "Announcements",
+    href: "/admin/announcements",
+  },
+  {
+    icon: BookOpenText,
+    label: "Courses",
+    href: "/admin/courses",
+  },
+  {
+    icon: CalendarRange,
+    label: "Attendance",
+    href: "/admin/attendance",
+  },
+  {
+    icon: NotebookPen,
+    label: "Exams",
+    href: "/admin/exams",
+  },
+  {
+    icon: ClipboardMinus,
+    label: "Results",
+    href: "/admin/results",
+  },
+  {
+    icon: NotebookText,
+    label: "Assignments",
+    href: "/admin/assignments",
+  },
+
+  {
+    icon: Settings,
+    label: "Admin Settings",
+    href: "/admin/settings",
+  },
+];
+
 const SidebarRoutes = () => {
   const { pathname } = useLocation();
 
   const routes = pathname?.startsWith("/instructor")
     ? instructorRoutes
-    : studentRoutes;
+    : pathname?.startsWith("/admin")
+      ? adminRoutes
+      : studentRoutes;
 
   return (
     <div className="flex flex-col w-full">
