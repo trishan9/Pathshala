@@ -22,6 +22,7 @@ import { Route as ProtectedDashboardStudentStudentImport } from './routes/_prote
 import { Route as ProtectedDashboardInstructorInstructorImport } from './routes/_protected/_dashboard/instructor/_instructor'
 import { Route as ProtectedDashboardAdminAdminImport } from './routes/_protected/_dashboard/admin/_admin'
 import { Route as ProtectedDashboardStudentStudentIndexImport } from './routes/_protected/_dashboard/student/_student/index'
+import { Route as ProtectedDashboardInstructorInstructorIndexImport } from './routes/_protected/_dashboard/instructor/_instructor/index'
 import { Route as ProtectedDashboardAdminAdminIndexImport } from './routes/_protected/_dashboard/admin/_admin/index'
 import { Route as ProtectedDashboardInstructorInstructorCoursesImport } from './routes/_protected/_dashboard/instructor/_instructor/courses'
 import { Route as ProtectedDashboardInstructorInstructorAnalyticsImport } from './routes/_protected/_dashboard/instructor/_instructor/analytics'
@@ -124,6 +125,13 @@ const ProtectedDashboardStudentStudentIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => ProtectedDashboardStudentStudentRoute,
+  } as any)
+
+const ProtectedDashboardInstructorInstructorIndexRoute =
+  ProtectedDashboardInstructorInstructorIndexImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => ProtectedDashboardInstructorInstructorRoute,
   } as any)
 
 const ProtectedDashboardAdminAdminIndexRoute =
@@ -256,6 +264,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedDashboardAdminAdminIndexImport
       parentRoute: typeof ProtectedDashboardAdminAdminImport
     }
+    '/_protected/_dashboard/instructor/_instructor/': {
+      id: '/_protected/_dashboard/instructor/_instructor/'
+      path: '/'
+      fullPath: '/instructor/'
+      preLoaderRoute: typeof ProtectedDashboardInstructorInstructorIndexImport
+      parentRoute: typeof ProtectedDashboardInstructorInstructorImport
+    }
     '/_protected/_dashboard/student/_student/': {
       id: '/_protected/_dashboard/student/_student/'
       path: '/'
@@ -301,6 +316,7 @@ const ProtectedDashboardAdminRouteWithChildren =
 interface ProtectedDashboardInstructorInstructorRouteChildren {
   ProtectedDashboardInstructorInstructorAnalyticsRoute: typeof ProtectedDashboardInstructorInstructorAnalyticsRoute
   ProtectedDashboardInstructorInstructorCoursesRoute: typeof ProtectedDashboardInstructorInstructorCoursesRoute
+  ProtectedDashboardInstructorInstructorIndexRoute: typeof ProtectedDashboardInstructorInstructorIndexRoute
 }
 
 const ProtectedDashboardInstructorInstructorRouteChildren: ProtectedDashboardInstructorInstructorRouteChildren =
@@ -309,6 +325,8 @@ const ProtectedDashboardInstructorInstructorRouteChildren: ProtectedDashboardIns
       ProtectedDashboardInstructorInstructorAnalyticsRoute,
     ProtectedDashboardInstructorInstructorCoursesRoute:
       ProtectedDashboardInstructorInstructorCoursesRoute,
+    ProtectedDashboardInstructorInstructorIndexRoute:
+      ProtectedDashboardInstructorInstructorIndexRoute,
   }
 
 const ProtectedDashboardInstructorInstructorRouteWithChildren =
@@ -406,6 +424,7 @@ export interface FileRoutesByFullPath {
   '/instructor/analytics': typeof ProtectedDashboardInstructorInstructorAnalyticsRoute
   '/instructor/courses': typeof ProtectedDashboardInstructorInstructorCoursesRoute
   '/admin/': typeof ProtectedDashboardAdminAdminIndexRoute
+  '/instructor/': typeof ProtectedDashboardInstructorInstructorIndexRoute
   '/student/': typeof ProtectedDashboardStudentStudentIndexRoute
 }
 
@@ -416,7 +435,7 @@ export interface FileRoutesByTo {
   '/': typeof ProtectedIndexRoute
   '/announcements': typeof ProtectedDashboardAnnouncementsLazyRoute
   '/admin': typeof ProtectedDashboardAdminAdminIndexRoute
-  '/instructor': typeof ProtectedDashboardInstructorInstructorRouteWithChildren
+  '/instructor': typeof ProtectedDashboardInstructorInstructorIndexRoute
   '/student': typeof ProtectedDashboardStudentStudentIndexRoute
   '/instructor/analytics': typeof ProtectedDashboardInstructorInstructorAnalyticsRoute
   '/instructor/courses': typeof ProtectedDashboardInstructorInstructorCoursesRoute
@@ -439,6 +458,7 @@ export interface FileRoutesById {
   '/_protected/_dashboard/instructor/_instructor/analytics': typeof ProtectedDashboardInstructorInstructorAnalyticsRoute
   '/_protected/_dashboard/instructor/_instructor/courses': typeof ProtectedDashboardInstructorInstructorCoursesRoute
   '/_protected/_dashboard/admin/_admin/': typeof ProtectedDashboardAdminAdminIndexRoute
+  '/_protected/_dashboard/instructor/_instructor/': typeof ProtectedDashboardInstructorInstructorIndexRoute
   '/_protected/_dashboard/student/_student/': typeof ProtectedDashboardStudentStudentIndexRoute
 }
 
@@ -456,6 +476,7 @@ export interface FileRouteTypes {
     | '/instructor/analytics'
     | '/instructor/courses'
     | '/admin/'
+    | '/instructor/'
     | '/student/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -486,6 +507,7 @@ export interface FileRouteTypes {
     | '/_protected/_dashboard/instructor/_instructor/analytics'
     | '/_protected/_dashboard/instructor/_instructor/courses'
     | '/_protected/_dashboard/admin/_admin/'
+    | '/_protected/_dashboard/instructor/_instructor/'
     | '/_protected/_dashboard/student/_student/'
   fileRoutesById: FileRoutesById
 }
@@ -574,7 +596,8 @@ export const routeTree = rootRoute
       "parent": "/_protected/_dashboard/instructor",
       "children": [
         "/_protected/_dashboard/instructor/_instructor/analytics",
-        "/_protected/_dashboard/instructor/_instructor/courses"
+        "/_protected/_dashboard/instructor/_instructor/courses",
+        "/_protected/_dashboard/instructor/_instructor/"
       ]
     },
     "/_protected/_dashboard/student": {
@@ -602,6 +625,10 @@ export const routeTree = rootRoute
     "/_protected/_dashboard/admin/_admin/": {
       "filePath": "_protected/_dashboard/admin/_admin/index.tsx",
       "parent": "/_protected/_dashboard/admin/_admin"
+    },
+    "/_protected/_dashboard/instructor/_instructor/": {
+      "filePath": "_protected/_dashboard/instructor/_instructor/index.tsx",
+      "parent": "/_protected/_dashboard/instructor/_instructor"
     },
     "/_protected/_dashboard/student/_student/": {
       "filePath": "_protected/_dashboard/student/_student/index.tsx",

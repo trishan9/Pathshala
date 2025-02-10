@@ -118,6 +118,7 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active {
 
 .rbc-time-view {
   border-color: #eee !important;
+  margin-top: 8px;
 }
 
 .rbc-allday-cell {
