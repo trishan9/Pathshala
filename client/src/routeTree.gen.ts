@@ -26,6 +26,18 @@ import { Route as ProtectedDashboardInstructorInstructorIndexImport } from './ro
 import { Route as ProtectedDashboardAdminAdminIndexImport } from './routes/_protected/_dashboard/admin/_admin/index'
 import { Route as ProtectedDashboardInstructorInstructorCoursesImport } from './routes/_protected/_dashboard/instructor/_instructor/courses'
 import { Route as ProtectedDashboardInstructorInstructorAnalyticsImport } from './routes/_protected/_dashboard/instructor/_instructor/analytics'
+import { Route as ProtectedDashboardAdminAdminListTeachersIndexImport } from './routes/_protected/_dashboard/admin/_admin/list/teachers/index'
+import { Route as ProtectedDashboardAdminAdminListSubjectsIndexImport } from './routes/_protected/_dashboard/admin/_admin/list/subjects/index'
+import { Route as ProtectedDashboardAdminAdminListStudentsIndexImport } from './routes/_protected/_dashboard/admin/_admin/list/students/index'
+import { Route as ProtectedDashboardAdminAdminListResultsIndexImport } from './routes/_protected/_dashboard/admin/_admin/list/results/index'
+import { Route as ProtectedDashboardAdminAdminListLessonsIndexImport } from './routes/_protected/_dashboard/admin/_admin/list/lessons/index'
+import { Route as ProtectedDashboardAdminAdminListExamsIndexImport } from './routes/_protected/_dashboard/admin/_admin/list/exams/index'
+import { Route as ProtectedDashboardAdminAdminListEventsIndexImport } from './routes/_protected/_dashboard/admin/_admin/list/events/index'
+import { Route as ProtectedDashboardAdminAdminListClassesIndexImport } from './routes/_protected/_dashboard/admin/_admin/list/classes/index'
+import { Route as ProtectedDashboardAdminAdminListAssignmentsIndexImport } from './routes/_protected/_dashboard/admin/_admin/list/assignments/index'
+import { Route as ProtectedDashboardAdminAdminListAnnouncementsIndexImport } from './routes/_protected/_dashboard/admin/_admin/list/announcements/index'
+import { Route as ProtectedDashboardAdminAdminListTeachersIdImport } from './routes/_protected/_dashboard/admin/_admin/list/teachers/$id'
+import { Route as ProtectedDashboardAdminAdminListStudentsIdImport } from './routes/_protected/_dashboard/admin/_admin/list/students/$id'
 
 // Create Virtual Routes
 
@@ -155,6 +167,90 @@ const ProtectedDashboardInstructorInstructorAnalyticsRoute =
     getParentRoute: () => ProtectedDashboardInstructorInstructorRoute,
   } as any)
 
+const ProtectedDashboardAdminAdminListTeachersIndexRoute =
+  ProtectedDashboardAdminAdminListTeachersIndexImport.update({
+    id: '/list/teachers/',
+    path: '/list/teachers/',
+    getParentRoute: () => ProtectedDashboardAdminAdminRoute,
+  } as any)
+
+const ProtectedDashboardAdminAdminListSubjectsIndexRoute =
+  ProtectedDashboardAdminAdminListSubjectsIndexImport.update({
+    id: '/list/subjects/',
+    path: '/list/subjects/',
+    getParentRoute: () => ProtectedDashboardAdminAdminRoute,
+  } as any)
+
+const ProtectedDashboardAdminAdminListStudentsIndexRoute =
+  ProtectedDashboardAdminAdminListStudentsIndexImport.update({
+    id: '/list/students/',
+    path: '/list/students/',
+    getParentRoute: () => ProtectedDashboardAdminAdminRoute,
+  } as any)
+
+const ProtectedDashboardAdminAdminListResultsIndexRoute =
+  ProtectedDashboardAdminAdminListResultsIndexImport.update({
+    id: '/list/results/',
+    path: '/list/results/',
+    getParentRoute: () => ProtectedDashboardAdminAdminRoute,
+  } as any)
+
+const ProtectedDashboardAdminAdminListLessonsIndexRoute =
+  ProtectedDashboardAdminAdminListLessonsIndexImport.update({
+    id: '/list/lessons/',
+    path: '/list/lessons/',
+    getParentRoute: () => ProtectedDashboardAdminAdminRoute,
+  } as any)
+
+const ProtectedDashboardAdminAdminListExamsIndexRoute =
+  ProtectedDashboardAdminAdminListExamsIndexImport.update({
+    id: '/list/exams/',
+    path: '/list/exams/',
+    getParentRoute: () => ProtectedDashboardAdminAdminRoute,
+  } as any)
+
+const ProtectedDashboardAdminAdminListEventsIndexRoute =
+  ProtectedDashboardAdminAdminListEventsIndexImport.update({
+    id: '/list/events/',
+    path: '/list/events/',
+    getParentRoute: () => ProtectedDashboardAdminAdminRoute,
+  } as any)
+
+const ProtectedDashboardAdminAdminListClassesIndexRoute =
+  ProtectedDashboardAdminAdminListClassesIndexImport.update({
+    id: '/list/classes/',
+    path: '/list/classes/',
+    getParentRoute: () => ProtectedDashboardAdminAdminRoute,
+  } as any)
+
+const ProtectedDashboardAdminAdminListAssignmentsIndexRoute =
+  ProtectedDashboardAdminAdminListAssignmentsIndexImport.update({
+    id: '/list/assignments/',
+    path: '/list/assignments/',
+    getParentRoute: () => ProtectedDashboardAdminAdminRoute,
+  } as any)
+
+const ProtectedDashboardAdminAdminListAnnouncementsIndexRoute =
+  ProtectedDashboardAdminAdminListAnnouncementsIndexImport.update({
+    id: '/list/announcements/',
+    path: '/list/announcements/',
+    getParentRoute: () => ProtectedDashboardAdminAdminRoute,
+  } as any)
+
+const ProtectedDashboardAdminAdminListTeachersIdRoute =
+  ProtectedDashboardAdminAdminListTeachersIdImport.update({
+    id: '/list/teachers/$id',
+    path: '/list/teachers/$id',
+    getParentRoute: () => ProtectedDashboardAdminAdminRoute,
+  } as any)
+
+const ProtectedDashboardAdminAdminListStudentsIdRoute =
+  ProtectedDashboardAdminAdminListStudentsIdImport.update({
+    id: '/list/students/$id',
+    path: '/list/students/$id',
+    getParentRoute: () => ProtectedDashboardAdminAdminRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -278,6 +374,90 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedDashboardStudentStudentIndexImport
       parentRoute: typeof ProtectedDashboardStudentStudentImport
     }
+    '/_protected/_dashboard/admin/_admin/list/students/$id': {
+      id: '/_protected/_dashboard/admin/_admin/list/students/$id'
+      path: '/list/students/$id'
+      fullPath: '/admin/list/students/$id'
+      preLoaderRoute: typeof ProtectedDashboardAdminAdminListStudentsIdImport
+      parentRoute: typeof ProtectedDashboardAdminAdminImport
+    }
+    '/_protected/_dashboard/admin/_admin/list/teachers/$id': {
+      id: '/_protected/_dashboard/admin/_admin/list/teachers/$id'
+      path: '/list/teachers/$id'
+      fullPath: '/admin/list/teachers/$id'
+      preLoaderRoute: typeof ProtectedDashboardAdminAdminListTeachersIdImport
+      parentRoute: typeof ProtectedDashboardAdminAdminImport
+    }
+    '/_protected/_dashboard/admin/_admin/list/announcements/': {
+      id: '/_protected/_dashboard/admin/_admin/list/announcements/'
+      path: '/list/announcements'
+      fullPath: '/admin/list/announcements'
+      preLoaderRoute: typeof ProtectedDashboardAdminAdminListAnnouncementsIndexImport
+      parentRoute: typeof ProtectedDashboardAdminAdminImport
+    }
+    '/_protected/_dashboard/admin/_admin/list/assignments/': {
+      id: '/_protected/_dashboard/admin/_admin/list/assignments/'
+      path: '/list/assignments'
+      fullPath: '/admin/list/assignments'
+      preLoaderRoute: typeof ProtectedDashboardAdminAdminListAssignmentsIndexImport
+      parentRoute: typeof ProtectedDashboardAdminAdminImport
+    }
+    '/_protected/_dashboard/admin/_admin/list/classes/': {
+      id: '/_protected/_dashboard/admin/_admin/list/classes/'
+      path: '/list/classes'
+      fullPath: '/admin/list/classes'
+      preLoaderRoute: typeof ProtectedDashboardAdminAdminListClassesIndexImport
+      parentRoute: typeof ProtectedDashboardAdminAdminImport
+    }
+    '/_protected/_dashboard/admin/_admin/list/events/': {
+      id: '/_protected/_dashboard/admin/_admin/list/events/'
+      path: '/list/events'
+      fullPath: '/admin/list/events'
+      preLoaderRoute: typeof ProtectedDashboardAdminAdminListEventsIndexImport
+      parentRoute: typeof ProtectedDashboardAdminAdminImport
+    }
+    '/_protected/_dashboard/admin/_admin/list/exams/': {
+      id: '/_protected/_dashboard/admin/_admin/list/exams/'
+      path: '/list/exams'
+      fullPath: '/admin/list/exams'
+      preLoaderRoute: typeof ProtectedDashboardAdminAdminListExamsIndexImport
+      parentRoute: typeof ProtectedDashboardAdminAdminImport
+    }
+    '/_protected/_dashboard/admin/_admin/list/lessons/': {
+      id: '/_protected/_dashboard/admin/_admin/list/lessons/'
+      path: '/list/lessons'
+      fullPath: '/admin/list/lessons'
+      preLoaderRoute: typeof ProtectedDashboardAdminAdminListLessonsIndexImport
+      parentRoute: typeof ProtectedDashboardAdminAdminImport
+    }
+    '/_protected/_dashboard/admin/_admin/list/results/': {
+      id: '/_protected/_dashboard/admin/_admin/list/results/'
+      path: '/list/results'
+      fullPath: '/admin/list/results'
+      preLoaderRoute: typeof ProtectedDashboardAdminAdminListResultsIndexImport
+      parentRoute: typeof ProtectedDashboardAdminAdminImport
+    }
+    '/_protected/_dashboard/admin/_admin/list/students/': {
+      id: '/_protected/_dashboard/admin/_admin/list/students/'
+      path: '/list/students'
+      fullPath: '/admin/list/students'
+      preLoaderRoute: typeof ProtectedDashboardAdminAdminListStudentsIndexImport
+      parentRoute: typeof ProtectedDashboardAdminAdminImport
+    }
+    '/_protected/_dashboard/admin/_admin/list/subjects/': {
+      id: '/_protected/_dashboard/admin/_admin/list/subjects/'
+      path: '/list/subjects'
+      fullPath: '/admin/list/subjects'
+      preLoaderRoute: typeof ProtectedDashboardAdminAdminListSubjectsIndexImport
+      parentRoute: typeof ProtectedDashboardAdminAdminImport
+    }
+    '/_protected/_dashboard/admin/_admin/list/teachers/': {
+      id: '/_protected/_dashboard/admin/_admin/list/teachers/'
+      path: '/list/teachers'
+      fullPath: '/admin/list/teachers'
+      preLoaderRoute: typeof ProtectedDashboardAdminAdminListTeachersIndexImport
+      parentRoute: typeof ProtectedDashboardAdminAdminImport
+    }
   }
 }
 
@@ -285,12 +465,48 @@ declare module '@tanstack/react-router' {
 
 interface ProtectedDashboardAdminAdminRouteChildren {
   ProtectedDashboardAdminAdminIndexRoute: typeof ProtectedDashboardAdminAdminIndexRoute
+  ProtectedDashboardAdminAdminListStudentsIdRoute: typeof ProtectedDashboardAdminAdminListStudentsIdRoute
+  ProtectedDashboardAdminAdminListTeachersIdRoute: typeof ProtectedDashboardAdminAdminListTeachersIdRoute
+  ProtectedDashboardAdminAdminListAnnouncementsIndexRoute: typeof ProtectedDashboardAdminAdminListAnnouncementsIndexRoute
+  ProtectedDashboardAdminAdminListAssignmentsIndexRoute: typeof ProtectedDashboardAdminAdminListAssignmentsIndexRoute
+  ProtectedDashboardAdminAdminListClassesIndexRoute: typeof ProtectedDashboardAdminAdminListClassesIndexRoute
+  ProtectedDashboardAdminAdminListEventsIndexRoute: typeof ProtectedDashboardAdminAdminListEventsIndexRoute
+  ProtectedDashboardAdminAdminListExamsIndexRoute: typeof ProtectedDashboardAdminAdminListExamsIndexRoute
+  ProtectedDashboardAdminAdminListLessonsIndexRoute: typeof ProtectedDashboardAdminAdminListLessonsIndexRoute
+  ProtectedDashboardAdminAdminListResultsIndexRoute: typeof ProtectedDashboardAdminAdminListResultsIndexRoute
+  ProtectedDashboardAdminAdminListStudentsIndexRoute: typeof ProtectedDashboardAdminAdminListStudentsIndexRoute
+  ProtectedDashboardAdminAdminListSubjectsIndexRoute: typeof ProtectedDashboardAdminAdminListSubjectsIndexRoute
+  ProtectedDashboardAdminAdminListTeachersIndexRoute: typeof ProtectedDashboardAdminAdminListTeachersIndexRoute
 }
 
 const ProtectedDashboardAdminAdminRouteChildren: ProtectedDashboardAdminAdminRouteChildren =
   {
     ProtectedDashboardAdminAdminIndexRoute:
       ProtectedDashboardAdminAdminIndexRoute,
+    ProtectedDashboardAdminAdminListStudentsIdRoute:
+      ProtectedDashboardAdminAdminListStudentsIdRoute,
+    ProtectedDashboardAdminAdminListTeachersIdRoute:
+      ProtectedDashboardAdminAdminListTeachersIdRoute,
+    ProtectedDashboardAdminAdminListAnnouncementsIndexRoute:
+      ProtectedDashboardAdminAdminListAnnouncementsIndexRoute,
+    ProtectedDashboardAdminAdminListAssignmentsIndexRoute:
+      ProtectedDashboardAdminAdminListAssignmentsIndexRoute,
+    ProtectedDashboardAdminAdminListClassesIndexRoute:
+      ProtectedDashboardAdminAdminListClassesIndexRoute,
+    ProtectedDashboardAdminAdminListEventsIndexRoute:
+      ProtectedDashboardAdminAdminListEventsIndexRoute,
+    ProtectedDashboardAdminAdminListExamsIndexRoute:
+      ProtectedDashboardAdminAdminListExamsIndexRoute,
+    ProtectedDashboardAdminAdminListLessonsIndexRoute:
+      ProtectedDashboardAdminAdminListLessonsIndexRoute,
+    ProtectedDashboardAdminAdminListResultsIndexRoute:
+      ProtectedDashboardAdminAdminListResultsIndexRoute,
+    ProtectedDashboardAdminAdminListStudentsIndexRoute:
+      ProtectedDashboardAdminAdminListStudentsIndexRoute,
+    ProtectedDashboardAdminAdminListSubjectsIndexRoute:
+      ProtectedDashboardAdminAdminListSubjectsIndexRoute,
+    ProtectedDashboardAdminAdminListTeachersIndexRoute:
+      ProtectedDashboardAdminAdminListTeachersIndexRoute,
   }
 
 const ProtectedDashboardAdminAdminRouteWithChildren =
@@ -426,6 +642,18 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof ProtectedDashboardAdminAdminIndexRoute
   '/instructor/': typeof ProtectedDashboardInstructorInstructorIndexRoute
   '/student/': typeof ProtectedDashboardStudentStudentIndexRoute
+  '/admin/list/students/$id': typeof ProtectedDashboardAdminAdminListStudentsIdRoute
+  '/admin/list/teachers/$id': typeof ProtectedDashboardAdminAdminListTeachersIdRoute
+  '/admin/list/announcements': typeof ProtectedDashboardAdminAdminListAnnouncementsIndexRoute
+  '/admin/list/assignments': typeof ProtectedDashboardAdminAdminListAssignmentsIndexRoute
+  '/admin/list/classes': typeof ProtectedDashboardAdminAdminListClassesIndexRoute
+  '/admin/list/events': typeof ProtectedDashboardAdminAdminListEventsIndexRoute
+  '/admin/list/exams': typeof ProtectedDashboardAdminAdminListExamsIndexRoute
+  '/admin/list/lessons': typeof ProtectedDashboardAdminAdminListLessonsIndexRoute
+  '/admin/list/results': typeof ProtectedDashboardAdminAdminListResultsIndexRoute
+  '/admin/list/students': typeof ProtectedDashboardAdminAdminListStudentsIndexRoute
+  '/admin/list/subjects': typeof ProtectedDashboardAdminAdminListSubjectsIndexRoute
+  '/admin/list/teachers': typeof ProtectedDashboardAdminAdminListTeachersIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -439,6 +667,18 @@ export interface FileRoutesByTo {
   '/student': typeof ProtectedDashboardStudentStudentIndexRoute
   '/instructor/analytics': typeof ProtectedDashboardInstructorInstructorAnalyticsRoute
   '/instructor/courses': typeof ProtectedDashboardInstructorInstructorCoursesRoute
+  '/admin/list/students/$id': typeof ProtectedDashboardAdminAdminListStudentsIdRoute
+  '/admin/list/teachers/$id': typeof ProtectedDashboardAdminAdminListTeachersIdRoute
+  '/admin/list/announcements': typeof ProtectedDashboardAdminAdminListAnnouncementsIndexRoute
+  '/admin/list/assignments': typeof ProtectedDashboardAdminAdminListAssignmentsIndexRoute
+  '/admin/list/classes': typeof ProtectedDashboardAdminAdminListClassesIndexRoute
+  '/admin/list/events': typeof ProtectedDashboardAdminAdminListEventsIndexRoute
+  '/admin/list/exams': typeof ProtectedDashboardAdminAdminListExamsIndexRoute
+  '/admin/list/lessons': typeof ProtectedDashboardAdminAdminListLessonsIndexRoute
+  '/admin/list/results': typeof ProtectedDashboardAdminAdminListResultsIndexRoute
+  '/admin/list/students': typeof ProtectedDashboardAdminAdminListStudentsIndexRoute
+  '/admin/list/subjects': typeof ProtectedDashboardAdminAdminListSubjectsIndexRoute
+  '/admin/list/teachers': typeof ProtectedDashboardAdminAdminListTeachersIndexRoute
 }
 
 export interface FileRoutesById {
@@ -460,6 +700,18 @@ export interface FileRoutesById {
   '/_protected/_dashboard/admin/_admin/': typeof ProtectedDashboardAdminAdminIndexRoute
   '/_protected/_dashboard/instructor/_instructor/': typeof ProtectedDashboardInstructorInstructorIndexRoute
   '/_protected/_dashboard/student/_student/': typeof ProtectedDashboardStudentStudentIndexRoute
+  '/_protected/_dashboard/admin/_admin/list/students/$id': typeof ProtectedDashboardAdminAdminListStudentsIdRoute
+  '/_protected/_dashboard/admin/_admin/list/teachers/$id': typeof ProtectedDashboardAdminAdminListTeachersIdRoute
+  '/_protected/_dashboard/admin/_admin/list/announcements/': typeof ProtectedDashboardAdminAdminListAnnouncementsIndexRoute
+  '/_protected/_dashboard/admin/_admin/list/assignments/': typeof ProtectedDashboardAdminAdminListAssignmentsIndexRoute
+  '/_protected/_dashboard/admin/_admin/list/classes/': typeof ProtectedDashboardAdminAdminListClassesIndexRoute
+  '/_protected/_dashboard/admin/_admin/list/events/': typeof ProtectedDashboardAdminAdminListEventsIndexRoute
+  '/_protected/_dashboard/admin/_admin/list/exams/': typeof ProtectedDashboardAdminAdminListExamsIndexRoute
+  '/_protected/_dashboard/admin/_admin/list/lessons/': typeof ProtectedDashboardAdminAdminListLessonsIndexRoute
+  '/_protected/_dashboard/admin/_admin/list/results/': typeof ProtectedDashboardAdminAdminListResultsIndexRoute
+  '/_protected/_dashboard/admin/_admin/list/students/': typeof ProtectedDashboardAdminAdminListStudentsIndexRoute
+  '/_protected/_dashboard/admin/_admin/list/subjects/': typeof ProtectedDashboardAdminAdminListSubjectsIndexRoute
+  '/_protected/_dashboard/admin/_admin/list/teachers/': typeof ProtectedDashboardAdminAdminListTeachersIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -478,6 +730,18 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/instructor/'
     | '/student/'
+    | '/admin/list/students/$id'
+    | '/admin/list/teachers/$id'
+    | '/admin/list/announcements'
+    | '/admin/list/assignments'
+    | '/admin/list/classes'
+    | '/admin/list/events'
+    | '/admin/list/exams'
+    | '/admin/list/lessons'
+    | '/admin/list/results'
+    | '/admin/list/students'
+    | '/admin/list/subjects'
+    | '/admin/list/teachers'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -490,6 +754,18 @@ export interface FileRouteTypes {
     | '/student'
     | '/instructor/analytics'
     | '/instructor/courses'
+    | '/admin/list/students/$id'
+    | '/admin/list/teachers/$id'
+    | '/admin/list/announcements'
+    | '/admin/list/assignments'
+    | '/admin/list/classes'
+    | '/admin/list/events'
+    | '/admin/list/exams'
+    | '/admin/list/lessons'
+    | '/admin/list/results'
+    | '/admin/list/students'
+    | '/admin/list/subjects'
+    | '/admin/list/teachers'
   id:
     | '__root__'
     | '/_protected'
@@ -509,6 +785,18 @@ export interface FileRouteTypes {
     | '/_protected/_dashboard/admin/_admin/'
     | '/_protected/_dashboard/instructor/_instructor/'
     | '/_protected/_dashboard/student/_student/'
+    | '/_protected/_dashboard/admin/_admin/list/students/$id'
+    | '/_protected/_dashboard/admin/_admin/list/teachers/$id'
+    | '/_protected/_dashboard/admin/_admin/list/announcements/'
+    | '/_protected/_dashboard/admin/_admin/list/assignments/'
+    | '/_protected/_dashboard/admin/_admin/list/classes/'
+    | '/_protected/_dashboard/admin/_admin/list/events/'
+    | '/_protected/_dashboard/admin/_admin/list/exams/'
+    | '/_protected/_dashboard/admin/_admin/list/lessons/'
+    | '/_protected/_dashboard/admin/_admin/list/results/'
+    | '/_protected/_dashboard/admin/_admin/list/students/'
+    | '/_protected/_dashboard/admin/_admin/list/subjects/'
+    | '/_protected/_dashboard/admin/_admin/list/teachers/'
   fileRoutesById: FileRoutesById
 }
 
@@ -581,7 +869,19 @@ export const routeTree = rootRoute
       "filePath": "_protected/_dashboard/admin/_admin.tsx",
       "parent": "/_protected/_dashboard/admin",
       "children": [
-        "/_protected/_dashboard/admin/_admin/"
+        "/_protected/_dashboard/admin/_admin/",
+        "/_protected/_dashboard/admin/_admin/list/students/$id",
+        "/_protected/_dashboard/admin/_admin/list/teachers/$id",
+        "/_protected/_dashboard/admin/_admin/list/announcements/",
+        "/_protected/_dashboard/admin/_admin/list/assignments/",
+        "/_protected/_dashboard/admin/_admin/list/classes/",
+        "/_protected/_dashboard/admin/_admin/list/events/",
+        "/_protected/_dashboard/admin/_admin/list/exams/",
+        "/_protected/_dashboard/admin/_admin/list/lessons/",
+        "/_protected/_dashboard/admin/_admin/list/results/",
+        "/_protected/_dashboard/admin/_admin/list/students/",
+        "/_protected/_dashboard/admin/_admin/list/subjects/",
+        "/_protected/_dashboard/admin/_admin/list/teachers/"
       ]
     },
     "/_protected/_dashboard/instructor": {
@@ -633,6 +933,54 @@ export const routeTree = rootRoute
     "/_protected/_dashboard/student/_student/": {
       "filePath": "_protected/_dashboard/student/_student/index.tsx",
       "parent": "/_protected/_dashboard/student/_student"
+    },
+    "/_protected/_dashboard/admin/_admin/list/students/$id": {
+      "filePath": "_protected/_dashboard/admin/_admin/list/students/$id.tsx",
+      "parent": "/_protected/_dashboard/admin/_admin"
+    },
+    "/_protected/_dashboard/admin/_admin/list/teachers/$id": {
+      "filePath": "_protected/_dashboard/admin/_admin/list/teachers/$id.tsx",
+      "parent": "/_protected/_dashboard/admin/_admin"
+    },
+    "/_protected/_dashboard/admin/_admin/list/announcements/": {
+      "filePath": "_protected/_dashboard/admin/_admin/list/announcements/index.tsx",
+      "parent": "/_protected/_dashboard/admin/_admin"
+    },
+    "/_protected/_dashboard/admin/_admin/list/assignments/": {
+      "filePath": "_protected/_dashboard/admin/_admin/list/assignments/index.tsx",
+      "parent": "/_protected/_dashboard/admin/_admin"
+    },
+    "/_protected/_dashboard/admin/_admin/list/classes/": {
+      "filePath": "_protected/_dashboard/admin/_admin/list/classes/index.tsx",
+      "parent": "/_protected/_dashboard/admin/_admin"
+    },
+    "/_protected/_dashboard/admin/_admin/list/events/": {
+      "filePath": "_protected/_dashboard/admin/_admin/list/events/index.tsx",
+      "parent": "/_protected/_dashboard/admin/_admin"
+    },
+    "/_protected/_dashboard/admin/_admin/list/exams/": {
+      "filePath": "_protected/_dashboard/admin/_admin/list/exams/index.tsx",
+      "parent": "/_protected/_dashboard/admin/_admin"
+    },
+    "/_protected/_dashboard/admin/_admin/list/lessons/": {
+      "filePath": "_protected/_dashboard/admin/_admin/list/lessons/index.tsx",
+      "parent": "/_protected/_dashboard/admin/_admin"
+    },
+    "/_protected/_dashboard/admin/_admin/list/results/": {
+      "filePath": "_protected/_dashboard/admin/_admin/list/results/index.tsx",
+      "parent": "/_protected/_dashboard/admin/_admin"
+    },
+    "/_protected/_dashboard/admin/_admin/list/students/": {
+      "filePath": "_protected/_dashboard/admin/_admin/list/students/index.tsx",
+      "parent": "/_protected/_dashboard/admin/_admin"
+    },
+    "/_protected/_dashboard/admin/_admin/list/subjects/": {
+      "filePath": "_protected/_dashboard/admin/_admin/list/subjects/index.tsx",
+      "parent": "/_protected/_dashboard/admin/_admin"
+    },
+    "/_protected/_dashboard/admin/_admin/list/teachers/": {
+      "filePath": "_protected/_dashboard/admin/_admin/list/teachers/index.tsx",
+      "parent": "/_protected/_dashboard/admin/_admin"
     }
   }
 }
