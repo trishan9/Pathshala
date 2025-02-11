@@ -1,3 +1,4 @@
+import { MoreHorizontalIcon } from "lucide-react";
 import {
   BarChart,
   Bar,
@@ -42,7 +43,7 @@ const AttendanceChart = () => {
     <div className="bg-white border rounded-lg p-4 h-full">
       <div className="flex justify-between items-center">
         <h1 className="text-lg font-semibold">Attendance</h1>
-        <img src="/moreDark.png" alt="" width={20} height={20} />
+        <MoreHorizontalIcon className="w-5 h-5" />
       </div>
       <ResponsiveContainer width="100%" height="90%">
         <BarChart width={500} height={300} data={data} barSize={20}>

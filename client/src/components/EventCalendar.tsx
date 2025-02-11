@@ -1,12 +1,12 @@
 import { useState } from "react";
 import Calendar from "react-calendar";
+import { MoreHorizontalIcon } from "lucide-react";
 import "react-calendar/dist/Calendar.css";
 
 type ValuePiece = Date | null;
 
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-// TEMPORARY
 const events = [
   {
     id: 1,
@@ -36,7 +36,7 @@ const EventCalendar = () => {
       <Calendar onChange={onChange} value={value} />
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold my-4">Events</h1>
-        <img src="/moreDark.png" alt="" width={20} height={20} />
+        <MoreHorizontalIcon className="w-5 h-5" />{" "}
       </div>
       <div className="flex flex-col gap-4">
         {events.map((event) => (

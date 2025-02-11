@@ -1,3 +1,4 @@
+import { MoreHorizontalIcon } from "lucide-react";
 import { RadialBarChart, RadialBar, ResponsiveContainer } from "recharts";
 
 const data = [
@@ -24,7 +25,7 @@ const CountChart = () => {
       {/* TITLE */}
       <div className="flex justify-between items-center">
         <h1 className="text-lg font-semibold">Students</h1>
-        <img src="/moreDark.png" alt="" width={20} height={20} />
+        <MoreHorizontalIcon className="w-5 h-5" />
       </div>
       {/* CHART */}
       <div className="relative w-full h-[75%]">
