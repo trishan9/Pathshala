@@ -13,7 +13,7 @@ function RouteComponent() {
     return <Navigate to="/admin" replace />;
   } else if (currUser?.role === "student") {
     return <Navigate to="/student" replace />;
-  } else if (currUser?.role === "teacer") {
+  } else if (currUser?.role === "teacher") {
     return <Navigate to="/instructor" replace />;
   }
 
