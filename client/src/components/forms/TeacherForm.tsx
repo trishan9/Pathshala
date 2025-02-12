@@ -29,7 +29,7 @@ const TeacherForm = ({
   data,
 }: {
   type: "create" | "update";
-  data?: any;
+  data?: z.infer<typeof schema>;
 }) => {
   const {
     register,
@@ -44,12 +44,15 @@ const TeacherForm = ({
   });
 
   return (
-    <form className="flex flex-col gap-8" onSubmit={onSubmit}>
-      <h1 className="text-xl font-semibold">Create a new teacher</h1>
+    <form className="flex flex-col gap-2" onSubmit={onSubmit}>
+      <h1 className="text-xl font-semibold mb-2">
+        {type === "create" ? "Create a new teacher" : "Edit teacher"}
+      </h1>
+
       <span className="text-xs text-gray-400 font-medium">
         Authentication Information
       </span>
-      <div className="flex justify-between flex-wrap gap-4">
+      <div className="flex justify-between mb-2 flex-wrap gap-4">
         <InputField
           label="Username"
           name="username"
@@ -73,10 +76,12 @@ const TeacherForm = ({
           error={errors?.password}
         />
       </div>
+
       <span className="text-xs text-gray-400 font-medium">
         Personal Information
       </span>
-      <div className="flex justify-between flex-wrap gap-4">
+
+      <div className="flex justify-between mb-4 flex-wrap gap-4">
         <InputField
           label="First Name"
           name="firstName"
@@ -115,7 +120,7 @@ const TeacherForm = ({
         <InputField
           label="Birthday"
           name="birthday"
-          defaultValue={data?.birthday}
+          defaultValue={data?.birthday?.toString()}
           register={register}
           error={errors.birthday}
           type="date"

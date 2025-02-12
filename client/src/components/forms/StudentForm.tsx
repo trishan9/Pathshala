@@ -29,7 +29,7 @@ const StudentForm = ({
   data,
 }: {
   type: "create" | "update";
-  data?: any;
+  data?: z.infer<typeof schema>;
 }) => {
   const {
     register,
@@ -44,12 +44,16 @@ const StudentForm = ({
   });
 
   return (
-    <form className="flex flex-col gap-8" onSubmit={onSubmit}>
-      <h1 className="text-xl font-semibold">Create a new student</h1>
+    <form className="flex flex-col gap-2" onSubmit={onSubmit}>
+      <h1 className="text-xl font-semibold mb-2">
+        {type === "create" ? "Create a new student" : "Edit student"}
+      </h1>
+
       <span className="text-xs text-gray-400 font-medium">
         Authentication Information
       </span>
-      <div className="flex justify-between flex-wrap gap-4">
+
+      <div className="flex justify-between flex-wrap gap-4 mb-2">
         <InputField
           label="Username"
           name="username"
@@ -73,10 +77,12 @@ const StudentForm = ({
           error={errors?.password}
         />
       </div>
+
       <span className="text-xs text-gray-400 font-medium">
         Personal Information
       </span>
-      <div className="flex justify-between flex-wrap gap-4">
+
+      <div className="flex justify-between flex-wrap gap-4 mb-4">
         <InputField
           label="First Name"
           name="firstName"
@@ -84,6 +90,7 @@ const StudentForm = ({
           register={register}
           error={errors.firstName}
         />
+
         <InputField
           label="Last Name"
           name="lastName"
@@ -91,6 +98,7 @@ const StudentForm = ({
           register={register}
           error={errors.lastName}
         />
+
         <InputField
           label="Phone"
           name="phone"
@@ -98,6 +106,7 @@ const StudentForm = ({
           register={register}
           error={errors.phone}
         />
+
         <InputField
           label="Address"
           name="address"
@@ -105,6 +114,7 @@ const StudentForm = ({
           register={register}
           error={errors.address}
         />
+
         <InputField
           label="Blood Type"
           name="bloodType"
@@ -112,30 +122,36 @@ const StudentForm = ({
           register={register}
           error={errors.bloodType}
         />
+
         <InputField
           label="Birthday"
           name="birthday"
-          defaultValue={data?.birthday}
+          defaultValue={data?.birthday?.toString()}
           register={register}
           error={errors.birthday}
           type="date"
         />
+
         <div className="flex flex-col gap-2 w-full md:w-1/4">
           <label className="text-xs text-gray-500">Sex</label>
+
           <select
             className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
             {...register("sex")}
             defaultValue={data?.sex}
           >
             <option value="male">Male</option>
+
             <option value="female">Female</option>
           </select>
+
           {errors.sex?.message && (
             <p className="text-xs text-red-400">
               {errors.sex.message.toString()}
             </p>
           )}
         </div>
+
         <div className="flex flex-col gap-2 w-full md:w-1/4 justify-center">
           <label
             className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer"
@@ -152,6 +168,7 @@ const StudentForm = ({
           )}
         </div>
       </div>
+
       <button className="bg-blue-400 text-white p-2 rounded-md">
         {type === "create" ? "Create" : "Update"}
       </button>

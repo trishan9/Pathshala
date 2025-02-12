@@ -1,9 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TeacherForm from "./TeacherForm";
 import StudentForm from "./StudentForm";
-
-// import TeacherForm from "./forms/TeacherForm";
-// import StudentForm from "./forms/StudentForm";
 
 const forms: {
   [key: string]: (type: "create" | "update", data?: any) => JSX.Element;
@@ -45,6 +42,18 @@ const FormModal = ({
 
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    if (open) {
+      document.documentElement.style.overflowY = "hidden";
+    } else {
+      document.documentElement.style.overflowY = "auto";
+    }
+
+    return () => {
+      document.documentElement.style.overflowY = "auto";
+    };
+  }, [open]);
+
   const Form = () => {
     return type === "delete" && id ? (
       <form action="" className="p-4 flex flex-col gap-4">
@@ -70,10 +79,12 @@ const FormModal = ({
       >
         <img src={`/${type}.png`} alt="" width={16} height={16} />
       </button>
+
       {open && (
-        <div className="w-screen h-screen absolute left-0 top-0 bg-black bg-opacity-60 z-50 flex items-center justify-center">
+        <div className="w-screen h-screen fixed left-0 top-0 bg-black bg-opacity-60 z-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-md relative w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[40%]">
             <Form />
+
             <div
               className="absolute top-4 right-4 cursor-pointer"
               onClick={() => setOpen(false)}
