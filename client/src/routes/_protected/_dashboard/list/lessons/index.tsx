@@ -14,6 +14,7 @@ import { PageLoader } from "@/components/PageLoader";
 const getAllLessonsQuerySchema = z.object({
   page: z.number().optional(),
   teacherId: z.string().optional(),
+  classId: z.number().optional(),
   search: z.string().optional(),
 });
 
@@ -81,6 +82,7 @@ const LessonListPage = () => {
   const { data, isLoading } = useGetLessons({
     page: params.page,
     teacherId: params.teacherId,
+    classId: params.classId,
     search: params.search,
   });
 
