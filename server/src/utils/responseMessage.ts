@@ -18,6 +18,10 @@ const responseMessage = {
   SUBJECT: {
     RETRIEVED_ALL: "All subjects fetched successfully!",
   },
+  CLASS: {
+    RETRIEVED_ALL: "All classes fetched successfully!",
+  },
+
   OTHER: {
     SERVER_ERROR: "Internal Server Error",
   },
