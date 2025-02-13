@@ -18,10 +18,24 @@ export const getAllLessons = async (params: GetLessonParams) => {
       classId: +classId,
     }),
     ...(search && {
-      name: {
-        contains: search,
-        mode: "insensitive",
-      },
+      OR: [
+        {
+          subject: {
+            name: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+        },
+        {
+          teacher: {
+            name: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+        },
+      ],
     }),
   };
 
