@@ -1,58 +1,56 @@
-import { createFileRoute } from "@tanstack/react-router";
-import FormModal from "@/components/forms/FormModal";
-import Pagination from "@/components/tables/Pagination";
-import Table from "@/components/tables/Table";
-import TableSearch from "@/components/tables/TableSearch";
-import { eventsData, role } from "@/lib/data";
+import { createFileRoute } from '@tanstack/react-router'
+import FormModal from '@/components/forms/FormModal'
+import Pagination from '@/components/tables/Pagination'
+import Table from '@/components/tables/Table'
+import TableSearch from '@/components/tables/TableSearch'
+import { eventsData, role } from '@/lib/data'
 
-export const Route = createFileRoute(
-  "/_protected/_dashboard/admin/_admin/list/events/",
-)({
+export const Route = createFileRoute('/_protected/_dashboard/list/events/')({
   component: RouteComponent,
-});
+})
 
 function RouteComponent() {
-  return <EventListPage />;
+  return <EventListPage />
 }
 
 type Event = {
-  id: number;
-  title: string;
-  class: string;
-  date: string;
-  startTime: string;
-  endTime: string;
-};
+  id: number
+  title: string
+  class: string
+  date: string
+  startTime: string
+  endTime: string
+}
 
 const columns = [
   {
-    header: "Title",
-    accessor: "title",
+    header: 'Title',
+    accessor: 'title',
   },
   {
-    header: "Class",
-    accessor: "class",
+    header: 'Class',
+    accessor: 'class',
   },
   {
-    header: "Date",
-    accessor: "date",
-    className: "hidden md:table-cell",
+    header: 'Date',
+    accessor: 'date',
+    className: 'hidden md:table-cell',
   },
   {
-    header: "Start Time",
-    accessor: "startTime",
-    className: "hidden md:table-cell",
+    header: 'Start Time',
+    accessor: 'startTime',
+    className: 'hidden md:table-cell',
   },
   {
-    header: "End Time",
-    accessor: "endTime",
-    className: "hidden md:table-cell",
+    header: 'End Time',
+    accessor: 'endTime',
+    className: 'hidden md:table-cell',
   },
   {
-    header: "Actions",
-    accessor: "action",
+    header: 'Actions',
+    accessor: 'action',
   },
-];
+]
 
 const EventListPage = () => {
   const renderRow = (item: Event) => (
@@ -67,7 +65,7 @@ const EventListPage = () => {
       <td className="hidden md:table-cell">{item.endTime}</td>
       <td>
         <div className="flex items-center gap-2">
-          {role === "admin" && (
+          {role === 'admin' && (
             <>
               <FormModal table="event" type="update" data={item} />
               <FormModal table="event" type="delete" id={item.id} />
@@ -76,7 +74,7 @@ const EventListPage = () => {
         </div>
       </td>
     </tr>
-  );
+  )
 
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 border">
@@ -92,7 +90,7 @@ const EventListPage = () => {
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <img src="/sort.png" alt="" width={14} height={14} />
             </button>
-            {role === "admin" && <FormModal table="event" type="create" />}
+            {role === 'admin' && <FormModal table="event" type="create" />}
           </div>
         </div>
       </div>
@@ -101,7 +99,7 @@ const EventListPage = () => {
       {/* PAGINATION */}
       <Pagination />
     </div>
-  );
-};
+  )
+}
 
-export default EventListPage;
+export default EventListPage

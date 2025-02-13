@@ -5,9 +5,7 @@ import Table from "@/components/tables/Table";
 import TableSearch from "@/components/tables/TableSearch";
 import { role, studentsData } from "@/lib/data";
 
-export const Route = createFileRoute(
-  "/_protected/_dashboard/admin/_admin/list/students/",
-)({
+export const Route = createFileRoute("/_protected/_dashboard/list/students/")({
   component: RouteComponent,
 });
 
@@ -83,7 +81,7 @@ const StudentListPage = () => {
       <td className="hidden md:table-cell">{item.address}</td>
       <td>
         <div className="flex items-center gap-2">
-          <Link to={`/admin/list/students/${item.id}`}>
+          <Link to={`/list/students/${item.id}`}>
             <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky">
               <img src="/view.png" alt="" width={16} height={16} />
             </button>

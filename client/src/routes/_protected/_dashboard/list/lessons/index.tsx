@@ -1,46 +1,44 @@
-import { createFileRoute } from "@tanstack/react-router";
-import FormModal from "@/components/forms/FormModal";
-import Pagination from "@/components/tables/Pagination";
-import Table from "@/components/tables/Table";
-import TableSearch from "@/components/tables/TableSearch";
-import { lessonsData, role } from "@/lib/data";
+import { createFileRoute } from '@tanstack/react-router'
+import FormModal from '@/components/forms/FormModal'
+import Pagination from '@/components/tables/Pagination'
+import Table from '@/components/tables/Table'
+import TableSearch from '@/components/tables/TableSearch'
+import { lessonsData, role } from '@/lib/data'
 
-export const Route = createFileRoute(
-  "/_protected/_dashboard/admin/_admin/list/lessons/",
-)({
+export const Route = createFileRoute('/_protected/_dashboard/list/lessons/')({
   component: RouteComponent,
-});
+})
 
 function RouteComponent() {
-  return <LessonListPage />;
+  return <LessonListPage />
 }
 
 type Lesson = {
-  id: number;
-  subject: string;
-  class: string;
-  teacher: string;
-};
+  id: number
+  subject: string
+  class: string
+  teacher: string
+}
 
 const columns = [
   {
-    header: "Subject Name",
-    accessor: "name",
+    header: 'Subject Name',
+    accessor: 'name',
   },
   {
-    header: "Class",
-    accessor: "class",
+    header: 'Class',
+    accessor: 'class',
   },
   {
-    header: "Teacher",
-    accessor: "teacher",
-    className: "hidden md:table-cell",
+    header: 'Teacher',
+    accessor: 'teacher',
+    className: 'hidden md:table-cell',
   },
   {
-    header: "Actions",
-    accessor: "action",
+    header: 'Actions',
+    accessor: 'action',
   },
-];
+]
 
 const LessonListPage = () => {
   const renderRow = (item: Lesson) => (
@@ -53,7 +51,7 @@ const LessonListPage = () => {
       <td className="hidden md:table-cell">{item.teacher}</td>
       <td>
         <div className="flex items-center gap-2">
-          {role === "admin" && (
+          {role === 'admin' && (
             <>
               <FormModal table="lesson" type="update" data={item} />
               <FormModal table="lesson" type="delete" id={item.id} />
@@ -62,7 +60,7 @@ const LessonListPage = () => {
         </div>
       </td>
     </tr>
-  );
+  )
 
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 border">
@@ -78,7 +76,7 @@ const LessonListPage = () => {
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <img src="/sort.png" alt="" width={14} height={14} />
             </button>
-            {role === "admin" && <FormModal table="lesson" type="create" />}
+            {role === 'admin' && <FormModal table="lesson" type="create" />}
           </div>
         </div>
       </div>
@@ -87,7 +85,7 @@ const LessonListPage = () => {
       {/* PAGINATION */}
       <Pagination />
     </div>
-  );
-};
+  )
+}
 
-export default LessonListPage;
+export default LessonListPage

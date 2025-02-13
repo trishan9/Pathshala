@@ -1,52 +1,52 @@
-import { createFileRoute } from "@tanstack/react-router";
-import FormModal from "@/components/forms/FormModal";
-import Pagination from "@/components/tables/Pagination";
-import Table from "@/components/tables/Table";
-import TableSearch from "@/components/tables/TableSearch";
-import { assignmentsData, role } from "@/lib/data";
+import { createFileRoute } from '@tanstack/react-router'
+import FormModal from '@/components/forms/FormModal'
+import Pagination from '@/components/tables/Pagination'
+import Table from '@/components/tables/Table'
+import TableSearch from '@/components/tables/TableSearch'
+import { assignmentsData, role } from '@/lib/data'
 
 export const Route = createFileRoute(
-  "/_protected/_dashboard/admin/_admin/list/assignments/",
+  '/_protected/_dashboard/list/assignments/',
 )({
   component: RouteComponent,
-});
+})
 
 function RouteComponent() {
-  return <AssignmentListPage />;
+  return <AssignmentListPage />
 }
 
 type Assignment = {
-  id: number;
-  subject: string;
-  class: string;
-  teacher: string;
-  dueDate: string;
-};
+  id: number
+  subject: string
+  class: string
+  teacher: string
+  dueDate: string
+}
 
 const columns = [
   {
-    header: "Subject Name",
-    accessor: "name",
+    header: 'Subject Name',
+    accessor: 'name',
   },
   {
-    header: "Class",
-    accessor: "class",
+    header: 'Class',
+    accessor: 'class',
   },
   {
-    header: "Teacher",
-    accessor: "teacher",
-    className: "hidden md:table-cell",
+    header: 'Teacher',
+    accessor: 'teacher',
+    className: 'hidden md:table-cell',
   },
   {
-    header: "Due Date",
-    accessor: "dueDate",
-    className: "hidden md:table-cell",
+    header: 'Due Date',
+    accessor: 'dueDate',
+    className: 'hidden md:table-cell',
   },
   {
-    header: "Actions",
-    accessor: "action",
+    header: 'Actions',
+    accessor: 'action',
   },
-];
+]
 
 const AssignmentListPage = () => {
   const renderRow = (item: Assignment) => (
@@ -60,7 +60,7 @@ const AssignmentListPage = () => {
       <td className="hidden md:table-cell">{item.dueDate}</td>
       <td>
         <div className="flex items-center gap-2">
-          {(role === "admin" || role === "teacher") && (
+          {(role === 'admin' || role === 'teacher') && (
             <>
               <FormModal table="assignment" type="update" data={item} />
               <FormModal table="assignment" type="delete" id={item.id} />
@@ -69,7 +69,7 @@ const AssignmentListPage = () => {
         </div>
       </td>
     </tr>
-  );
+  )
 
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 border">
@@ -87,7 +87,7 @@ const AssignmentListPage = () => {
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <img src="/sort.png" alt="" width={14} height={14} />
             </button>
-            {(role === "admin" || role === "teacher") && (
+            {(role === 'admin' || role === 'teacher') && (
               <FormModal table="assignment" type="create" />
             )}
           </div>
@@ -98,7 +98,7 @@ const AssignmentListPage = () => {
       {/* PAGINATION */}
       <Pagination />
     </div>
-  );
-};
+  )
+}
 
-export default AssignmentListPage;
+export default AssignmentListPage

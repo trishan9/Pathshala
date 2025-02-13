@@ -1,53 +1,51 @@
-import { createFileRoute } from "@tanstack/react-router";
-import FormModal from "@/components/forms/FormModal";
-import Pagination from "@/components/tables/Pagination";
-import Table from "@/components/tables/Table";
-import TableSearch from "@/components/tables/TableSearch";
-import { classesData, role } from "@/lib/data";
+import { createFileRoute } from '@tanstack/react-router'
+import FormModal from '@/components/forms/FormModal'
+import Pagination from '@/components/tables/Pagination'
+import Table from '@/components/tables/Table'
+import TableSearch from '@/components/tables/TableSearch'
+import { classesData, role } from '@/lib/data'
 
-export const Route = createFileRoute(
-  "/_protected/_dashboard/admin/_admin/list/classes/",
-)({
+export const Route = createFileRoute('/_protected/_dashboard/list/classes/')({
   component: RouteComponent,
-});
+})
 
 function RouteComponent() {
-  return <ClassListPage />;
+  return <ClassListPage />
 }
 
 type Class = {
-  id: number;
-  name: string;
-  capacity: number;
-  grade: number;
-  supervisor: string;
-};
+  id: number
+  name: string
+  capacity: number
+  grade: number
+  supervisor: string
+}
 
 const columns = [
   {
-    header: "Class Name",
-    accessor: "name",
+    header: 'Class Name',
+    accessor: 'name',
   },
   {
-    header: "Capacity",
-    accessor: "capacity",
-    className: "hidden md:table-cell",
+    header: 'Capacity',
+    accessor: 'capacity',
+    className: 'hidden md:table-cell',
   },
   {
-    header: "Grade",
-    accessor: "grade",
-    className: "hidden md:table-cell",
+    header: 'Grade',
+    accessor: 'grade',
+    className: 'hidden md:table-cell',
   },
   {
-    header: "Supervisor",
-    accessor: "supervisor",
-    className: "hidden md:table-cell",
+    header: 'Supervisor',
+    accessor: 'supervisor',
+    className: 'hidden md:table-cell',
   },
   {
-    header: "Actions",
-    accessor: "action",
+    header: 'Actions',
+    accessor: 'action',
   },
-];
+]
 
 const ClassListPage = () => {
   const renderRow = (item: Class) => (
@@ -61,7 +59,7 @@ const ClassListPage = () => {
       <td className="hidden md:table-cell">{item.supervisor}</td>
       <td>
         <div className="flex items-center gap-2">
-          {role === "admin" && (
+          {role === 'admin' && (
             <>
               <FormModal table="class" type="update" data={item} />
               <FormModal table="class" type="delete" id={item.id} />
@@ -70,7 +68,7 @@ const ClassListPage = () => {
         </div>
       </td>
     </tr>
-  );
+  )
 
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 border">
@@ -86,7 +84,7 @@ const ClassListPage = () => {
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <img src="/sort.png" alt="" width={14} height={14} />
             </button>
-            {role === "admin" && <FormModal table="class" type="create" />}
+            {role === 'admin' && <FormModal table="class" type="create" />}
           </div>
         </div>
       </div>
@@ -95,7 +93,7 @@ const ClassListPage = () => {
       {/* PAGINATION */}
       <Pagination />
     </div>
-  );
-};
+  )
+}
 
-export default ClassListPage;
+export default ClassListPage

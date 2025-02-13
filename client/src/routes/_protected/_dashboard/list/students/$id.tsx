@@ -4,7 +4,7 @@ import BigCalendar from "@/components/BigCalendar";
 import Performance from "@/components/charts/Performance";
 
 export const Route = createFileRoute(
-  "/_protected/_dashboard/admin/_admin/list/students/$id",
+  "/_protected/_dashboard/list/students/$id",
 )({
   component: RouteComponent,
 });
@@ -133,7 +133,10 @@ const SingleStudentPage = () => {
             <Link className="p-3 rounded-md bg-lamaSkyLight" to="/">
               Student&apos;s Lessons
             </Link>
-            <Link className="p-3 rounded-md bg-lamaPurpleLight" to="/">
+            <Link
+              className="p-3 rounded-md bg-lamaPurpleLight"
+              to={`/list/teachers?classId=${2}`}
+            >
               Student&apos;s Teachers
             </Link>
             <Link className="p-3 rounded-md bg-pink-50" to="/">
