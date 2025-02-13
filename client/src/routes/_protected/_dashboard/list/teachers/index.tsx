@@ -23,7 +23,7 @@ function RouteComponent() {
   return <TeacherListPage />;
 }
 
-type Teacher = {
+export type Teacher = {
   id: string;
   username: string;
   name: string;
