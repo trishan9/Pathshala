@@ -21,7 +21,9 @@ const responseMessage = {
   CLASS: {
     RETRIEVED_ALL: "All classes fetched successfully!",
   },
-
+  LESSON: {
+    RETRIEVED_ALL: "All lessons fetched successfully!",
+  },
   OTHER: {
     SERVER_ERROR: "Internal Server Error",
   },
