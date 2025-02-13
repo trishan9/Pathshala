@@ -24,7 +24,7 @@ function RouteComponent() {
 }
 
 type Teacher = {
-  id: number;
+  id: string;
   username: string;
   name: string;
   email?: string;
@@ -155,6 +155,7 @@ const TeacherListPage = () => {
           </div>
         </div>
       </div>
+
       {isLoading && <PageLoader />}
 
       {data && (

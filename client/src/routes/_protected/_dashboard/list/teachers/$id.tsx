@@ -1,23 +1,23 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import Announcements from '@/components/Announcements'
-import BigCalendar from '@/components/BigCalendar'
-import FormModal from '@/components/forms/FormModal'
-import Performance from '@/components/charts/Performance'
-import { role } from '@/lib/data'
+import { createFileRoute, Link } from "@tanstack/react-router";
+import Announcements from "@/components/Announcements";
+import BigCalendar from "@/components/BigCalendar";
+import FormModal from "@/components/forms/FormModal";
+import Performance from "@/components/charts/Performance";
+import { role } from "@/lib/data";
 
 export const Route = createFileRoute(
-  '/_protected/_dashboard/list/teachers/$id',
+  "/_protected/_dashboard/list/teachers/$id",
 )({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  return <SingleTeacherPage />
+  return <SingleTeacherPage />;
 }
 
 const SingleTeacherPage = () => {
-  const { id } = Route.useParams()
-  console.log('Teacher ID: ' + id)
+  const { id } = Route.useParams();
+  console.log("Teacher ID: " + id);
 
   return (
     <div className="flex-1 p-4 flex flex-col gap-4 xl:flex-row">
@@ -39,23 +39,23 @@ const SingleTeacherPage = () => {
             <div className="w-2/3 flex flex-col justify-between gap-4">
               <div className="flex items-center gap-4">
                 <h1 className="text-xl font-semibold">Trishan Wagle</h1>
-                {role === 'admin' && (
+                {role === "admin" && (
                   <FormModal
                     table="teacher"
                     type="update"
                     data={{
                       id: 1,
-                      username: 'deanguerrero',
-                      email: 'deanguerrero@gmail.com',
-                      password: 'password',
-                      firstName: 'Dean',
-                      lastName: 'Guerrero',
-                      phone: '+1 234 567 89',
-                      address: '1234 Main St, Anytown, USA',
-                      bloodType: 'A+',
-                      dateOfBirth: '2000-01-01',
-                      sex: 'male',
-                      img: 'https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=1200',
+                      username: "deanguerrero",
+                      email: "deanguerrero@gmail.com",
+                      password: "password",
+                      firstName: "Dean",
+                      lastName: "Guerrero",
+                      phone: "+1 234 567 89",
+                      address: "1234 Main St, Anytown, USA",
+                      bloodType: "A+",
+                      dateOfBirth: "2000-01-01",
+                      sex: "male",
+                      img: "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=1200",
                     }}
                   />
                 )}
@@ -157,7 +157,10 @@ const SingleTeacherPage = () => {
             <Link className="p-3 rounded-md bg-lamaSkyLight" to="/">
               Teacher&apos;s Classes
             </Link>
-            <Link className="p-3 rounded-md bg-lamaPurpleLight" to="/">
+            <Link
+              className="p-3 rounded-md bg-lamaPurpleLight"
+              to={`/list/students?teacherId=${"teacher2"}`}
+            >
               Teacher&apos;s Students
             </Link>
             <Link className="p-3 rounded-md bg-lamaYellowLight" to="/">
@@ -175,7 +178,7 @@ const SingleTeacherPage = () => {
         <Announcements />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SingleTeacherPage
+export default SingleTeacherPage;
