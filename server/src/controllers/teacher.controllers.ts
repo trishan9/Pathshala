@@ -6,17 +6,12 @@ import { apiResponse } from "@/utils/apiResponse";
 import { StatusCodes } from "http-status-codes";
 import { responseMessage } from "@/utils/responseMessage";
 
-const getAllTeachersQuerySchema = z.object({
-  page: z.string().optional().default("1"),
-});
-
 export const getAllTeachers = asyncHandler(
   async (req: Request, res: Response) => {
     const query = req.query;
-    const result = getAllTeachersQuerySchema.parse(query);
 
     const { teachers, teachersCount } = await teacherServices.getAllTeachers(
-      +result.page || 1,
+      query as teacherServices.GetTeacherParams,
     );
 
     return apiResponse(res, StatusCodes.OK, {
