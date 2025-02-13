@@ -5,6 +5,7 @@ import { loginFormSchema, signupFormSchema } from "@/schemas";
 import { useGetTeachersProps } from "@/hooks/useTeachers";
 import { useGetStudentsProps } from "@/hooks/useStudents";
 import { useGetSubjectsProps } from "@/hooks/useSubjects";
+import { useGetClassesProps } from "@/hooks/useClasses";
 
 export const apiActions = {
   auth: {
@@ -38,6 +39,11 @@ export const apiActions = {
   subject: {
     getAll: async (query: useGetSubjectsProps) => {
       return await api.get(API_URLS.SUBJECT, { params: query });
+    },
+  },
+  class: {
+    getAll: async (query: useGetClassesProps) => {
+      return await api.get(API_URLS.CLASS, { params: query });
     },
   },
 };
