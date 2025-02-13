@@ -1,7 +1,7 @@
 import client from "@/db";
 import { ITEM_PER_PAGE } from "@/lib/settings";
 
-export const getAllTeachers = async (pageNumber: number = 1) => {
+export const getAllTeachers = async (pageNumber: number) => {
   const [teachers, teachersCount] = await client.$transaction([
     client.teacher.findMany({
       include: {
