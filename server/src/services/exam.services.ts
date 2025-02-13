@@ -13,20 +13,20 @@ export const getAllExams = async (params: GetExamParams) => {
   const { page = 1, classId, teacherId, search } = params;
 
   const whereClause: Prisma.ExamWhereInput = {
-    ...(classId && {
-      lesson: { classId: +classId },
-    }),
-    lesson: { teacherId },
-    ...(search && {
-      lesson: {
-        subject: {
-          name: {
-            contains: search,
-            mode: "insensitive",
-          },
+    lesson: {
+      ...(teacherId && {
+        teacherId,
+      }),
+      ...(classId && {
+        classId: +classId,
+      }),
+      subject: {
+        name: {
+          contains: search,
+          mode: "insensitive",
         },
       },
-    }),
+    },
   };
 
   const [exams, examsCount] = await client.$transaction([

@@ -13,7 +13,9 @@ export const getAllLessons = async (params: GetLessonParams) => {
   const { page = 1, teacherId, classId, search } = params;
 
   const whereClause: Prisma.LessonWhereInput = {
-    teacherId,
+    ...(teacherId && {
+      teacherId,
+    }),
     ...(classId && {
       classId: +classId,
     }),

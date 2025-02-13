@@ -12,7 +12,9 @@ export const getAllClasses = async (params: GetClassParams) => {
   const { page = 1, supervisorId, search } = params;
 
   const whereClause: Prisma.ClassWhereInput = {
-    supervisorId,
+    ...(supervisorId && {
+      supervisorId,
+    }),
     ...(search && {
       name: {
         contains: search,

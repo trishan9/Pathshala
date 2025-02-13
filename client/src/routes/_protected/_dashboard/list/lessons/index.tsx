@@ -27,7 +27,7 @@ function RouteComponent() {
   return <LessonListPage />;
 }
 
-type Lesson = {
+export type Lesson = {
   id: number;
   name: string;
   day: string;

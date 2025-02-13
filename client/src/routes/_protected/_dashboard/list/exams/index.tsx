@@ -7,6 +7,7 @@ import { role } from "@/lib/data";
 import { useGetExams } from "@/hooks/useExams";
 import { z } from "zod";
 import { PageLoader } from "@/components/PageLoader";
+import { Lesson } from "../lessons";
 
 const getAllExamsQuerySchema = z.object({
   page: z.number().optional(),
@@ -26,10 +27,8 @@ function RouteComponent() {
 
 type Exam = {
   id: number;
-  subject: string;
-  class: string;
-  teacher: string;
-  date: string;
+  startTime: Date;
+  lesson: Lesson;
 };
 
 const columns = [
@@ -62,10 +61,12 @@ const renderRow = (item: Exam) => (
     key={item.id}
     className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
   >
-    <td className="flex items-center gap-4 p-4">{item.subject}</td>
-    <td>{item.class}</td>
-    <td className="hidden md:table-cell">{item.teacher}</td>
-    <td className="hidden md:table-cell">{item.date}</td>
+    <td className="flex items-center gap-4 p-4">{item.lesson.subject.name}</td>
+    <td>{item.lesson.class.name}</td>
+    <td className="hidden md:table-cell">{item.lesson.teacher.name}</td>
+    <td className="hidden md:table-cell">
+      {new Intl.DateTimeFormat("en-US").format(new Date(item.startTime))}
+    </td>
     <td>
       <div className="flex items-center gap-2">
         {(role === "admin" || role === "teacher") && (
