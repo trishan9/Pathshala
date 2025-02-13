@@ -24,7 +24,7 @@ function RouteComponent() {
   return <ClassListPage />;
 }
 
-type Class = {
+export type Class = {
   id: number;
   name: string;
   capacity: number;

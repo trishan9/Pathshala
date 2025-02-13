@@ -23,7 +23,7 @@ function RouteComponent() {
   return <SubjectListPage />;
 }
 
-type Subject = {
+export type Subject = {
   id: string;
   name: string;
   teachers: Teacher[];

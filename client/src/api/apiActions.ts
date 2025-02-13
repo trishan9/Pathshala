@@ -6,6 +6,7 @@ import { useGetTeachersProps } from "@/hooks/useTeachers";
 import { useGetStudentsProps } from "@/hooks/useStudents";
 import { useGetSubjectsProps } from "@/hooks/useSubjects";
 import { useGetClassesProps } from "@/hooks/useClasses";
+import { useGetLessonsProps } from "@/hooks/useLessons";
 
 export const apiActions = {
   auth: {
@@ -44,6 +45,11 @@ export const apiActions = {
   class: {
     getAll: async (query: useGetClassesProps) => {
       return await api.get(API_URLS.CLASS, { params: query });
+    },
+  },
+  lesson: {
+    getAll: async (query: useGetLessonsProps) => {
+      return await api.get(API_URLS.LESSON, { params: query });
     },
   },
 };
