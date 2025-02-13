@@ -8,7 +8,6 @@ import hash from "@/lib/hash";
 import { loginUserType } from "@/validators/user.validators";
 import { generateAccessToken, generateRefreshToken } from "./token.services";
 import token from "@/lib/token";
-import { logger } from "@/logging/logger";
 
 export const register = async (data: Prisma.UserCreateInput) => {
   const exists = await client.user.findFirst({

@@ -9,6 +9,9 @@ const responseMessage = {
     DELETED: "User is deleted",
     REFRESH: "Token refreshed successfully",
   },
+  TEACHER: {
+    RETRIEVED: "All teachers fetched successfully!",
+  },
   OTHER: {
     SERVER_ERROR: "Internal Server Error",
   },

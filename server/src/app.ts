@@ -18,7 +18,7 @@ app.get("/health", (_, res) => {
   return res.send("healthy");
 });
 
-app.use("/v1", rootRouter);
+app.use("/api/v1", rootRouter);
 
 app.use(errorHandler);
 
