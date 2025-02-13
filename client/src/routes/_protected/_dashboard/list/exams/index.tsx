@@ -1,73 +1,92 @@
-import { createFileRoute } from '@tanstack/react-router'
-import FormModal from '@/components/forms/FormModal'
-import Pagination from '@/components/tables/Pagination'
-import Table from '@/components/tables/Table'
-import TableSearch from '@/components/tables/TableSearch'
-import { examsData, role } from '@/lib/data'
+import { createFileRoute } from "@tanstack/react-router";
+import FormModal from "@/components/forms/FormModal";
+import Pagination from "@/components/tables/Pagination";
+import Table from "@/components/tables/Table";
+import TableSearch from "@/components/tables/TableSearch";
+import { role } from "@/lib/data";
+import { useGetExams } from "@/hooks/useExams";
+import { z } from "zod";
+import { PageLoader } from "@/components/PageLoader";
 
-export const Route = createFileRoute('/_protected/_dashboard/list/exams/')({
+const getAllExamsQuerySchema = z.object({
+  page: z.number().optional(),
+  classId: z.number().optional(),
+  teacherId: z.string().optional(),
+  search: z.string().optional(),
+});
+
+export const Route = createFileRoute("/_protected/_dashboard/list/exams/")({
   component: RouteComponent,
-})
+  validateSearch: getAllExamsQuerySchema,
+});
 
 function RouteComponent() {
-  return <ExamListPage />
+  return <ExamListPage />;
 }
 
 type Exam = {
-  id: number
-  subject: string
-  class: string
-  teacher: string
-  date: string
-}
+  id: number;
+  subject: string;
+  class: string;
+  teacher: string;
+  date: string;
+};
 
 const columns = [
   {
-    header: 'Subject Name',
-    accessor: 'name',
+    header: "Subject Name",
+    accessor: "name",
   },
   {
-    header: 'Class',
-    accessor: 'class',
+    header: "Class",
+    accessor: "class",
   },
   {
-    header: 'Teacher',
-    accessor: 'teacher',
-    className: 'hidden md:table-cell',
+    header: "Teacher",
+    accessor: "teacher",
+    className: "hidden md:table-cell",
   },
   {
-    header: 'Date',
-    accessor: 'date',
-    className: 'hidden md:table-cell',
+    header: "Date",
+    accessor: "date",
+    className: "hidden md:table-cell",
   },
   {
-    header: 'Actions',
-    accessor: 'action',
+    header: "Actions",
+    accessor: "action",
   },
-]
+];
+
+const renderRow = (item: Exam) => (
+  <tr
+    key={item.id}
+    className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
+  >
+    <td className="flex items-center gap-4 p-4">{item.subject}</td>
+    <td>{item.class}</td>
+    <td className="hidden md:table-cell">{item.teacher}</td>
+    <td className="hidden md:table-cell">{item.date}</td>
+    <td>
+      <div className="flex items-center gap-2">
+        {(role === "admin" || role === "teacher") && (
+          <>
+            <FormModal table="exam" type="update" data={item} />
+            <FormModal table="exam" type="delete" id={item.id} />
+          </>
+        )}
+      </div>
+    </td>
+  </tr>
+);
 
 const ExamListPage = () => {
-  const renderRow = (item: Exam) => (
-    <tr
-      key={item.id}
-      className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
-    >
-      <td className="flex items-center gap-4 p-4">{item.subject}</td>
-      <td>{item.class}</td>
-      <td className="hidden md:table-cell">{item.teacher}</td>
-      <td className="hidden md:table-cell">{item.date}</td>
-      <td>
-        <div className="flex items-center gap-2">
-          {(role === 'admin' || role === 'teacher') && (
-            <>
-              <FormModal table="exam" type="update" data={item} />
-              <FormModal table="exam" type="delete" id={item.id} />
-            </>
-          )}
-        </div>
-      </td>
-    </tr>
-  )
+  const params = Route.useSearch();
+  const { data, isLoading } = useGetExams({
+    page: params.page,
+    classId: params.classId,
+    teacherId: params.teacherId,
+    search: params.search,
+  });
 
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 border">
@@ -83,18 +102,25 @@ const ExamListPage = () => {
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <img src="/sort.png" alt="" width={14} height={14} />
             </button>
-            {(role === 'admin' || role === 'teacher') && (
+            {(role === "admin" || role === "teacher") && (
               <FormModal table="exam" type="create" />
             )}
           </div>
         </div>
       </div>
-      {/* LIST */}
-      <Table columns={columns} renderRow={renderRow} data={examsData} />
-      {/* PAGINATION */}
-      <Pagination />
-    </div>
-  )
-}
 
-export default ExamListPage
+      {isLoading && <PageLoader />}
+
+      {data && (
+        <>
+          {/* LIST */}
+          <Table columns={columns} renderRow={renderRow} data={data?.exams} />
+          {/* PAGINATION */}
+          <Pagination page={params.page || 1} count={data?.examsCount} />
+        </>
+      )}
+    </div>
+  );
+};
+
+export default ExamListPage;
