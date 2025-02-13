@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { asyncHandler } from "@/utils/asyncHandler";
 import { Request, Response } from "express";
 import * as teacherServices from "@/services/teacher.services";
@@ -17,7 +16,7 @@ export const getAllTeachers = asyncHandler(
     return apiResponse(res, StatusCodes.OK, {
       teachersCount,
       teachers,
-      message: responseMessage.TEACHER.RETRIEVED,
+      message: responseMessage.TEACHER.RETRIEVED_ALL,
     });
   },
 );
