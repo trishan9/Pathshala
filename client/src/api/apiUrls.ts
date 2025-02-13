@@ -1,5 +1,5 @@
 export const API_URLS = {
-  BASE: "http://localhost:8080/v1",
+  BASE: "http://localhost:8080/api/v1",
   AUTH: {
     REGISTER: "/auth/register",
     LOGIN: "/auth/login",
@@ -7,4 +7,5 @@ export const API_URLS = {
     REFRESH: "/auth/refresh",
     ME: "/auth/me",
   },
+  TEACHER: "/teacher",
 };
