@@ -3,7 +3,8 @@ import { api } from "./axiosInstance";
 import { API_URLS } from "./apiUrls";
 import { loginFormSchema, signupFormSchema } from "@/schemas";
 import { useGetTeachersProps } from "@/hooks/useTeachers";
-import { useGetStudentProps } from "@/hooks/useStudents";
+import { useGetStudentsProps } from "@/hooks/useStudents";
+import { useGetSubjectsProps } from "@/hooks/useSubjects";
 
 export const apiActions = {
   auth: {
@@ -30,8 +31,13 @@ export const apiActions = {
     },
   },
   student: {
-    getAll: async (query: useGetStudentProps) => {
+    getAll: async (query: useGetStudentsProps) => {
       return await api.get(API_URLS.STUDENT, { params: query });
+    },
+  },
+  subject: {
+    getAll: async (query: useGetSubjectsProps) => {
+      return await api.get(API_URLS.SUBJECT, { params: query });
     },
   },
 };
