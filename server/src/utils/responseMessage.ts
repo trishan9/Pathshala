@@ -10,7 +10,10 @@ const responseMessage = {
     REFRESH: "Token refreshed successfully",
   },
   TEACHER: {
-    RETRIEVED: "All teachers fetched successfully!",
+    RETRIEVED_ALL: "All teachers fetched successfully!",
+  },
+  STUDENT: {
+    RETRIEVED_ALL: "All students fetched successfully!",
   },
   OTHER: {
     SERVER_ERROR: "Internal Server Error",
