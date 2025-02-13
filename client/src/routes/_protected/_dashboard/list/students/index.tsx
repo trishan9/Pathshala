@@ -3,10 +3,20 @@ import FormModal from "@/components/forms/FormModal";
 import Pagination from "@/components/tables/Pagination";
 import Table from "@/components/tables/Table";
 import TableSearch from "@/components/tables/TableSearch";
-import { role, studentsData } from "@/lib/data";
+import { role } from "@/lib/data";
+import { useGetStudents } from "@/hooks/useStudents";
+import { z } from "zod";
+import { PageLoader } from "@/components/PageLoader";
+
+const getAllStudentsQuerySchema = z.object({
+  page: z.number().optional(),
+  teacherId: z.string().optional(),
+  search: z.string().optional(),
+});
 
 export const Route = createFileRoute("/_protected/_dashboard/list/students/")({
   component: RouteComponent,
+  validateSearch: getAllStudentsQuerySchema,
 });
 
 function RouteComponent() {
@@ -14,14 +24,20 @@ function RouteComponent() {
 }
 
 type Student = {
-  id: number;
-  studentId: string;
+  id: string;
+  username: string;
   name: string;
   email?: string;
-  photo: string;
+  img: string;
   phone?: string;
-  grade: number;
-  class: string;
+  grade: {
+    id: string;
+    level: number;
+  };
+  class: {
+    id: number;
+    name: string;
+  };
   address: string;
 };
 
@@ -57,6 +73,13 @@ const columns = [
 ];
 
 const StudentListPage = () => {
+  const params = Route.useSearch();
+  const { data, isLoading } = useGetStudents({
+    page: params.page,
+    teacherId: params.teacherId,
+    search: params.search,
+  });
+
   const renderRow = (item: Student) => (
     <tr
       key={item.id}
@@ -64,7 +87,7 @@ const StudentListPage = () => {
     >
       <td className="flex items-center gap-4 p-4">
         <img
-          src={item.photo}
+          src={item.img || "/noAvatar.png"}
           alt=""
           width={40}
           height={40}
@@ -72,11 +95,11 @@ const StudentListPage = () => {
         />
         <div className="flex flex-col">
           <h3 className="font-semibold">{item.name}</h3>
-          <p className="text-xs text-gray-500">{item.class}</p>
+          <p className="text-xs text-gray-500">{item.class.name}</p>
         </div>
       </td>
-      <td className="hidden md:table-cell">{item.studentId}</td>
-      <td className="hidden md:table-cell">{item.grade}</td>
+      <td className="hidden md:table-cell">{item.username}</td>
+      <td className="hidden md:table-cell">{item.class.name[0]}</td>
       <td className="hidden md:table-cell">{item.phone}</td>
       <td className="hidden md:table-cell">{item.address}</td>
       <td>
@@ -86,10 +109,8 @@ const StudentListPage = () => {
               <img src="/view.png" alt="" width={16} height={16} />
             </button>
           </Link>
+
           {role === "admin" && (
-            // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaPurple">
-            //   <Image src="/delete.png" alt="" width={16} height={16} />
-            // </button>
             <>
               <FormModal table="student" type="update" id={item.id} />
               <FormModal table="student" type="delete" id={item.id} />
@@ -114,19 +135,25 @@ const StudentListPage = () => {
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <img src="/sort.png" alt="" width={14} height={14} />
             </button>
-            {role === "admin" && (
-              // <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
-              //   <Image src="/plus.png" alt="" width={14} height={14} />
-              // </button>
-              <FormModal table="student" type="create" />
-            )}
+            {role === "admin" && <FormModal table="student" type="create" />}
           </div>
         </div>
       </div>
-      {/* LIST */}
-      <Table columns={columns} renderRow={renderRow} data={studentsData} />
-      {/* PAGINATION */}
-      <Pagination />
+
+      {isLoading && <PageLoader />}
+
+      {data && (
+        <>
+          {/* LIST */}
+          <Table
+            columns={columns}
+            renderRow={renderRow}
+            data={data?.students}
+          />
+          {/* PAGINATION */}
+          <Pagination page={params.page || 1} count={data?.studentsCount} />
+        </>
+      )}
     </div>
   );
 };
