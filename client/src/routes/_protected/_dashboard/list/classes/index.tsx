@@ -7,6 +7,7 @@ import { role } from "@/lib/data";
 import { PageLoader } from "@/components/PageLoader";
 import { z } from "zod";
 import { useGetClasses } from "@/hooks/useClasses";
+import { Teacher } from "../teachers";
 
 const getAllClassesQuerySchema = z.object({
   page: z.number().optional(),
@@ -28,7 +29,7 @@ type Class = {
   name: string;
   capacity: number;
   grade: number;
-  supervisor: string;
+  supervisor: Teacher;
 };
 
 const columns = [
@@ -64,8 +65,8 @@ const renderRow = (item: Class) => (
   >
     <td className="flex items-center gap-4 p-4">{item.name}</td>
     <td className="hidden md:table-cell">{item.capacity}</td>
-    <td className="hidden md:table-cell">{item.grade}</td>
-    <td className="hidden md:table-cell">{item.supervisor}</td>
+    <td className="hidden md:table-cell">{item.name[0]}</td>
+    <td className="hidden md:table-cell">{item.supervisor.name}</td>
     <td>
       <div className="flex items-center gap-2">
         {role === "admin" && (
