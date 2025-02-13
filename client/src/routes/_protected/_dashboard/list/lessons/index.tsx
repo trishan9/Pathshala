@@ -3,13 +3,23 @@ import FormModal from "@/components/forms/FormModal";
 import Pagination from "@/components/tables/Pagination";
 import Table from "@/components/tables/Table";
 import TableSearch from "@/components/tables/TableSearch";
-import { lessonsData, role } from "@/lib/data";
+import { role } from "@/lib/data";
 import { Subject } from "../subjects";
 import { Class } from "../classes";
 import { Teacher } from "../teachers";
+import { z } from "zod";
+import { useGetLessons } from "@/hooks/useLessons";
+import { PageLoader } from "@/components/PageLoader";
+
+const getAllLessonsQuerySchema = z.object({
+  page: z.number().optional(),
+  teacherId: z.string().optional(),
+  search: z.string().optional(),
+});
 
 export const Route = createFileRoute("/_protected/_dashboard/list/lessons/")({
   component: RouteComponent,
+  validateSearch: getAllLessonsQuerySchema,
 });
 
 function RouteComponent() {
@@ -67,6 +77,13 @@ const renderRow = (item: Lesson) => (
 );
 
 const LessonListPage = () => {
+  const params = Route.useSearch();
+  const { data, isLoading } = useGetLessons({
+    page: params.page,
+    teacherId: params.teacherId,
+    search: params.search,
+  });
+
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 border">
       {/* TOP */}
@@ -85,10 +102,17 @@ const LessonListPage = () => {
           </div>
         </div>
       </div>
-      {/* LIST */}
-      <Table columns={columns} renderRow={renderRow} data={lessonsData} />
-      {/* PAGINATION */}
-      <Pagination />
+
+      {isLoading && <PageLoader />}
+
+      {data && (
+        <>
+          {/* LIST */}
+          <Table columns={columns} renderRow={renderRow} data={data?.lessons} />
+          {/* PAGINATION */}
+          <Pagination page={params.page || 1} count={data?.lessonsCount} />
+        </>
+      )}
     </div>
   );
 };
