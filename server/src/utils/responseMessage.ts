@@ -36,6 +36,9 @@ const responseMessage = {
   EVENT: {
     RETRIEVED_ALL: "All events fetched successfully!",
   },
+  ANNOUNCEMENT: {
+    RETRIEVED_ALL: "All announcements fetched successfully!",
+  },
   OTHER: {
     SERVER_ERROR: "Internal Server Error",
   },
