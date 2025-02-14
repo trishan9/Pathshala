@@ -7,6 +7,7 @@ import { subjectRouter } from "./subject.routes";
 import { classRouter } from "./class.routes";
 import { lessonRouter } from "./lesson.routes";
 import { examRouter } from "./exam.routes";
+import { assignmentRouter } from "./assignment.routes";
 
 const rootRouter = Router();
 
@@ -17,5 +18,6 @@ rootRouter.use("/subject", subjectRouter);
 rootRouter.use("/class", classRouter);
 rootRouter.use("/lesson", lessonRouter);
 rootRouter.use("/exam", examRouter);
+rootRouter.use("/assignment", assignmentRouter);
 
 export { rootRouter };

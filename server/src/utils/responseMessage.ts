@@ -27,6 +27,9 @@ const responseMessage = {
   EXAM: {
     RETRIEVED_ALL: "All exams fetched successfully!",
   },
+  ASSIGNMENT: {
+    RETRIEVED_ALL: "All assignments fetched successfully!",
+  },
   OTHER: {
     SERVER_ERROR: "Internal Server Error",
   },
