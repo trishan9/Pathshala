@@ -9,6 +9,7 @@ import { useGetClassesProps } from "@/hooks/useClasses";
 import { useGetLessonsProps } from "@/hooks/useLessons";
 import { useGetExamsProps } from "@/hooks/useExams";
 import { useGetAssignmentsProps } from "@/hooks/useAssignments";
+import { useGetResultsProps } from "@/hooks/useResults";
 
 export const apiActions = {
   auth: {
@@ -62,6 +63,11 @@ export const apiActions = {
   assignment: {
     getAll: async (query: useGetAssignmentsProps) => {
       return await api.get(API_URLS.ASSIGNMENT, { params: query });
+    },
+  },
+  result: {
+    getAll: async (query: useGetResultsProps) => {
+      return await api.get(API_URLS.RESULT, { params: query });
     },
   },
 };
