@@ -9,6 +9,7 @@ import { lessonRouter } from "./lesson.routes";
 import { examRouter } from "./exam.routes";
 import { assignmentRouter } from "./assignment.routes";
 import { resultRouter } from "./result.routes";
+import { eventRouter } from "./event.routes";
 
 const rootRouter = Router();
 
@@ -21,5 +22,6 @@ rootRouter.use("/lesson", lessonRouter);
 rootRouter.use("/exam", examRouter);
 rootRouter.use("/assignment", assignmentRouter);
 rootRouter.use("/result", resultRouter);
+rootRouter.use("/event", eventRouter);
 
 export { rootRouter };

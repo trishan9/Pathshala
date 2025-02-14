@@ -33,6 +33,9 @@ const responseMessage = {
   RESULT: {
     RETRIEVED_ALL: "All results fetched successfully!",
   },
+  EVENT: {
+    RETRIEVED_ALL: "All events fetched successfully!",
+  },
   OTHER: {
     SERVER_ERROR: "Internal Server Error",
   },
