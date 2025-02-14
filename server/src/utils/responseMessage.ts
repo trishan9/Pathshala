@@ -30,6 +30,9 @@ const responseMessage = {
   ASSIGNMENT: {
     RETRIEVED_ALL: "All assignments fetched successfully!",
   },
+  RESULT: {
+    RETRIEVED_ALL: "All results fetched successfully!",
+  },
   OTHER: {
     SERVER_ERROR: "Internal Server Error",
   },
