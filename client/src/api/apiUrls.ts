@@ -13,4 +13,5 @@ export const API_URLS = {
   CLASS: "/class",
   LESSON: "/lesson",
   EXAM: "/exam",
+  ASSIGNMENT: "/assignment",
 };
