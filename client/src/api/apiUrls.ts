@@ -16,4 +16,5 @@ export const API_URLS = {
   ASSIGNMENT: "/assignment",
   RESULT: "/result",
   EVENT: "/event",
+  ANNOUNCEMENT: "/announcement",
 };

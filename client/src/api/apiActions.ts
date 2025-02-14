@@ -75,4 +75,9 @@ export const apiActions = {
       return await api.get(API_URLS.EVENT, { params: query });
     },
   },
+  announcement: {
+    getAll: async (query: useGetAssignmentsProps) => {
+      return await api.get(API_URLS.ANNOUNCEMENT, { params: query });
+    },
+  },
 };
