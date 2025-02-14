@@ -70,4 +70,9 @@ export const apiActions = {
       return await api.get(API_URLS.RESULT, { params: query });
     },
   },
+  event: {
+    getAll: async (query: useGetExamsProps) => {
+      return await api.get(API_URLS.EVENT, { params: query });
+    },
+  },
 };
