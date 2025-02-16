@@ -1,3 +1,5 @@
+export const role = "admin";
+
 // YOU SHOULD CHANGE THE DATES OF THE EVENTS TO THE CURRENT DATE TO SEE THE EVENTS ON THE CALENDAR
 
 export const calendarEvents = [

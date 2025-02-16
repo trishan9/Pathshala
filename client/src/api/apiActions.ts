@@ -80,4 +80,23 @@ export const apiActions = {
       return await api.get(API_URLS.ANNOUNCEMENT, { params: query });
     },
   },
+  user: {
+    count: {
+      admin: {
+        get: async () => {
+          return await api.get(API_URLS.USER.COUNT.ADMIN);
+        },
+      },
+      teacher: {
+        get: async () => {
+          return await api.get(API_URLS.USER.COUNT.TEACHER);
+        },
+      },
+      student: {
+        get: async () => {
+          return await api.get(API_URLS.USER.COUNT.STUDENT);
+        },
+      },
+    },
+  },
 };
