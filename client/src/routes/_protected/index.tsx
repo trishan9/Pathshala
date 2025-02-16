@@ -14,7 +14,7 @@ function RouteComponent() {
   } else if (currUser?.role === "student") {
     return <Navigate to="/student" replace />;
   } else if (currUser?.role === "teacher") {
-    return <Navigate to="/instructor" replace />;
+    return <Navigate to="/teacher" replace />;
   }
 
   return <PageLoader />;

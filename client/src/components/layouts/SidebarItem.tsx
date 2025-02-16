@@ -26,8 +26,8 @@ const SidebarItem = ({ icon: Icon, href, label }: ISidebarItemProps) => {
       )}
     >
       <button>
-        <div className="flex items-center py-4 gap-x-3">
-          <Icon size={22} />
+        <div className="flex items-center py-4 gap-x-3.5">
+          <Icon size={20} />
 
           <p className="font-semibold">{label}</p>
         </div>

@@ -15,9 +15,11 @@ function RouteComponent() {
     } else if (currUser?.role === "teacher") {
       return <Navigate to="/teacher" replace />;
     } else if (currUser?.role === "admin") {
-      <div>
-        <Outlet />
-      </div>;
+      return (
+        <div>
+          <Outlet />
+        </div>
+      );
     }
   }
 

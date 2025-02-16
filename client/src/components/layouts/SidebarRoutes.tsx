@@ -1,28 +1,28 @@
 import {
   BarChart,
+  Book,
   BookOpenText,
+  CalendarCheck,
   CalendarRange,
   ClipboardMinus,
+  GraduationCap,
   Layout,
   List,
   Megaphone,
   NotebookPen,
   NotebookText,
-  Settings,
+  University,
+  Users,
 } from "lucide-react";
-import { useLocation } from "@tanstack/react-router";
 import SidebarItem, { ISidebarItemProps } from "./SidebarItem";
+import { useAuthStore } from "@/stores/authStore";
+import { PageLoader } from "../PageLoader";
 
 const studentRoutes = [
   {
     icon: Layout,
     label: "Dashboard",
-    href: "/",
-  },
-  {
-    icon: Megaphone,
-    label: "Announcements",
-    href: "/announcements",
+    href: "/student",
   },
   {
     icon: BookOpenText,
@@ -30,38 +30,97 @@ const studentRoutes = [
     href: "/courses",
   },
   {
-    icon: CalendarRange,
-    label: "Attendance",
-    href: "/attendance",
-  },
-  {
     icon: NotebookPen,
     label: "Exams",
-    href: "/exams",
-  },
-  {
-    icon: ClipboardMinus,
-    label: "Results",
-    href: "/results",
+    href: "/list/exams",
   },
   {
     icon: NotebookText,
     label: "Assignments",
-    href: "/assignments",
+    href: "/list/assignments",
   },
-
   {
-    icon: Settings,
-    label: "Settings",
-    href: "/settings",
+    icon: ClipboardMinus,
+    label: "Results",
+    href: "/list/results",
+  },
+  {
+    icon: CalendarCheck,
+    label: "Attendance",
+    href: "/list/attendance",
+  },
+  {
+    icon: CalendarRange,
+    label: "Events",
+    href: "/list/events",
+  },
+  {
+    icon: Megaphone,
+    label: "Announcements",
+    href: "/list/announcements",
   },
 ];
 
-const instructorRoutes = [
+const teacherRoutes = [
   {
-    icon: List,
+    icon: Layout,
+    label: "Dashboard",
+    href: "/teacher",
+  },
+  {
+    icon: BookOpenText,
     label: "Courses",
-    href: "/instructor/courses",
+    href: "/courses",
+  },
+  {
+    icon: CalendarCheck,
+    label: "Attendance",
+    href: "/list/attendance",
+  },
+  {
+    icon: NotebookText,
+    label: "Assignments",
+    href: "/list/assignments",
+  },
+  {
+    icon: NotebookPen,
+    label: "Exams",
+    href: "/list/exams",
+  },
+  {
+    icon: ClipboardMinus,
+    label: "Results",
+    href: "/list/results",
+  },
+  {
+    icon: University,
+    label: "Classes",
+    href: "/list/classes",
+  },
+  {
+    icon: Book,
+    label: "Lessons",
+    href: "/list/lessons",
+  },
+  {
+    icon: GraduationCap,
+    label: "Teachers",
+    href: "/list/teachers",
+  },
+  {
+    icon: Users,
+    label: "Students",
+    href: "/list/students",
+  },
+  {
+    icon: CalendarRange,
+    label: "Events",
+    href: "/list/events",
+  },
+  {
+    icon: Megaphone,
+    label: "Announcements",
+    href: "/list/announcements",
   },
   {
     icon: BarChart,
@@ -73,55 +132,79 @@ const instructorRoutes = [
 const adminRoutes = [
   {
     icon: Layout,
-    label: "Admin Dashboard",
+    label: "Dashboard",
     href: "/admin",
   },
   {
-    icon: Megaphone,
-    label: "Announcements",
-    href: "/admin/announcements",
+    icon: GraduationCap,
+    label: "Teachers",
+    href: "/list/teachers",
   },
   {
-    icon: BookOpenText,
-    label: "Courses",
-    href: "/admin/courses",
+    icon: Users,
+    label: "Students",
+    href: "/list/students",
   },
   {
-    icon: CalendarRange,
-    label: "Attendance",
-    href: "/admin/attendance",
+    icon: List,
+    label: "Subjects",
+    href: "/list/subjects",
+  },
+  {
+    icon: University,
+    label: "Classes",
+    href: "/list/classes",
+  },
+  {
+    icon: Book,
+    label: "Lessons",
+    href: "/list/lessons",
   },
   {
     icon: NotebookPen,
     label: "Exams",
-    href: "/admin/exams",
-  },
-  {
-    icon: ClipboardMinus,
-    label: "Results",
-    href: "/admin/results",
+    href: "/list/exams",
   },
   {
     icon: NotebookText,
     label: "Assignments",
-    href: "/admin/assignments",
+    href: "/list/assignments",
   },
-
   {
-    icon: Settings,
-    label: "Admin Settings",
-    href: "/admin/settings",
+    icon: ClipboardMinus,
+    label: "Results",
+    href: "/list/results",
+  },
+  {
+    icon: CalendarCheck,
+    label: "Attendance",
+    href: "/list/attendance",
+  },
+  {
+    icon: CalendarRange,
+    label: "Events",
+    href: "/list/events",
+  },
+  {
+    icon: Megaphone,
+    label: "Announcements",
+    href: "/list/announcements",
   },
 ];
 
 const SidebarRoutes = () => {
-  const { pathname } = useLocation();
+  const currUser = useAuthStore((state) => state.user);
 
-  const routes = pathname?.startsWith("/instructor")
-    ? instructorRoutes
-    : pathname?.startsWith("/admin")
+  if (!currUser) {
+    <PageLoader />;
+  }
+
+  const routes =
+    currUser?.role === "admin"
       ? adminRoutes
-      : studentRoutes;
+      : currUser?.role === "student"
+        ? studentRoutes
+        : teacherRoutes;
 
   return (
     <div className="flex flex-col w-full">
