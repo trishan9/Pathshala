@@ -72,7 +72,10 @@ export const apiActions = {
   },
   event: {
     getAll: async (query: useGetExamsProps) => {
-      return await api.get(API_URLS.EVENT, { params: query });
+      return await api.get(API_URLS.EVENT["/"], { params: query });
+    },
+    getCalendar: async (query: { dateParam: string }) => {
+      return await api.get(API_URLS.EVENT.CALENDAR, { params: query });
     },
   },
   announcement: {

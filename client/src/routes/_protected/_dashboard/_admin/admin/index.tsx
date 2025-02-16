@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import Announcements from "@/components/Announcements";
 import AttendanceChart from "@/components/AttendanceChart";
 import CountChart from "@/components/CountChart";
-import EventCalendar from "@/components/EventCalendar";
 import FinanceChart from "@/components/FinanceChart";
 import UserCard from "@/components/UserCard";
+import EventCalendarContainer from "@/components/EventCalendarContainer";
 
 export const Route = createFileRoute("/_protected/_dashboard/_admin/admin/")({
   component: RouteComponent,
@@ -43,7 +43,7 @@ const AdminPage = () => {
       </div>
       {/* RIGHT */}
       <div className="w-full lg:w-1/3 flex flex-col gap-5">
-        <EventCalendar />
+        <EventCalendarContainer searchParams={Route.useSearch()} />
         <Announcements />
       </div>
     </div>

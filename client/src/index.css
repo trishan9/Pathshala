@@ -198,6 +198,13 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active {
   margin-bottom: 5px;
 }
 
+.react-calendar__tile--now {
+  background-color: #2a9d90 !important;
+  color: white !important;
+  border-radius: 6px !important;
+  font-weight: 600 !important;
+}
+
 /* target all bullets 
 .swiper-pagination-bullet {
   background-color: red !important;

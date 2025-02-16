@@ -19,7 +19,7 @@ const AttendanceChart = () => {
       const response = await apiActions.attendance.analytics.get();
 
       if (!response.data) {
-        throw new Error("Failed to get student analytics");
+        throw new Error("Failed to get attendance analytics");
       }
 
       return response.data.data;
