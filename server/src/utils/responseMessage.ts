@@ -15,6 +15,7 @@ const responseMessage = {
   },
   STUDENT: {
     RETRIEVED_ALL: "All students fetched successfully!",
+    RETRIEVED: "Student fetched successfully!",
   },
   SUBJECT: {
     RETRIEVED_ALL: "All subjects fetched successfully!",

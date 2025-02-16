@@ -42,6 +42,9 @@ export const apiActions = {
     getAll: async (query: useGetStudentsProps) => {
       return await api.get(API_URLS.STUDENT, { params: query });
     },
+    getById: async (id: string) => {
+      return await api.get(`${API_URLS.STUDENT}/${id}`);
+    },
   },
   subject: {
     getAll: async (query: useGetSubjectsProps) => {

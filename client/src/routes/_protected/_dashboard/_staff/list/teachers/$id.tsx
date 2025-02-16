@@ -32,7 +32,6 @@ const SingleTeacherPage = () => {
       return response.data.teacher;
     },
   });
-  console.log(data);
 
   if (isLoading) return <PageLoader />;
 

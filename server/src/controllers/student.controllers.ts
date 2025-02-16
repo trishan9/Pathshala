@@ -20,3 +20,16 @@ export const getAllStudents = asyncHandler(
     });
   },
 );
+
+export const getStudentById = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { studentId } = req.params;
+
+    const student = await studentServices.getStudentById(studentId);
+
+    return apiResponse(res, StatusCodes.OK, {
+      student,
+      message: responseMessage.STUDENT.RETRIEVED,
+    });
+  },
+);

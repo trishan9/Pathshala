@@ -94,7 +94,7 @@ const StudentListPage = () => {
     >
       <td className="flex items-center gap-4 p-4">
         <img
-          src={item.img || "/noAvatar.png"}
+          src={item.img || `https://ui-avatars.com/api/?name=${item?.name}`}
           alt=""
           width={40}
           height={40}
@@ -119,7 +119,7 @@ const StudentListPage = () => {
 
           {role === "admin" && (
             <>
-              <FormModal table="student" type="update" id={item.id} />
+              <FormModal table="student" type="update" data={item} />
               <FormModal table="student" type="delete" id={item.id} />
             </>
           )}
