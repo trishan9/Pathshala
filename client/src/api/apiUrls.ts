@@ -23,5 +23,8 @@ export const API_URLS = {
       TEACHER: "/user/count/teacher",
       STUDENT: "/user/count/student",
     },
+    ANALYTICS: {
+      STUDENT: "/user/analytics/student",
+    },
   },
 };

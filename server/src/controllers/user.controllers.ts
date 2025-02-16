@@ -41,3 +41,16 @@ export const getStudentsCount = asyncHandler(
     });
   },
 );
+
+export const getStudentsCountBySex = asyncHandler(
+  async (_: Request, res: Response) => {
+    const currUser = res.locals.user;
+
+    const { boys, girls } = await userServices.getStudentsCountBySex(currUser);
+
+    return apiResponse(res, StatusCodes.OK, {
+      boys,
+      girls,
+    });
+  },
+);

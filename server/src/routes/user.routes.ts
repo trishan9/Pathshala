@@ -16,5 +16,10 @@ userRouter.get(
   isAuthenticated,
   userControllers.getStudentsCount,
 );
+userRouter.get(
+  "/analytics/student",
+  isAuthenticated,
+  userControllers.getStudentsCountBySex,
+);
 
 export { userRouter };

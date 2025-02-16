@@ -39,3 +39,25 @@ export const getStudentsCount = async (currUser: User) => {
 
   return await client.student.count();
 };
+
+export const getStudentsCountBySex = async (currUser: User) => {
+  if (currUser.role !== "admin") {
+    throw new ApiError(
+      StatusCodes.FORBIDDEN,
+      "You are not allowed to perform this action!",
+    );
+  }
+
+  const data = await client.student.groupBy({
+    by: ["sex"],
+    _count: true,
+  });
+
+  const boys = data.find((d) => d.sex === "MALE")?._count || 0;
+  const girls = data.find((d) => d.sex === "FEMALE")?._count || 0;
+
+  return {
+    boys,
+    girls,
+  };
+};

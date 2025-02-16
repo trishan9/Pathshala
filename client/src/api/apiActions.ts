@@ -98,5 +98,12 @@ export const apiActions = {
         },
       },
     },
+    analytics: {
+      student: {
+        get: async () => {
+          return await api.get(API_URLS.USER.ANALYTICS.STUDENT);
+        },
+      },
+    },
   },
 };
