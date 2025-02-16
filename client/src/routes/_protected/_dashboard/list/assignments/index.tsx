@@ -4,7 +4,7 @@ import Pagination from "@/components/tables/Pagination";
 import Table from "@/components/tables/Table";
 import TableSearch from "@/components/tables/TableSearch";
 import { z } from "zod";
-import { Lesson } from "../lessons";
+import { Lesson } from "../../_staff/list/lessons";
 import { useGetAssignments } from "@/hooks/useAssignments";
 import { PageLoader } from "@/components/PageLoader";
 import { useGetRole } from "@/hooks/useGetRole";

@@ -6,7 +6,7 @@ import TableSearch from "@/components/tables/TableSearch";
 import { useGetExams } from "@/hooks/useExams";
 import { z } from "zod";
 import { PageLoader } from "@/components/PageLoader";
-import { Lesson } from "../lessons";
+import { Lesson } from "../../_staff/list/lessons";
 import { useGetRole } from "@/hooks/useGetRole";
 
 const getAllExamsQuerySchema = z.object({

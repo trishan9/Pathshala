@@ -3,13 +3,13 @@ import FormModal from "@/components/forms/FormModal";
 import Pagination from "@/components/tables/Pagination";
 import Table from "@/components/tables/Table";
 import TableSearch from "@/components/tables/TableSearch";
-import { role } from "@/lib/data";
-import { Subject } from "../../_admin/list/subjects";
-import { Class } from "../../_staff/list/classes";
-import { Teacher } from "../../_staff/list/teachers";
+import { Subject } from "../../../_admin/list/subjects";
+import { Class } from "../classes";
+import { Teacher } from "../teachers";
 import { z } from "zod";
 import { useGetLessons } from "@/hooks/useLessons";
 import { PageLoader } from "@/components/PageLoader";
+import { useGetRole } from "@/hooks/useGetRole";
 
 const getAllLessonsQuerySchema = z.object({
   page: z.number().optional(),
@@ -18,7 +18,9 @@ const getAllLessonsQuerySchema = z.object({
   search: z.string().optional(),
 });
 
-export const Route = createFileRoute("/_protected/_dashboard/list/lessons/")({
+export const Route = createFileRoute(
+  "/_protected/_dashboard/_staff/list/lessons/",
+)({
   component: RouteComponent,
   validateSearch: getAllLessonsQuerySchema,
 });
@@ -36,47 +38,6 @@ export type Lesson = {
   teacher: Teacher;
 };
 
-const columns = [
-  {
-    header: "Subject Name",
-    accessor: "name",
-  },
-  {
-    header: "Class",
-    accessor: "class",
-  },
-  {
-    header: "Teacher",
-    accessor: "teacher",
-    className: "hidden md:table-cell",
-  },
-  {
-    header: "Actions",
-    accessor: "action",
-  },
-];
-
-const renderRow = (item: Lesson) => (
-  <tr
-    key={item.id}
-    className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
-  >
-    <td className="flex items-center gap-4 p-4">{item.subject.name}</td>
-    <td>{item.class.name}</td>
-    <td className="hidden md:table-cell">{item.teacher.name}</td>
-    <td>
-      <div className="flex items-center gap-2">
-        {role === "admin" && (
-          <>
-            <FormModal table="lesson" type="update" data={item} />
-            <FormModal table="lesson" type="delete" id={item.id} />
-          </>
-        )}
-      </div>
-    </td>
-  </tr>
-);
-
 const LessonListPage = () => {
   const params = Route.useSearch();
   const { data, isLoading } = useGetLessons({
@@ -85,6 +46,52 @@ const LessonListPage = () => {
     classId: params.classId,
     search: params.search,
   });
+  const role = useGetRole();
+
+  const columns = [
+    {
+      header: "Subject Name",
+      accessor: "name",
+    },
+    {
+      header: "Class",
+      accessor: "class",
+    },
+    {
+      header: "Teacher",
+      accessor: "teacher",
+      className: "hidden md:table-cell",
+    },
+    ...(role === "admin"
+      ? [
+          {
+            header: "Actions",
+            accessor: "action",
+          },
+        ]
+      : []),
+  ];
+
+  const renderRow = (item: Lesson) => (
+    <tr
+      key={item.id}
+      className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
+    >
+      <td className="flex items-center gap-4 p-4">{item.subject.name}</td>
+      <td>{item.class.name}</td>
+      <td className="hidden md:table-cell">{item.teacher.name}</td>
+      <td>
+        <div className="flex items-center gap-2">
+          {role === "admin" && (
+            <>
+              <FormModal table="lesson" type="update" data={item} />
+              <FormModal table="lesson" type="delete" id={item.id} />
+            </>
+          )}
+        </div>
+      </td>
+    </tr>
+  );
 
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 border">
@@ -109,9 +116,7 @@ const LessonListPage = () => {
 
       {data && (
         <>
-          {/* LIST */}
           <Table columns={columns} renderRow={renderRow} data={data?.lessons} />
-          {/* PAGINATION */}
           <Pagination page={params.page || 1} count={data?.lessonsCount} />
         </>
       )}

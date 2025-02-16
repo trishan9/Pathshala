@@ -23,7 +23,6 @@ import { Route as ProtectedDashboardStudentImport } from './routes/_protected/_d
 import { Route as ProtectedDashboardStaffImport } from './routes/_protected/_dashboard/_staff'
 import { Route as ProtectedDashboardAdminImport } from './routes/_protected/_dashboard/_admin'
 import { Route as ProtectedDashboardListResultsIndexImport } from './routes/_protected/_dashboard/list/results/index'
-import { Route as ProtectedDashboardListLessonsIndexImport } from './routes/_protected/_dashboard/list/lessons/index'
 import { Route as ProtectedDashboardListExamsIndexImport } from './routes/_protected/_dashboard/list/exams/index'
 import { Route as ProtectedDashboardListEventsIndexImport } from './routes/_protected/_dashboard/list/events/index'
 import { Route as ProtectedDashboardListAssignmentsIndexImport } from './routes/_protected/_dashboard/list/assignments/index'
@@ -33,6 +32,7 @@ import { Route as ProtectedDashboardStudentStudentIndexImport } from './routes/_
 import { Route as ProtectedDashboardAdminAdminIndexImport } from './routes/_protected/_dashboard/_admin/admin/index'
 import { Route as ProtectedDashboardStaffListTeachersIndexImport } from './routes/_protected/_dashboard/_staff/list/teachers/index'
 import { Route as ProtectedDashboardStaffListStudentsIndexImport } from './routes/_protected/_dashboard/_staff/list/students/index'
+import { Route as ProtectedDashboardStaffListLessonsIndexImport } from './routes/_protected/_dashboard/_staff/list/lessons/index'
 import { Route as ProtectedDashboardStaffListClassesIndexImport } from './routes/_protected/_dashboard/_staff/list/classes/index'
 import { Route as ProtectedDashboardAdminListSubjectsIndexImport } from './routes/_protected/_dashboard/_admin/list/subjects/index'
 import { Route as ProtectedDashboardStaffListTeachersIdImport } from './routes/_protected/_dashboard/_staff/list/teachers/$id'
@@ -112,13 +112,6 @@ const ProtectedDashboardListResultsIndexRoute =
     getParentRoute: () => ProtectedDashboardRoute,
   } as any)
 
-const ProtectedDashboardListLessonsIndexRoute =
-  ProtectedDashboardListLessonsIndexImport.update({
-    id: '/list/lessons/',
-    path: '/list/lessons/',
-    getParentRoute: () => ProtectedDashboardRoute,
-  } as any)
-
 const ProtectedDashboardListExamsIndexRoute =
   ProtectedDashboardListExamsIndexImport.update({
     id: '/list/exams/',
@@ -179,6 +172,13 @@ const ProtectedDashboardStaffListStudentsIndexRoute =
   ProtectedDashboardStaffListStudentsIndexImport.update({
     id: '/list/students/',
     path: '/list/students/',
+    getParentRoute: () => ProtectedDashboardStaffRoute,
+  } as any)
+
+const ProtectedDashboardStaffListLessonsIndexRoute =
+  ProtectedDashboardStaffListLessonsIndexImport.update({
+    id: '/list/lessons/',
+    path: '/list/lessons/',
     getParentRoute: () => ProtectedDashboardStaffRoute,
   } as any)
 
@@ -333,13 +333,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedDashboardListExamsIndexImport
       parentRoute: typeof ProtectedDashboardImport
     }
-    '/_protected/_dashboard/list/lessons/': {
-      id: '/_protected/_dashboard/list/lessons/'
-      path: '/list/lessons'
-      fullPath: '/list/lessons'
-      preLoaderRoute: typeof ProtectedDashboardListLessonsIndexImport
-      parentRoute: typeof ProtectedDashboardImport
-    }
     '/_protected/_dashboard/list/results/': {
       id: '/_protected/_dashboard/list/results/'
       path: '/list/results'
@@ -373,6 +366,13 @@ declare module '@tanstack/react-router' {
       path: '/list/classes'
       fullPath: '/list/classes'
       preLoaderRoute: typeof ProtectedDashboardStaffListClassesIndexImport
+      parentRoute: typeof ProtectedDashboardStaffImport
+    }
+    '/_protected/_dashboard/_staff/list/lessons/': {
+      id: '/_protected/_dashboard/_staff/list/lessons/'
+      path: '/list/lessons'
+      fullPath: '/list/lessons'
+      preLoaderRoute: typeof ProtectedDashboardStaffListLessonsIndexImport
       parentRoute: typeof ProtectedDashboardStaffImport
     }
     '/_protected/_dashboard/_staff/list/students/': {
@@ -416,6 +416,7 @@ interface ProtectedDashboardStaffRouteChildren {
   ProtectedDashboardStaffListStudentsIdRoute: typeof ProtectedDashboardStaffListStudentsIdRoute
   ProtectedDashboardStaffListTeachersIdRoute: typeof ProtectedDashboardStaffListTeachersIdRoute
   ProtectedDashboardStaffListClassesIndexRoute: typeof ProtectedDashboardStaffListClassesIndexRoute
+  ProtectedDashboardStaffListLessonsIndexRoute: typeof ProtectedDashboardStaffListLessonsIndexRoute
   ProtectedDashboardStaffListStudentsIndexRoute: typeof ProtectedDashboardStaffListStudentsIndexRoute
   ProtectedDashboardStaffListTeachersIndexRoute: typeof ProtectedDashboardStaffListTeachersIndexRoute
 }
@@ -428,6 +429,8 @@ const ProtectedDashboardStaffRouteChildren: ProtectedDashboardStaffRouteChildren
       ProtectedDashboardStaffListTeachersIdRoute,
     ProtectedDashboardStaffListClassesIndexRoute:
       ProtectedDashboardStaffListClassesIndexRoute,
+    ProtectedDashboardStaffListLessonsIndexRoute:
+      ProtectedDashboardStaffListLessonsIndexRoute,
     ProtectedDashboardStaffListStudentsIndexRoute:
       ProtectedDashboardStaffListStudentsIndexRoute,
     ProtectedDashboardStaffListTeachersIndexRoute:
@@ -479,7 +482,6 @@ interface ProtectedDashboardRouteChildren {
   ProtectedDashboardListAssignmentsIndexRoute: typeof ProtectedDashboardListAssignmentsIndexRoute
   ProtectedDashboardListEventsIndexRoute: typeof ProtectedDashboardListEventsIndexRoute
   ProtectedDashboardListExamsIndexRoute: typeof ProtectedDashboardListExamsIndexRoute
-  ProtectedDashboardListLessonsIndexRoute: typeof ProtectedDashboardListLessonsIndexRoute
   ProtectedDashboardListResultsIndexRoute: typeof ProtectedDashboardListResultsIndexRoute
 }
 
@@ -497,8 +499,6 @@ const ProtectedDashboardRouteChildren: ProtectedDashboardRouteChildren = {
   ProtectedDashboardListEventsIndexRoute:
     ProtectedDashboardListEventsIndexRoute,
   ProtectedDashboardListExamsIndexRoute: ProtectedDashboardListExamsIndexRoute,
-  ProtectedDashboardListLessonsIndexRoute:
-    ProtectedDashboardListLessonsIndexRoute,
   ProtectedDashboardListResultsIndexRoute:
     ProtectedDashboardListResultsIndexRoute,
 }
@@ -533,12 +533,12 @@ export interface FileRoutesByFullPath {
   '/list/assignments': typeof ProtectedDashboardListAssignmentsIndexRoute
   '/list/events': typeof ProtectedDashboardListEventsIndexRoute
   '/list/exams': typeof ProtectedDashboardListExamsIndexRoute
-  '/list/lessons': typeof ProtectedDashboardListLessonsIndexRoute
   '/list/results': typeof ProtectedDashboardListResultsIndexRoute
   '/list/students/$id': typeof ProtectedDashboardStaffListStudentsIdRoute
   '/list/teachers/$id': typeof ProtectedDashboardStaffListTeachersIdRoute
   '/list/subjects': typeof ProtectedDashboardAdminListSubjectsIndexRoute
   '/list/classes': typeof ProtectedDashboardStaffListClassesIndexRoute
+  '/list/lessons': typeof ProtectedDashboardStaffListLessonsIndexRoute
   '/list/students': typeof ProtectedDashboardStaffListStudentsIndexRoute
   '/list/teachers': typeof ProtectedDashboardStaffListTeachersIndexRoute
 }
@@ -556,12 +556,12 @@ export interface FileRoutesByTo {
   '/list/assignments': typeof ProtectedDashboardListAssignmentsIndexRoute
   '/list/events': typeof ProtectedDashboardListEventsIndexRoute
   '/list/exams': typeof ProtectedDashboardListExamsIndexRoute
-  '/list/lessons': typeof ProtectedDashboardListLessonsIndexRoute
   '/list/results': typeof ProtectedDashboardListResultsIndexRoute
   '/list/students/$id': typeof ProtectedDashboardStaffListStudentsIdRoute
   '/list/teachers/$id': typeof ProtectedDashboardStaffListTeachersIdRoute
   '/list/subjects': typeof ProtectedDashboardAdminListSubjectsIndexRoute
   '/list/classes': typeof ProtectedDashboardStaffListClassesIndexRoute
+  '/list/lessons': typeof ProtectedDashboardStaffListLessonsIndexRoute
   '/list/students': typeof ProtectedDashboardStaffListStudentsIndexRoute
   '/list/teachers': typeof ProtectedDashboardStaffListTeachersIndexRoute
 }
@@ -585,12 +585,12 @@ export interface FileRoutesById {
   '/_protected/_dashboard/list/assignments/': typeof ProtectedDashboardListAssignmentsIndexRoute
   '/_protected/_dashboard/list/events/': typeof ProtectedDashboardListEventsIndexRoute
   '/_protected/_dashboard/list/exams/': typeof ProtectedDashboardListExamsIndexRoute
-  '/_protected/_dashboard/list/lessons/': typeof ProtectedDashboardListLessonsIndexRoute
   '/_protected/_dashboard/list/results/': typeof ProtectedDashboardListResultsIndexRoute
   '/_protected/_dashboard/_staff/list/students/$id': typeof ProtectedDashboardStaffListStudentsIdRoute
   '/_protected/_dashboard/_staff/list/teachers/$id': typeof ProtectedDashboardStaffListTeachersIdRoute
   '/_protected/_dashboard/_admin/list/subjects/': typeof ProtectedDashboardAdminListSubjectsIndexRoute
   '/_protected/_dashboard/_staff/list/classes/': typeof ProtectedDashboardStaffListClassesIndexRoute
+  '/_protected/_dashboard/_staff/list/lessons/': typeof ProtectedDashboardStaffListLessonsIndexRoute
   '/_protected/_dashboard/_staff/list/students/': typeof ProtectedDashboardStaffListStudentsIndexRoute
   '/_protected/_dashboard/_staff/list/teachers/': typeof ProtectedDashboardStaffListTeachersIndexRoute
 }
@@ -610,12 +610,12 @@ export interface FileRouteTypes {
     | '/list/assignments'
     | '/list/events'
     | '/list/exams'
-    | '/list/lessons'
     | '/list/results'
     | '/list/students/$id'
     | '/list/teachers/$id'
     | '/list/subjects'
     | '/list/classes'
+    | '/list/lessons'
     | '/list/students'
     | '/list/teachers'
   fileRoutesByTo: FileRoutesByTo
@@ -632,12 +632,12 @@ export interface FileRouteTypes {
     | '/list/assignments'
     | '/list/events'
     | '/list/exams'
-    | '/list/lessons'
     | '/list/results'
     | '/list/students/$id'
     | '/list/teachers/$id'
     | '/list/subjects'
     | '/list/classes'
+    | '/list/lessons'
     | '/list/students'
     | '/list/teachers'
   id:
@@ -659,12 +659,12 @@ export interface FileRouteTypes {
     | '/_protected/_dashboard/list/assignments/'
     | '/_protected/_dashboard/list/events/'
     | '/_protected/_dashboard/list/exams/'
-    | '/_protected/_dashboard/list/lessons/'
     | '/_protected/_dashboard/list/results/'
     | '/_protected/_dashboard/_staff/list/students/$id'
     | '/_protected/_dashboard/_staff/list/teachers/$id'
     | '/_protected/_dashboard/_admin/list/subjects/'
     | '/_protected/_dashboard/_staff/list/classes/'
+    | '/_protected/_dashboard/_staff/list/lessons/'
     | '/_protected/_dashboard/_staff/list/students/'
     | '/_protected/_dashboard/_staff/list/teachers/'
   fileRoutesById: FileRoutesById
@@ -723,7 +723,6 @@ export const routeTree = rootRoute
         "/_protected/_dashboard/list/assignments/",
         "/_protected/_dashboard/list/events/",
         "/_protected/_dashboard/list/exams/",
-        "/_protected/_dashboard/list/lessons/",
         "/_protected/_dashboard/list/results/"
       ]
     },
@@ -746,6 +745,7 @@ export const routeTree = rootRoute
         "/_protected/_dashboard/_staff/list/students/$id",
         "/_protected/_dashboard/_staff/list/teachers/$id",
         "/_protected/_dashboard/_staff/list/classes/",
+        "/_protected/_dashboard/_staff/list/lessons/",
         "/_protected/_dashboard/_staff/list/students/",
         "/_protected/_dashboard/_staff/list/teachers/"
       ]
@@ -796,10 +796,6 @@ export const routeTree = rootRoute
       "filePath": "_protected/_dashboard/list/exams/index.tsx",
       "parent": "/_protected/_dashboard"
     },
-    "/_protected/_dashboard/list/lessons/": {
-      "filePath": "_protected/_dashboard/list/lessons/index.tsx",
-      "parent": "/_protected/_dashboard"
-    },
     "/_protected/_dashboard/list/results/": {
       "filePath": "_protected/_dashboard/list/results/index.tsx",
       "parent": "/_protected/_dashboard"
@@ -818,6 +814,10 @@ export const routeTree = rootRoute
     },
     "/_protected/_dashboard/_staff/list/classes/": {
       "filePath": "_protected/_dashboard/_staff/list/classes/index.tsx",
+      "parent": "/_protected/_dashboard/_staff"
+    },
+    "/_protected/_dashboard/_staff/list/lessons/": {
+      "filePath": "_protected/_dashboard/_staff/list/lessons/index.tsx",
       "parent": "/_protected/_dashboard/_staff"
     },
     "/_protected/_dashboard/_staff/list/students/": {
