@@ -8,10 +8,12 @@ import { responseMessage } from "@/utils/responseMessage";
 export const getAllAnnouncements = asyncHandler(
   async (req: Request, res: Response) => {
     const query = req.query;
+    const currUser = res.locals.user;
 
     const { announcements, announcementsCount } =
       await announcementServices.getAllAnnouncements(
         query as announcementServices.GetAnnouncementParams,
+        currUser,
       );
 
     return apiResponse(res, StatusCodes.OK, {

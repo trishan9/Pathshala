@@ -1,16 +1,39 @@
 import client from "@/db";
 import { ITEM_PER_PAGE } from "@/lib/settings";
-import { Prisma } from "@prisma/client";
+import { Prisma, User } from "@prisma/client";
 
 export interface GetAnnouncementParams {
   page?: number;
   search?: string;
 }
 
-export const getAllAnnouncements = async (params: GetAnnouncementParams) => {
+export const getAllAnnouncements = async (
+  params: GetAnnouncementParams,
+  currUser: User,
+) => {
   const { page = 1, search } = params;
 
   const whereClause: Prisma.AnnouncementWhereInput = {
+    ...(currUser.role === "teacher" && {
+      OR: [
+        {
+          classId: null,
+        },
+        {
+          class: { lessons: { some: { teacherId: currUser.id } } },
+        },
+      ],
+    }),
+    ...(currUser.role === "student" && {
+      OR: [
+        {
+          classId: null,
+        },
+        {
+          class: { students: { some: { id: currUser.id } } },
+        },
+      ],
+    }),
     ...(search && {
       title: {
         contains: search,
