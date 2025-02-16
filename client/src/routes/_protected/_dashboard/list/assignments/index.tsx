@@ -121,13 +121,11 @@ const AssignmentListPage = () => {
 
       {data && (
         <>
-          {/* LIST */}
           <Table
             columns={columns}
             renderRow={renderRow}
             data={data?.assignments}
           />
-          {/* PAGINATION */}
           <Pagination page={params?.page || 1} count={data?.assignmentsCount} />
         </>
       )}

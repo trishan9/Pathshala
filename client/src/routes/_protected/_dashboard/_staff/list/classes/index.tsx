@@ -118,9 +118,7 @@ const ClassListPage = () => {
 
       {data && (
         <>
-          {/* LIST */}
           <Table columns={columns} renderRow={renderRow} data={data?.classes} />
-          {/* PAGINATION */}
           <Pagination page={params.page || 1} count={data?.classesCount} />
         </>
       )}

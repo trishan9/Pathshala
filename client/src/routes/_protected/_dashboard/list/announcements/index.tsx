@@ -115,13 +115,11 @@ const AnnouncementListPage = () => {
 
       {data && (
         <>
-          {/* LIST */}
           <Table
             columns={columns}
             renderRow={renderRow}
             data={data?.announcements}
           />
-          {/* PAGINATION */}
           <Pagination
             page={params?.page || 1}
             count={data?.announcementsCount}

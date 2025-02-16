@@ -1,6 +1,6 @@
 import client from "@/db";
 import { ITEM_PER_PAGE } from "@/lib/settings";
-import { Prisma } from "@prisma/client";
+import { Prisma, User } from "@prisma/client";
 
 export interface GetExamParams {
   page?: number;
@@ -9,11 +9,21 @@ export interface GetExamParams {
   search?: string;
 }
 
-export const getAllExams = async (params: GetExamParams) => {
+export const getAllExams = async (params: GetExamParams, currUser: User) => {
   const { page = 1, classId, teacherId, search } = params;
 
   const whereClause: Prisma.ExamWhereInput = {
     lesson: {
+      ...(currUser.role === "teacher" && {
+        teacherId: currUser.id,
+      }),
+      ...(currUser?.role === "student" && {
+        class: {
+          students: {
+            some: { id: currUser.id },
+          },
+        },
+      }),
       ...(teacherId && {
         teacherId,
       }),

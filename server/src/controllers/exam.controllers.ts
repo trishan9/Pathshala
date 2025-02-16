@@ -7,9 +7,11 @@ import { responseMessage } from "@/utils/responseMessage";
 
 export const getAllExams = asyncHandler(async (req: Request, res: Response) => {
   const query = req.query;
+  const currUser = res.locals.user;
 
   const { exams, examsCount } = await examServices.getAllExams(
     query as examServices.GetExamParams,
+    currUser,
   );
 
   return apiResponse(res, StatusCodes.OK, {
