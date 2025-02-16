@@ -1,9 +1,8 @@
+import { PageError } from "@/components/PageError";
 import { useAuthStore } from "@/stores/authStore";
 import { createFileRoute, Navigate, Outlet } from "@tanstack/react-router";
 
-export const Route = createFileRoute(
-  "/_protected/_dashboard/instructor/_instructor",
-)({
+export const Route = createFileRoute("/_protected/_dashboard/_staff")({
   component: RouteComponent,
 });
 
@@ -13,14 +12,14 @@ function RouteComponent() {
   if (currUser) {
     if (currUser?.role === "student") {
       return <Navigate to="/student" replace />;
-    } else if (currUser?.role === "admin") {
-      return <Navigate to="/admin" replace />;
+    } else if (currUser?.role === "teacher" || currUser?.role === "admin") {
+      return (
+        <div>
+          <Outlet />
+        </div>
+      );
     }
   }
 
-  return (
-    <div className="h-[120svh]">
-      <Outlet />
-    </div>
-  );
+  return <PageError message="You are not allowed to access this page!" />;
 }

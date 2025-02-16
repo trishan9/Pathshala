@@ -14,7 +14,9 @@ const getAllTeachersQuerySchema = z.object({
   search: z.string().optional(),
 });
 
-export const Route = createFileRoute("/_protected/_dashboard/list/teachers/")({
+export const Route = createFileRoute(
+  "/_protected/_dashboard/_staff/list/teachers/",
+)({
   component: RouteComponent,
   validateSearch: getAllTeachersQuerySchema,
 });

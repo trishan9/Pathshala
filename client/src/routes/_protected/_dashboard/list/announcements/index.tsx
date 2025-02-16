@@ -5,7 +5,7 @@ import Table from "@/components/tables/Table";
 import TableSearch from "@/components/tables/TableSearch";
 import { role } from "@/lib/data";
 import { z } from "zod";
-import { Class } from "../classes";
+import { Class } from "../../_staff/list/classes";
 import { useGetAnnouncements } from "@/hooks/useAnnouncements";
 import { PageLoader } from "@/components/PageLoader";
 

@@ -6,7 +6,7 @@ import EventCalendar from "@/components/EventCalendar";
 import FinanceChart from "@/components/FinanceChart";
 import UserCard from "@/components/UserCard";
 
-export const Route = createFileRoute("/_protected/_dashboard/admin/_admin/")({
+export const Route = createFileRoute("/_protected/_dashboard/_admin/admin/")({
   component: RouteComponent,
 });
 

@@ -4,52 +4,41 @@ import Pagination from "@/components/tables/Pagination";
 import Table from "@/components/tables/Table";
 import TableSearch from "@/components/tables/TableSearch";
 import { role } from "@/lib/data";
-import { PageLoader } from "@/components/PageLoader";
+import { useGetSubjects } from "@/hooks/useSubjects";
 import { z } from "zod";
-import { useGetClasses } from "@/hooks/useClasses";
-import { Teacher } from "../teachers";
+import { PageLoader } from "@/components/PageLoader";
+import { Teacher } from "@/routes/_protected/_dashboard/_staff/list/teachers";
 
-const getAllClassesQuerySchema = z.object({
+const getAllSubjectsQuerySchema = z.object({
   page: z.number().optional(),
-  supervisorId: z.string().optional(),
   search: z.string().optional(),
 });
 
-export const Route = createFileRoute("/_protected/_dashboard/list/classes/")({
+export const Route = createFileRoute(
+  "/_protected/_dashboard/_admin/list/subjects/",
+)({
   component: RouteComponent,
-  validateSearch: getAllClassesQuerySchema,
+  validateSearch: getAllSubjectsQuerySchema,
 });
 
 function RouteComponent() {
-  return <ClassListPage />;
+  return <SubjectListPage />;
 }
 
-export type Class = {
-  id: number;
+export type Subject = {
+  id: string;
   name: string;
-  capacity: number;
-  grade: number;
-  supervisor: Teacher;
+  teachers: Teacher[];
 };
 
 const columns = [
   {
-    header: "Class Name",
+    header: "Subject Name",
     accessor: "name",
   },
   {
-    header: "Capacity",
-    accessor: "capacity",
-    className: "hidden md:table-cell",
-  },
-  {
-    header: "Grade",
-    accessor: "grade",
-    className: "hidden md:table-cell",
-  },
-  {
-    header: "Supervisor",
-    accessor: "supervisor",
+    header: "Teachers",
+    accessor: "teachers",
     className: "hidden md:table-cell",
   },
   {
@@ -58,21 +47,21 @@ const columns = [
   },
 ];
 
-const renderRow = (item: Class) => (
+const renderRow = (item: Subject) => (
   <tr
     key={item.id}
     className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
   >
     <td className="flex items-center gap-4 p-4">{item.name}</td>
-    <td className="hidden md:table-cell">{item.capacity}</td>
-    <td className="hidden md:table-cell">{item.name[0]}</td>
-    <td className="hidden md:table-cell">{item.supervisor.name}</td>
+    <td className="hidden md:table-cell">
+      {item.teachers.map((teacher) => teacher.name).join(", ")}
+    </td>
     <td>
       <div className="flex items-center gap-2">
         {role === "admin" && (
           <>
-            <FormModal table="class" type="update" data={item} />
-            <FormModal table="class" type="delete" id={item.id} />
+            <FormModal table="subject" type="update" data={item} />
+            <FormModal table="subject" type="delete" id={item.id} />
           </>
         )}
       </div>
@@ -80,11 +69,10 @@ const renderRow = (item: Class) => (
   </tr>
 );
 
-const ClassListPage = () => {
+const SubjectListPage = () => {
   const params = Route.useSearch();
-  const { data, isLoading } = useGetClasses({
+  const { data, isLoading } = useGetSubjects({
     page: params.page,
-    supervisorId: params.supervisorId,
     search: params.search,
   });
 
@@ -92,7 +80,7 @@ const ClassListPage = () => {
     <div className="bg-white p-4 rounded-md flex-1 m-4 border">
       {/* TOP */}
       <div className="flex items-center justify-between">
-        <h1 className="hidden md:block text-lg font-semibold">All Classes</h1>
+        <h1 className="hidden md:block text-lg font-semibold">All Subjects</h1>
         <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
           <TableSearch />
           <div className="flex items-center gap-4 self-end">
@@ -102,23 +90,26 @@ const ClassListPage = () => {
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <img src="/sort.png" alt="" width={14} height={14} />
             </button>
-            {role === "admin" && <FormModal table="class" type="create" />}
+            {role === "admin" && <FormModal table="teacher" type="create" />}
           </div>
         </div>
       </div>
-
       {isLoading && <PageLoader />}
 
       {data && (
         <>
           {/* LIST */}
-          <Table columns={columns} renderRow={renderRow} data={data?.classes} />
+          <Table
+            columns={columns}
+            renderRow={renderRow}
+            data={data?.subjects}
+          />
           {/* PAGINATION */}
-          <Pagination page={params.page || 1} count={data?.classesCount} />
+          <Pagination page={params.page || 1} count={data?.subjectsCount} />
         </>
       )}
     </div>
   );
 };
 
-export default ClassListPage;
+export default SubjectListPage;
