@@ -65,8 +65,6 @@ export const getEventsCalendar = async (dateParam: string, currUser: User) => {
   }
   const date = dateParam ? new Date(dateParam) : new Date();
 
-  console.log(date);
-
   return await client.event.findMany({
     where: {
       startTime: {
