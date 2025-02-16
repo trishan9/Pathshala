@@ -27,7 +27,7 @@ const EventList = ({ dateParam }: { dateParam: string | undefined }) => {
         <div className="flex items-center justify-between">
           <h1 className="font-semibold text-gray-600">{event.title}</h1>
           <span className="text-gray-500 text-xs">
-            {new Date(event.startTime).toLocaleTimeString("en-UK", {
+            {new Date(event.startTime).toLocaleTimeString("en-US", {
               hour: "2-digit",
               minute: "2-digit",
               hour12: true,

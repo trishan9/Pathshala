@@ -14,7 +14,7 @@ const EventCalendar = () => {
 
   useEffect(() => {
     if (value instanceof Date) {
-      navigate({ to: `?date=${value}` });
+      navigate({ to: `?date=${value.toLocaleDateString("en-US")}` });
     }
   }, [value, navigate]);
 

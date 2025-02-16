@@ -6,5 +6,10 @@ import { isAuthenticated } from "@/middlewares/isAuthenicated";
 const eventRouter = Router();
 
 eventRouter.get("/", isAuthenticated, eventControllers.getAllEvents);
+eventRouter.get(
+  "/calendar",
+  isAuthenticated,
+  eventControllers.getEventsCalendar,
+);
 
 export { eventRouter };

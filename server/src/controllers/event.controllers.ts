@@ -22,3 +22,20 @@ export const getAllEvents = asyncHandler(
     });
   },
 );
+
+export const getEventsCalendar = asyncHandler(
+  async (req: Request, res: Response) => {
+    const query = req.query;
+    const currUser = res.locals.user;
+
+    const data = await eventServices.getEventsCalendar(
+      query.dateParam as string,
+      currUser,
+    );
+
+    return apiResponse(res, StatusCodes.OK, {
+      data,
+      message: responseMessage.EVENT.RETRIEVED_ALL,
+    });
+  },
+);

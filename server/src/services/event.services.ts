@@ -1,6 +1,8 @@
 import client from "@/db";
 import { ITEM_PER_PAGE } from "@/lib/settings";
+import { ApiError } from "@/utils/apiError";
 import { Prisma, User } from "@prisma/client";
+import { StatusCodes } from "http-status-codes";
 
 export interface GetEventParams {
   page?: number;
@@ -52,4 +54,25 @@ export const getAllEvents = async (params: GetEventParams, currUser: User) => {
   ]);
 
   return { events, eventsCount };
+};
+
+export const getEventsCalendar = async (dateParam: string, currUser: User) => {
+  if (currUser.role !== "admin") {
+    throw new ApiError(
+      StatusCodes.FORBIDDEN,
+      "You are not allowed to perform this action!",
+    );
+  }
+  const date = dateParam ? new Date(dateParam) : new Date();
+
+  console.log(date);
+
+  return await client.event.findMany({
+    where: {
+      startTime: {
+        gte: new Date(date.setHours(0, 0, 0, 0)),
+        lte: new Date(date.setHours(23, 59, 59, 999)),
+      },
+    },
+  });
 };
