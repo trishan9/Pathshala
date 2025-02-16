@@ -20,3 +20,16 @@ export const getAllTeachers = asyncHandler(
     });
   },
 );
+
+export const getTeacherById = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { teacherId } = req.params;
+
+    const teacher = await teacherServices.getTeacherById(teacherId);
+
+    return apiResponse(res, StatusCodes.OK, {
+      teacher,
+      message: responseMessage.TEACHER.RETRIEVED,
+    });
+  },
+);

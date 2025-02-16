@@ -103,7 +103,7 @@ const TeacherListPage = () => {
     >
       <td className="flex items-center gap-4 p-4">
         <img
-          src={item.img || "/noAvatar.png"}
+          src={item.img || `https://ui-avatars.com/api/?name=${item?.name}`}
           alt=""
           width={40}
           height={40}

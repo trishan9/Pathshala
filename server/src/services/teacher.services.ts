@@ -36,3 +36,18 @@ export const getAllTeachers = async (params: GetTeacherParams) => {
 
   return { teachers, teachersCount };
 };
+
+export const getTeacherById = async (id: string) => {
+  return await client.teacher.findUnique({
+    where: { id },
+    include: {
+      _count: {
+        select: {
+          subjects: true,
+          lessons: true,
+          classes: true,
+        },
+      },
+    },
+  });
+};

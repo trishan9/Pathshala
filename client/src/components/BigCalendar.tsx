@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Lesson } from "@/routes/_protected/_dashboard/_staff/list/lessons";
 import { useQuery } from "@tanstack/react-query";
 import { apiActions } from "@/api";
+import { adjustScheduleToCurrentWeek } from "@/lib/utils";
 
 const localizer = momentLocalizer(moment);
 
@@ -38,7 +39,7 @@ const BigCalendar = ({
     end: new Date(lesson.endTime),
   }));
 
-  console.log(data);
+  const schedule = adjustScheduleToCurrentWeek(data);
 
   const [view, setView] = useState<View>(Views.WORK_WEEK);
 
@@ -49,7 +50,7 @@ const BigCalendar = ({
   return (
     <Calendar
       localizer={localizer}
-      events={data}
+      events={schedule}
       startAccessor="start"
       endAccessor="end"
       views={["work_week", "day"]}
