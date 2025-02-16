@@ -61,12 +61,12 @@ const AttendanceChart = () => {
   return (
     <div className="bg-white border rounded-lg p-4 h-full">
       <div className="flex justify-between items-center">
-        <h1 className="text-lg font-semibold">Attendance</h1>
+        <h1 className="text-lg font-semibold">Weekly Attendance</h1>
         <MoreHorizontalIcon className="w-5 h-5" />
       </div>
 
       <ResponsiveContainer width="100%" height="90%">
-        <BarChart width={500} height={300} data={data} barSize={20}>
+        <BarChart width={500} height={300} data={data} barSize={35}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ddd" />
           <XAxis
             dataKey="name"
@@ -91,6 +91,7 @@ const AttendanceChart = () => {
             }}
           />
           <Bar dataKey="Present" fill="#2A9D90" legendType="line" />
+
           <Bar dataKey="Absent" fill="#E76E50" legendType="line" />
         </BarChart>
       </ResponsiveContainer>
