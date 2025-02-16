@@ -45,6 +45,7 @@ export const getAllAnnouncements = async (
   const [announcements, announcementsCount] = await client.$transaction([
     client.announcement.findMany({
       where: whereClause,
+      orderBy: { date: "desc" },
       include: {
         class: true,
       },

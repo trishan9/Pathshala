@@ -14,7 +14,7 @@ import {
 
 const AttendanceChart = () => {
   const { data: resData } = useQuery({
-    queryKey: ["attendance-chart"],
+    queryKey: ["daily-attendance-chart"],
     queryFn: async () => {
       const response = await apiActions.attendance.analytics.get();
 
@@ -61,7 +61,7 @@ const AttendanceChart = () => {
   return (
     <div className="bg-white border rounded-lg p-4 h-full">
       <div className="flex justify-between items-center">
-        <h1 className="text-lg font-semibold">Weekly Attendance</h1>
+        <h1 className="text-lg font-semibold">Daily Attendance</h1>
         <MoreHorizontalIcon className="w-5 h-5" />
       </div>
 
@@ -71,12 +71,12 @@ const AttendanceChart = () => {
           <XAxis
             dataKey="name"
             axisLine={false}
-            tick={{ fill: "#9ca3af", fontSize: "12px" }}
+            tick={{ fill: "#9ca3af", fontSize: "14px" }}
             tickLine={false}
           />
           <YAxis
             axisLine={false}
-            tick={{ fill: "#9ca3af", fontSize: "12px" }}
+            tick={{ fill: "#9ca3af", fontSize: "14px" }}
             tickLine={false}
           />
           <Tooltip
