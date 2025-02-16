@@ -27,4 +27,7 @@ export const API_URLS = {
       STUDENT: "/user/analytics/student",
     },
   },
+  ATTENDANCE: {
+    ANALYTICS: "/attendance/analytics",
+  },
 };

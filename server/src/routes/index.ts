@@ -12,6 +12,7 @@ import { resultRouter } from "./result.routes";
 import { eventRouter } from "./event.routes";
 import { announcementRouter } from "./announcement.routes";
 import { userRouter } from "./user.routes";
+import { attendanceRouter } from "./attendance.routes";
 
 const rootRouter = Router();
 
@@ -27,5 +28,6 @@ rootRouter.use("/result", resultRouter);
 rootRouter.use("/event", eventRouter);
 rootRouter.use("/announcement", announcementRouter);
 rootRouter.use("/user", userRouter);
+rootRouter.use("/attendance", attendanceRouter);
 
 export { rootRouter };
