@@ -6,5 +6,10 @@ import { isAuthenticated } from "@/middlewares/isAuthenicated";
 const classRouter = Router();
 
 classRouter.get("/", isAuthenticated, classControllers.getAllClasses);
+classRouter.get(
+  "/student",
+  isAuthenticated,
+  classControllers.getClassByStudentId,
+);
 
 export { classRouter };

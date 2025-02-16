@@ -36,6 +36,8 @@ export type Lesson = {
   subject: Subject;
   class: Class;
   teacher: Teacher;
+  startTime: Date;
+  endTime: Date;
 };
 
 const LessonListPage = () => {

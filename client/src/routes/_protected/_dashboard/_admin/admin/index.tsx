@@ -2,9 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import Announcements from "@/components/Announcements";
 import AttendanceChart from "@/components/AttendanceChart";
 import CountChart from "@/components/CountChart";
-import FinanceChart, {
-  MonthlyAttendanceChart,
-} from "@/components/MonthlyAttendanceChart";
+import { MonthlyAttendanceChart } from "@/components/MonthlyAttendanceChart";
 import UserCard from "@/components/UserCard";
 import EventCalendarContainer from "@/components/EventCalendarContainer";
 

@@ -20,3 +20,16 @@ export const getAllClasses = asyncHandler(
     });
   },
 );
+
+export const getClassByStudentId = asyncHandler(
+  async (_: Request, res: Response) => {
+    const currUser = res.locals.user;
+
+    const data = await classServices.getClassByStudentId(currUser?.id);
+
+    return apiResponse(res, StatusCodes.OK, {
+      data,
+      message: responseMessage.CLASS.RETRIEVED_ALL,
+    });
+  },
+);

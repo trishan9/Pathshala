@@ -37,3 +37,12 @@ export const getAllClasses = async (params: GetClassParams) => {
 
   return { classes, classesCount };
 };
+
+export const getClassByStudentId = async (studentId: string) => {
+  const classItem = await client.class.findMany({
+    where: {
+      students: { some: { id: studentId! } },
+    },
+  });
+  return classItem?.[0];
+};

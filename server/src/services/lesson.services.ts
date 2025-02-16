@@ -57,3 +57,20 @@ export const getAllLessons = async (params: GetLessonParams) => {
 
   return { lessons, lessonsCount };
 };
+
+export const getSchedule = async (params: GetLessonParams) => {
+  const { teacherId, classId } = params;
+
+  const whereClause: Prisma.LessonWhereInput = {
+    ...(teacherId && {
+      teacherId,
+    }),
+    ...(classId && {
+      classId: +classId,
+    }),
+  };
+
+  return await client.lesson.findMany({
+    where: whereClause,
+  });
+};

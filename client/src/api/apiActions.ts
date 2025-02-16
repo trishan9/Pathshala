@@ -47,12 +47,18 @@ export const apiActions = {
   },
   class: {
     getAll: async (query: useGetClassesProps) => {
-      return await api.get(API_URLS.CLASS, { params: query });
+      return await api.get(API_URLS.CLASS["/"], { params: query });
+    },
+    getByStudentId: async () => {
+      return await api.get(API_URLS.CLASS.STUDENT);
     },
   },
   lesson: {
     getAll: async (query: useGetLessonsProps) => {
-      return await api.get(API_URLS.LESSON, { params: query });
+      return await api.get(API_URLS.LESSON["/"], { params: query });
+    },
+    getSchedule: async (query: useGetLessonsProps) => {
+      return await api.get(API_URLS.LESSON.SCHEDULE, { params: query });
     },
   },
   exam: {

@@ -20,3 +20,16 @@ export const getAllLessons = asyncHandler(
     });
   },
 );
+
+export const getSchedule = asyncHandler(async (req: Request, res: Response) => {
+  const query = req.query;
+
+  const data = await lessonServices.getAllLessons(
+    query as lessonServices.GetLessonParams,
+  );
+
+  return apiResponse(res, StatusCodes.OK, {
+    data,
+    message: "Schedule fetched successfully!",
+  });
+});
