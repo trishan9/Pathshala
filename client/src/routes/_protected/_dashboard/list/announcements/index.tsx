@@ -7,7 +7,7 @@ import { z } from "zod";
 import { Class } from "../../_staff/list/classes";
 import { useGetAnnouncements } from "@/hooks/useAnnouncements";
 import { PageLoader } from "@/components/PageLoader";
-import { useAuthStore } from "@/stores/authStore";
+import { useGetRole } from "@/hooks/useGetRole";
 
 const getAllAnnouncementsQuerySchema = z.object({
   page: z.number().optional(),
@@ -39,7 +39,7 @@ const AnnouncementListPage = () => {
     page: params.page,
     search: params.search,
   });
-  const role = useAuthStore((state) => state.user)?.role;
+  const role = useGetRole();
 
   const columns = [
     {
