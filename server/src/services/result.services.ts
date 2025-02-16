@@ -1,6 +1,6 @@
 import client from "@/db";
 import { ITEM_PER_PAGE } from "@/lib/settings";
-import { Prisma } from "@prisma/client";
+import { Prisma, User } from "@prisma/client";
 
 export interface GetResultParams {
   page?: number;
@@ -8,10 +8,22 @@ export interface GetResultParams {
   search?: string;
 }
 
-export const getAllResults = async (params: GetResultParams) => {
+export const getAllResults = async (
+  params: GetResultParams,
+  currUser: User,
+) => {
   const { page = 1, studentId, search } = params;
 
   const whereClause: Prisma.ResultWhereInput = {
+    ...(currUser.role === "teacher" && {
+      OR: [
+        { exam: { lesson: { teacherId: currUser.id } } },
+        { assignment: { lesson: { teacherId: currUser.id } } },
+      ],
+    }),
+    ...(currUser.role === "student" && {
+      studentId: currUser.id,
+    }),
     ...(studentId && {
       studentId,
     }),

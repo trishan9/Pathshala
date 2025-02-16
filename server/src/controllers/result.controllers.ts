@@ -8,9 +8,11 @@ import { responseMessage } from "@/utils/responseMessage";
 export const getAllResults = asyncHandler(
   async (req: Request, res: Response) => {
     const query = req.query;
+    const currUser = res.locals.user;
 
     const { results, resultsCount } = await resultServices.getAllResults(
       query as resultServices.GetResultParams,
+      currUser,
     );
 
     return apiResponse(res, StatusCodes.OK, {
