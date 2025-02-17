@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import InputField from "../InputField";
 import { useCreateTeacher, useUpdateTeacher } from "@/hooks/useTeachers";
+import { useState } from "react";
 
 const schema = z.object({
   id: z.string().optional(),
@@ -51,6 +52,7 @@ const TeacherForm = ({
 
   const createTeacher = useCreateTeacher();
   const updateTeacher = useUpdateTeacher();
+  const [file, setFile] = useState<File | null>(null);
 
   const onSubmit = handleSubmit((values: z.infer<typeof schema>) => {
     const finalData = {
@@ -80,6 +82,7 @@ const TeacherForm = ({
     const file = e.target.files?.[0];
     if (file) {
       setValue("image", file);
+      setFile(file);
     }
     console.log(file);
   };
@@ -186,13 +189,32 @@ const TeacherForm = ({
           )}
         </div>
         <div className="flex flex-col gap-2 w-full md:w-1/4 justify-center">
-          <label
-            className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer"
-            htmlFor="img"
-          >
-            <img src="/upload.png" alt="" width={28} height={28} />
-            <span>Upload a photo</span>
-          </label>
+          <div className="flex gap-4 items-center">
+            {data?.img && !file && (
+              <div className="size-[42px] relative border rounded-md overflow-hidden">
+                <img
+                  src={data.img}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </div>
+            )}
+            {file && (
+              <div className="size-[42px] relative border rounded-md overflow-hidden">
+                <img
+                  src={URL.createObjectURL(file)}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </div>
+            )}
+
+            <label
+              className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer"
+              htmlFor="img"
+            >
+              <img src="/upload.png" alt="" width={28} height={28} />
+              <span>Upload a photo</span>
+            </label>
+          </div>
           <input
             type="file"
             id="img"
