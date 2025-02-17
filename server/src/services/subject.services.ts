@@ -33,3 +33,9 @@ export const getAllSubjects = async (params: GetSubjectParams) => {
 
   return { subjects, subjectsCount };
 };
+
+export const getTeacherSubjects = async () => {
+  return await client.subject.findMany({
+    select: { id: true, name: true },
+  });
+};

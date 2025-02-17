@@ -10,6 +10,7 @@ export const API_URLS = {
   TEACHER: "/teacher",
   STUDENT: "/student",
   SUBJECT: "/subject",
+  TEACHER_SUBJECTS: "/subject/teachers",
   CLASS: {
     "/": "/class",
     STUDENT: "/class/student",

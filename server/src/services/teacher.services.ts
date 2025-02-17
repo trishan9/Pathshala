@@ -68,7 +68,7 @@ export interface CreateTeacherParams {
   img?: any;
   bloodType: string;
   sex: UserSex;
-  subjectIds?: string[];
+  subjects?: string[];
   birthday: Date;
 }
 
@@ -78,7 +78,7 @@ export const createTeacher = async (image, params: CreateTeacherParams) => {
     name,
     email,
     password,
-    subjectIds = [],
+    subjects = [],
     ...teacherData
   } = params;
 
@@ -125,7 +125,7 @@ export const createTeacher = async (image, params: CreateTeacherParams) => {
       email,
       ...teacherData,
       subjects: {
-        connect: subjectIds.map((id) => ({ id })),
+        connect: subjects.map((id) => ({ id })),
       },
     },
     include: {
@@ -142,7 +142,7 @@ export const updateTeacher = async (id, image, params: CreateTeacherParams) => {
     name,
     email,
     password,
-    subjectIds = [],
+    subjects = [],
     ...teacherData
   } = params;
 
@@ -176,7 +176,6 @@ export const updateTeacher = async (id, image, params: CreateTeacherParams) => {
   let imageUrl: string = existingTeacher.img as string;
 
   if (image) {
-    console.log("Hello");
     const cloudinaryResponse = await uploadToCloudinary(image as string);
     if (cloudinaryResponse instanceof Error) {
       throw new ApiError(
@@ -198,7 +197,7 @@ export const updateTeacher = async (id, image, params: CreateTeacherParams) => {
       email,
       ...teacherData,
       subjects: {
-        set: subjectIds.map((id) => ({ id })),
+        set: subjects?.map((id) => ({ id })),
       },
     },
     include: {

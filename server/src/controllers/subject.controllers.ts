@@ -20,3 +20,14 @@ export const getAllSubjects = asyncHandler(
     });
   },
 );
+
+export const getTeacherSubjects = asyncHandler(
+  async (req: Request, res: Response) => {
+    const teacherSubjects = await subjectServices.getTeacherSubjects();
+
+    return apiResponse(res, StatusCodes.OK, {
+      teacherSubjects,
+      message: "Teacher subjects fetched successfully",
+    });
+  },
+);

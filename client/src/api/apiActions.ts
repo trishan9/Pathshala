@@ -64,6 +64,9 @@ export const apiActions = {
     getAll: async (query: useGetSubjectsProps) => {
       return await api.get(API_URLS.SUBJECT, { params: query });
     },
+    getTeacherSubjects: async () => {
+      return await api.get(API_URLS.TEACHER_SUBJECTS);
+    },
   },
   class: {
     getAll: async (query: useGetClassesProps) => {

@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import Announcements from "@/components/Announcements";
 import BigCalendar from "@/components/BigCalendar";
-import FormModal from "@/components/forms/FormModal";
 import Performance from "@/components/charts/Performance";
 import { useQuery } from "@tanstack/react-query";
 import { apiActions } from "@/api";
 import { PageLoader } from "@/components/PageLoader";
 import { useGetRole } from "@/hooks/useGetRole";
+import FormContainer from "@/components/forms/FormContainer";
 
 export const Route = createFileRoute(
   "/_protected/_dashboard/_staff/list/teachers/$id",
@@ -60,7 +60,7 @@ const SingleTeacherPage = () => {
               <div className="flex items-center gap-4">
                 <h1 className="text-xl font-semibold">{data?.name}</h1>
                 {role === "admin" && (
-                  <FormModal table="teacher" type="update" data={data} />
+                  <FormContainer table="teacher" type="update" data={data} />
                 )}
               </div>
               <p className="text-sm text-gray-500">

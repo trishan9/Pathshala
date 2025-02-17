@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import InputField from "../InputField";
 import { useCreateTeacher, useUpdateTeacher } from "@/hooks/useTeachers";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 const schema = z.object({
   id: z.string().optional(),
@@ -36,9 +36,13 @@ export type CreateTeacherInputs = z.infer<typeof schema>;
 const TeacherForm = ({
   type,
   data,
+  setOpen,
+  relatedData,
 }: {
   type: "create" | "update";
   data?: z.infer<typeof schema>;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  relatedData?: any;
 }) => {
   const {
     register,
@@ -68,14 +72,29 @@ const TeacherForm = ({
       subjects: values.subjects,
       image: values.image,
     };
+    console.log(finalData);
 
     if (type === "create") {
-      createTeacher.mutate(finalData);
+      createTeacher.mutate(finalData, {
+        onSuccess: () => {
+          reset();
+          setOpen(false);
+        },
+      });
     } else if (type === "update") {
-      updateTeacher.mutate({ id: data?.id || "", data: finalData });
+      updateTeacher.mutate(
+        { id: data?.id || "", data: finalData },
+        {
+          onSuccess: () => {
+            reset();
+            setOpen(false);
+          },
+        },
+      );
     }
-    reset();
   });
+
+  const { subjects } = relatedData;
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("urghhhh");
@@ -188,6 +207,28 @@ const TeacherForm = ({
             </p>
           )}
         </div>
+
+        <div className="flex flex-col gap-2 w-full md:w-1/4">
+          <label className="text-xs text-gray-500">Subjects</label>
+          <select
+            multiple
+            className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+            {...register("subjects")}
+            defaultValue={data?.subjects}
+          >
+            {subjects?.map((subject: { id: number; name: string }) => (
+              <option value={subject.id} key={subject.id}>
+                {subject.name}
+              </option>
+            ))}
+          </select>
+          {errors.subjects?.message && (
+            <p className="text-xs text-red-400">
+              {errors.subjects.message.toString()}
+            </p>
+          )}
+        </div>
+
         <div className="flex flex-col gap-2 w-full md:w-1/4 justify-center">
           <div className="flex gap-4 items-center">
             {data?.img && !file && (

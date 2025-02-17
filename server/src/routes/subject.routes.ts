@@ -6,5 +6,10 @@ import { isAuthenticated } from "@/middlewares/isAuthenicated";
 const subjectRouter = Router();
 
 subjectRouter.get("/", isAuthenticated, subjectControllers.getAllSubjects);
+subjectRouter.get(
+  "/teachers",
+  isAuthenticated,
+  subjectControllers.getTeacherSubjects,
+);
 
 export { subjectRouter };
