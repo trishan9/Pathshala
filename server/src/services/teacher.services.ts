@@ -72,12 +72,11 @@ export interface CreateTeacherParams {
   birthday: Date;
 }
 
-export const createTeacher = async (params: CreateTeacherParams) => {
+export const createTeacher = async (image, params: CreateTeacherParams) => {
   const {
     username,
     name,
     email,
-    img,
     password,
     subjectIds = [],
     ...teacherData
@@ -106,8 +105,8 @@ export const createTeacher = async (params: CreateTeacherParams) => {
 
   let imageUrl: string | null = null;
 
-  if (img) {
-    const cloudinaryResponse = await uploadToCloudinary(img as string);
+  if (image) {
+    const cloudinaryResponse = await uploadToCloudinary(image as string);
     if (cloudinaryResponse instanceof Error) {
       throw new ApiError(
         StatusCodes.INTERNAL_SERVER_ERROR,
@@ -137,12 +136,11 @@ export const createTeacher = async (params: CreateTeacherParams) => {
   return { user, teacher };
 };
 
-export const updateTeacher = async (id, params: CreateTeacherParams) => {
+export const updateTeacher = async (id, image, params: CreateTeacherParams) => {
   const {
     username,
     name,
     email,
-    img,
     password,
     subjectIds = [],
     ...teacherData
@@ -160,7 +158,7 @@ export const updateTeacher = async (id, params: CreateTeacherParams) => {
 
   let hashedPassword = "";
   if (password && password != "") {
-    await hash.generate(password);
+    hashedPassword = await hash.generate(password);
   }
 
   await client.user.update({
@@ -177,8 +175,9 @@ export const updateTeacher = async (id, params: CreateTeacherParams) => {
 
   let imageUrl: string = existingTeacher.img as string;
 
-  if (params.img) {
-    const cloudinaryResponse = await uploadToCloudinary(params.img as string);
+  if (image) {
+    console.log("Hello");
+    const cloudinaryResponse = await uploadToCloudinary(image as string);
     if (cloudinaryResponse instanceof Error) {
       throw new ApiError(
         StatusCodes.INTERNAL_SERVER_ERROR,
@@ -224,4 +223,3 @@ export const deleteTeacher = async (id: string) => {
     client.user.delete({ where: { id } }),
   ]);
 };
-

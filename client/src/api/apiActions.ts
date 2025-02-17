@@ -2,7 +2,7 @@ import z from "zod";
 import { api } from "./axiosInstance";
 import { API_URLS } from "./apiUrls";
 import { loginFormSchema, signupFormSchema } from "@/schemas";
-import { useGetTeachersProps } from "@/hooks/useTeachers";
+import { TeacherFormData, useGetTeachersProps } from "@/hooks/useTeachers";
 import { useGetStudentsProps } from "@/hooks/useStudents";
 import { useGetSubjectsProps } from "@/hooks/useSubjects";
 import { useGetClassesProps } from "@/hooks/useClasses";
@@ -10,6 +10,7 @@ import { useGetLessonsProps } from "@/hooks/useLessons";
 import { useGetExamsProps } from "@/hooks/useExams";
 import { useGetAssignmentsProps } from "@/hooks/useAssignments";
 import { useGetResultsProps } from "@/hooks/useResults";
+import { CreateTeacherInputs } from "@/components/forms/TeacherForm";
 
 export const apiActions = {
   auth: {
@@ -33,6 +34,19 @@ export const apiActions = {
   teacher: {
     getAll: async (query: useGetTeachersProps) => {
       return await api.get(API_URLS.TEACHER, { params: query });
+    },
+    create: async (data: CreateTeacherInputs) => {
+      return await api.post(API_URLS.TEACHER, data, MULTIPART_FORM_DATA_CONFIG);
+    },
+    update: async (id: string, data: Partial<TeacherFormData>) => {
+      return await api.patch(
+        `${API_URLS.TEACHER}/${id}`,
+        data,
+        MULTIPART_FORM_DATA_CONFIG,
+      );
+    },
+    delete: async (id: string) => {
+      return await api.delete(`${API_URLS.TEACHER}/${id}`);
     },
     getById: async (id: string) => {
       return await api.get(`${API_URLS.TEACHER}/${id}`);
@@ -127,5 +141,11 @@ export const apiActions = {
         return await api.get(API_URLS.ATTENDANCE.ANALYTICS);
       },
     },
+  },
+};
+
+const MULTIPART_FORM_DATA_CONFIG = {
+  headers: {
+    "Content-Type": "multipart/form-data",
   },
 };

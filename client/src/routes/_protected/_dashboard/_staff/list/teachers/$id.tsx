@@ -3,10 +3,10 @@ import Announcements from "@/components/Announcements";
 import BigCalendar from "@/components/BigCalendar";
 import FormModal from "@/components/forms/FormModal";
 import Performance from "@/components/charts/Performance";
-import { role } from "@/lib/data";
 import { useQuery } from "@tanstack/react-query";
 import { apiActions } from "@/api";
 import { PageLoader } from "@/components/PageLoader";
+import { useGetRole } from "@/hooks/useGetRole";
 
 export const Route = createFileRoute(
   "/_protected/_dashboard/_staff/list/teachers/$id",
@@ -19,6 +19,8 @@ function RouteComponent() {
 }
 
 const SingleTeacherPage = () => {
+  const role = useGetRole();
+
   const { id } = Route.useParams();
   const { data, isLoading } = useQuery({
     queryKey: ["teacher", id],

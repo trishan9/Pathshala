@@ -12,7 +12,7 @@ export const registerUserValidator = z.object({
     .string()
     .min(1, { message: errorResponse.PASSWORD.REQUIRED })
     .min(8, { message: errorResponse.PASSWORD.LENGTH })
-    .max(10, { message: errorResponse.PASSWORD.LENGTH }),
+    .max(16, { message: errorResponse.PASSWORD.LENGTH }),
 });
 
 export const loginUserValidator = z.object({
@@ -21,7 +21,7 @@ export const loginUserValidator = z.object({
     .string()
     .min(1, { message: errorResponse.PASSWORD.REQUIRED })
     .min(8, { message: errorResponse.PASSWORD.LENGTH })
-    .max(10, { message: errorResponse.PASSWORD.LENGTH }),
+    .max(16, { message: errorResponse.PASSWORD.LENGTH }),
 });
 
 export const updateUserValidator = z.object({

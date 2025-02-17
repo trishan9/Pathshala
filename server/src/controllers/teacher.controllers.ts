@@ -39,10 +39,7 @@ export const createTeacher = asyncHandler(
     const body = req.body;
     const image = req.file?.path;
 
-    const { teacher, user } = await teacherServices.createTeacher({
-      ...body,
-      img: image,
-    });
+    const { teacher, user } = await teacherServices.createTeacher(image, body);
 
     return apiResponse(res, StatusCodes.CREATED, {
       data: { ...teacher, ...user },
@@ -55,12 +52,9 @@ export const updateTeacher = asyncHandler(
   async (req: Request, res: Response) => {
     const body = req.body;
     const teacherId = req.params.teacherId;
-    const image = req.file?.path;
+    const image = req?.file?.path;
 
-    const teacher = await teacherServices.updateTeacher(teacherId, {
-      ...body,
-      img: image,
-    });
+    const teacher = await teacherServices.updateTeacher(teacherId, image, body);
 
     return apiResponse(res, StatusCodes.OK, {
       teacher,
@@ -80,4 +74,3 @@ export const deleteTeacher = asyncHandler(
     });
   },
 );
-

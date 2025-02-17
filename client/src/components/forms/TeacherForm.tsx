@@ -2,27 +2,35 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import InputField from "../InputField";
+import { useCreateTeacher, useUpdateTeacher } from "@/hooks/useTeachers";
 
 const schema = z.object({
+  id: z.string().optional(),
   username: z
     .string()
     .min(3, { message: "Username must be at least 3 characters long!" })
     .max(20, { message: "Username must be at most 20 characters long!" }),
-  email: z.string().email({ message: "Invalid email address!" }),
   password: z
     .string()
-    .min(8, { message: "Password must be at least 8 characters long!" }),
-  firstName: z.string().min(1, { message: "First name is required!" }),
-  lastName: z.string().min(1, { message: "Last name is required!" }),
-  phone: z.string().min(1, { message: "Phone is required!" }),
-  address: z.string().min(1, { message: "Address is required!" }),
+    .min(8, { message: "Password must be at least 8 characters long!" })
+    .optional()
+    .or(z.literal("")),
+  name: z.string().min(1, { message: "First name is required!" }),
+  surname: z.string().min(1, { message: "Last name is required!" }),
+  email: z
+    .string()
+    .email({ message: "Invalid email address!" })
+    .optional()
+    .or(z.literal("")),
+  phone: z.string().optional(),
+  address: z.string(),
+  image: z.any().optional(),
   bloodType: z.string().min(1, { message: "Blood Type is required!" }),
-  birthday: z.date({ message: "Birthday is required!" }),
-  sex: z.enum(["male", "female"], { message: "Sex is required!" }),
-  img: z.instanceof(File, { message: "Image is required" }),
+  birthday: z.coerce.date({ message: "Birthday is required!" }),
+  sex: z.enum(["MALE", "FEMALE"], { message: "Sex is required!" }),
+  subjects: z.array(z.string()).optional(), // subject ids
 });
-
-type Inputs = z.infer<typeof schema>;
+export type CreateTeacherInputs = z.infer<typeof schema>;
 
 const TeacherForm = ({
   type,
@@ -34,14 +42,47 @@ const TeacherForm = ({
   const {
     register,
     handleSubmit,
+    setValue,
+    reset,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<CreateTeacherInputs>({
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const createTeacher = useCreateTeacher();
+  const updateTeacher = useUpdateTeacher();
+
+  const onSubmit = handleSubmit((values: z.infer<typeof schema>) => {
+    const finalData = {
+      username: values.username,
+      password: values.password,
+      name: values.name + " " + values.surname,
+      email: values.email,
+      phone: values.phone,
+      address: values.address,
+      bloodType: values.bloodType,
+      birthday: values.birthday.toISOString(),
+      sex: values.sex,
+      subjects: values.subjects,
+      image: values.image,
+    };
+
+    if (type === "create") {
+      createTeacher.mutate(finalData);
+    } else if (type === "update") {
+      updateTeacher.mutate({ id: data?.id || "", data: finalData });
+    }
+    reset();
   });
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("urghhhh");
+    const file = e.target.files?.[0];
+    if (file) {
+      setValue("image", file);
+    }
+    console.log(file);
+  };
 
   return (
     <form className="flex flex-col gap-2" onSubmit={onSubmit}>
@@ -84,17 +125,17 @@ const TeacherForm = ({
       <div className="flex justify-between mb-4 flex-wrap gap-4">
         <InputField
           label="First Name"
-          name="firstName"
-          defaultValue={data?.firstName}
+          name="name"
+          defaultValue={data?.name?.split(" ")[0]}
           register={register}
-          error={errors.firstName}
+          error={errors.name}
         />
         <InputField
           label="Last Name"
-          name="lastName"
-          defaultValue={data?.lastName}
+          name="surname"
+          defaultValue={data?.name?.split(" ")[1]}
           register={register}
-          error={errors.lastName}
+          error={errors.surname}
         />
         <InputField
           label="Phone"
@@ -120,7 +161,10 @@ const TeacherForm = ({
         <InputField
           label="Birthday"
           name="birthday"
-          defaultValue={new Date(data?.birthday)?.toISOString().split("T")[0]}
+          defaultValue={
+            data?.birthday &&
+            new Date(data?.birthday)?.toISOString().split("T")[0]
+          }
           register={register}
           error={errors.birthday}
           type="date"
@@ -132,8 +176,8 @@ const TeacherForm = ({
             {...register("sex")}
             defaultValue={data?.sex}
           >
-            <option value="male">Male</option>
-            <option value="female">Female</option>
+            <option value="MALE">Male</option>
+            <option value="FEMALE">Female</option>
           </select>
           {errors.sex?.message && (
             <p className="text-xs text-red-400">
@@ -149,10 +193,15 @@ const TeacherForm = ({
             <img src="/upload.png" alt="" width={28} height={28} />
             <span>Upload a photo</span>
           </label>
-          <input type="file" id="img" {...register("img")} className="hidden" />
-          {errors.img?.message && (
+          <input
+            type="file"
+            id="img"
+            onChange={handleImageChange}
+            className="hidden"
+          />
+          {errors.image?.message && (
             <p className="text-xs text-red-400">
-              {errors.img.message.toString()}
+              {errors.image.message.toString()}
             </p>
           )}
         </div>

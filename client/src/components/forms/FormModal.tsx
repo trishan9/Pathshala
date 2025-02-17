@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import TeacherForm from "./TeacherForm";
 import StudentForm from "./StudentForm";
+import { useDeleteTeacher } from "@/hooks/useTeachers";
+import { useFormState } from "react-hook-form";
 
 const forms: {
   [key: string]: (type: "create" | "update", data?: any) => JSX.Element;
@@ -40,6 +42,11 @@ const FormModal = ({
         ? "bg-lamaSky"
         : "bg-lamaPurple";
 
+  const deleteTeacher = useDeleteTeacher();
+  const deleteActionMap = {
+    teacher: deleteTeacher,
+  };
+
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -55,15 +62,24 @@ const FormModal = ({
   }, [open]);
 
   const Form = () => {
+    const mutater = deleteActionMap[table];
+
+    const handleDelete = (id) => {
+      mutater.mutate(id);
+    };
+
     return type === "delete" && id ? (
-      <form action="" className="p-4 flex flex-col gap-4">
+      <div className="p-4 flex flex-col gap-4">
         <span className="text-center font-medium">
           All data will be lost. Are you sure you want to delete this {table}?
         </span>
-        <button className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center">
+        <button
+          className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center"
+          onClick={() => handleDelete(id)}
+        >
           Delete
         </button>
-      </form>
+      </div>
     ) : type === "create" || type === "update" ? (
       forms[table](type, data)
     ) : (
