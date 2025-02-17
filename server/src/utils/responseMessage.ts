@@ -11,7 +11,10 @@ const responseMessage = {
   },
   TEACHER: {
     RETRIEVED_ALL: "All teachers fetched successfully!",
+    CREATED: "Teacher created successfully!",
     RETRIEVED: "Teacher fetched successfully!",
+    UPDATED: "Teacher updated successfully!",
+    DELETED: "Teacher deleted successfully!",
   },
   STUDENT: {
     RETRIEVED_ALL: "All students fetched successfully!",

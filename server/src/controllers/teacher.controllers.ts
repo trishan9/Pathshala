@@ -33,3 +33,51 @@ export const getTeacherById = asyncHandler(
     });
   },
 );
+
+export const createTeacher = asyncHandler(
+  async (req: Request, res: Response) => {
+    const body = req.body;
+    const image = req.file?.path;
+
+    const { teacher, user } = await teacherServices.createTeacher({
+      ...body,
+      img: image,
+    });
+
+    return apiResponse(res, StatusCodes.CREATED, {
+      data: { ...teacher, ...user },
+      message: responseMessage.TEACHER.CREATED,
+    });
+  },
+);
+
+export const updateTeacher = asyncHandler(
+  async (req: Request, res: Response) => {
+    const body = req.body;
+    const teacherId = req.params.teacherId;
+    const image = req.file?.path;
+
+    const teacher = await teacherServices.updateTeacher(teacherId, {
+      ...body,
+      img: image,
+    });
+
+    return apiResponse(res, StatusCodes.OK, {
+      teacher,
+      message: responseMessage.TEACHER.UPDATED,
+    });
+  },
+);
+
+export const deleteTeacher = asyncHandler(
+  async (req: Request, res: Response) => {
+    const teacherId = req.params.teacherId;
+
+    await teacherServices.deleteTeacher(teacherId);
+
+    return apiResponse(res, StatusCodes.OK, {
+      message: responseMessage.TEACHER.DELETED,
+    });
+  },
+);
+
