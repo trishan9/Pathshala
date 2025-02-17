@@ -80,6 +80,15 @@ export const apiActions = {
     getTeacherSubjects: async () => {
       return await api.get(API_URLS.TEACHER_SUBJECTS);
     },
+    create: async (name: string) => {
+      return await api.post(API_URLS.SUBJECT, { name });
+    },
+    update: async (id: string, name: string) => {
+      return await api.patch(`${API_URLS.SUBJECT}/${id}`, { name });
+    },
+    delete: async (id: string) => {
+      return await api.delete(`${API_URLS.SUBJECT}/${id}`);
+    },
   },
   class: {
     getAll: async (query: useGetClassesProps) => {

@@ -11,5 +11,16 @@ subjectRouter.get(
   isAuthenticated,
   subjectControllers.getTeacherSubjects,
 );
+subjectRouter.post("/", isAuthenticated, subjectControllers.createSubject);
+subjectRouter.patch(
+  "/:subjectId",
+  isAuthenticated,
+  subjectControllers.updateSubject,
+);
+subjectRouter.delete(
+  "/:subjectId",
+  isAuthenticated,
+  subjectControllers.deleteSubject,
+);
 
 export { subjectRouter };

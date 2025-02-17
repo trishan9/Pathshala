@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import FormModal from "@/components/forms/FormModal";
 import Pagination from "@/components/tables/Pagination";
 import Table from "@/components/tables/Table";
 import TableSearch from "@/components/tables/TableSearch";
@@ -7,6 +6,7 @@ import { useGetSubjects } from "@/hooks/useSubjects";
 import { z } from "zod";
 import { PageLoader } from "@/components/PageLoader";
 import { Teacher } from "@/routes/_protected/_dashboard/_staff/list/teachers";
+import FormContainer from "@/components/forms/FormContainer";
 
 const getAllSubjectsQuerySchema = z.object({
   page: z.number().optional(),
@@ -57,8 +57,8 @@ const renderRow = (item: Subject) => (
     </td>
     <td>
       <div className="flex items-center gap-2">
-        <FormModal table="subject" type="update" data={item} />
-        <FormModal table="subject" type="delete" id={item.id} />
+        <FormContainer table="subject" type="update" data={item} />
+        <FormContainer table="subject" type="delete" id={item.id} />
       </div>
     </td>
   </tr>
@@ -84,7 +84,7 @@ const SubjectListPage = () => {
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <img src="/sort.png" alt="" width={14} height={14} />
             </button>
-            <FormModal table="teacher" type="create" />
+            <FormContainer table="subject" type="create" />
           </div>
         </div>
       </div>

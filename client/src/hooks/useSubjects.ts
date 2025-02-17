@@ -1,5 +1,5 @@
 import { apiActions } from "@/api";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export interface useGetSubjectsProps {
   page?: number | null;
@@ -24,4 +24,55 @@ export const useGetSubjects = ({ page, search }: useGetSubjectsProps) => {
   });
 
   return query;
+};
+
+export const useCreateSubject = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (name: string) => {
+      const response = await apiActions.subject.create(name);
+      if (!response.data) {
+        throw new Error("Failed to create subject");
+      }
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["subjects"] });
+    },
+  });
+};
+
+export const useUpdateSubject = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, name }: { id: string; name: string }) => {
+      const response = await apiActions.subject.update(id, name);
+      if (!response.data) {
+        throw new Error("Failed to update subject");
+      }
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["subjects"] });
+    },
+  });
+};
+
+export const useDeleteSubject = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await apiActions.subject.delete(id);
+      if (!response.data) {
+        throw new Error("Failed to delete subject");
+      }
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["subjects"] });
+    },
+  });
 };
