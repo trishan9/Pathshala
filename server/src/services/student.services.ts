@@ -1,6 +1,11 @@
 import client from "@/db";
 import { ITEM_PER_PAGE } from "@/lib/settings";
-import { Prisma } from "@prisma/client";
+import { ApiError } from "@/utils/apiError";
+import { Prisma, UserSex } from "@prisma/client";
+import { StatusCodes } from "http-status-codes";
+import * as authServices from "@/services/auth.services";
+import uploadToCloudinary from "@/lib/cloudinary";
+import hash from "@/lib/hash";
 
 export interface GetStudentParams {
   page?: number;
@@ -48,4 +53,178 @@ export const getStudentById = async (id: string) => {
       },
     },
   });
+};
+
+export interface createStudentParams {
+  username: string;
+  name: string;
+  email: string;
+  password: string;
+
+  phone?: string;
+  address: string;
+  img?: any;
+  bloodType: string;
+  sex: UserSex;
+  grade: string;
+  class: number;
+  birthday: Date;
+}
+
+export const createStudent = async (image, params: createStudentParams) => {
+  console.log(params);
+  const {
+    username,
+    name,
+    email,
+    password,
+    address,
+    sex,
+    birthday,
+    bloodType,
+    phone,
+    ...rest
+  } = params;
+
+  const existingStudent = await client.student.findFirst({
+    where: {
+      OR: [{ username }, { email }],
+    },
+  });
+
+  if (existingStudent) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      "Username or email already exists",
+    );
+  }
+
+  const user = await authServices.register({
+    username: `PS-${username}`,
+    name,
+    email,
+    password,
+    role: "student",
+  });
+
+  let imageUrl: string | null = null;
+
+  if (image) {
+    const cloudinaryResponse = await uploadToCloudinary(image as string);
+    if (cloudinaryResponse instanceof Error) {
+      throw new ApiError(
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        "Image upload failed",
+      );
+    }
+    imageUrl = cloudinaryResponse?.secure_url;
+  }
+
+  const student = await client.student.create({
+    data: {
+      id: user.id,
+      username,
+      name,
+      img: imageUrl,
+      email,
+      address,
+      sex,
+      birthday,
+      bloodType,
+      phone,
+      classId: +rest.class,
+      gradeId: rest.grade,
+    },
+  });
+
+  return { user, student };
+};
+
+export const updateStudent = async (id, image, params: createStudentParams) => {
+  const {
+    username,
+    name,
+    email,
+    password,
+    address,
+    sex,
+    birthday,
+    bloodType,
+    phone,
+    ...rest
+  } = params;
+
+  const existingStudent = await client.student.findFirst({
+    where: {
+      id,
+    },
+  });
+
+  if (!existingStudent) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, "This student doesn't exist");
+  }
+
+  let hashedPassword = "";
+  if (password && password != "") {
+    hashedPassword = await hash.generate(password);
+  }
+
+  await client.user.update({
+    where: {
+      id,
+    },
+    data: {
+      username,
+      name,
+      email,
+      ...(password !== "" && { password: hashedPassword }),
+    },
+  });
+
+  let imageUrl: string = existingStudent.img as string;
+
+  if (image) {
+    const cloudinaryResponse = await uploadToCloudinary(image as string);
+    if (cloudinaryResponse instanceof Error) {
+      throw new ApiError(
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        "Image upload failed",
+      );
+    }
+    imageUrl = cloudinaryResponse?.secure_url;
+  }
+
+  return await client.student.update({
+    where: {
+      id,
+    },
+    data: {
+      username,
+      name,
+      img: imageUrl,
+      email,
+      address,
+      sex,
+      birthday,
+      bloodType,
+      phone,
+      classId: +rest.class,
+      gradeId: rest.grade,
+    },
+  });
+};
+
+export const deleteStudent = async (id: string) => {
+  const student = await client.student.findUnique({
+    where: { id },
+  });
+
+  if (!student) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, "This student doesn't exist");
+  }
+
+  await client.$transaction([
+    client.student.delete({ where: { id } }),
+    client.user.delete({ where: { id } }),
+  ]);
 };

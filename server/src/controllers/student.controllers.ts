@@ -33,3 +33,44 @@ export const getStudentById = asyncHandler(
     });
   },
 );
+
+export const createStudent = asyncHandler(
+  async (req: Request, res: Response) => {
+    const body = req.body;
+    const image = req.file?.path;
+
+    const { student, user } = await studentServices.createStudent(image, body);
+
+    return apiResponse(res, StatusCodes.CREATED, {
+      data: { ...student, ...user },
+      message: responseMessage.STUDENT.CREATED,
+    });
+  },
+);
+
+export const updateStudent = asyncHandler(
+  async (req: Request, res: Response) => {
+    const body = req.body;
+    const studentId = req.params.studentId;
+    const image = req?.file?.path;
+
+    const student = await studentServices.updateStudent(studentId, image, body);
+
+    return apiResponse(res, StatusCodes.OK, {
+      student,
+      message: responseMessage.STUDENT.UPDATED,
+    });
+  },
+);
+
+export const deleteStudent = asyncHandler(
+  async (req: Request, res: Response) => {
+    const studentId = req.params.studentId;
+
+    await studentServices.deleteStudent(studentId);
+
+    return apiResponse(res, StatusCodes.OK, {
+      message: responseMessage.STUDENT.DELETED,
+    });
+  },
+);

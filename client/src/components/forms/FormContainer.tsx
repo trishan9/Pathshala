@@ -36,10 +36,39 @@ const FormContainer = ({ table, type, data, id }: FormContainerProps) => {
     },
   });
 
+  const { data: studentGrades } = useQuery({
+    queryKey: ["studentGrades"],
+    queryFn: async () => {
+      const response = await apiActions.class.getStudentGrades();
+
+      if (!response.data) {
+        throw new Error("Failed to get student grades");
+      }
+
+      return response.data.studentGrades;
+    },
+  });
+
+  const { data: studentClasses } = useQuery({
+    queryKey: ["studentClasses"],
+    queryFn: async () => {
+      const response = await apiActions.class.getStudentClasses();
+
+      if (!response.data) {
+        throw new Error("Failed to get student classes");
+      }
+
+      return response.data.studentClasses;
+    },
+  });
+
   if (type !== "delete") {
     switch (table) {
       case "teacher":
         relatedData = { subjects: teacherSubjects };
+        break;
+      case "student":
+        relatedData = { classes: studentClasses, grades: studentGrades };
         break;
       default:
         break;

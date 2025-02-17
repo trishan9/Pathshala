@@ -72,7 +72,6 @@ const TeacherForm = ({
       subjects: values.subjects,
       image: values.image,
     };
-    console.log(finalData);
 
     if (type === "create") {
       createTeacher.mutate(finalData, {
@@ -97,13 +96,11 @@ const TeacherForm = ({
   const { subjects } = relatedData;
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("urghhhh");
     const file = e.target.files?.[0];
     if (file) {
       setValue("image", file);
       setFile(file);
     }
-    console.log(file);
   };
 
   return (

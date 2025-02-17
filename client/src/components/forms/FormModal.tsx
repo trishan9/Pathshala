@@ -3,6 +3,7 @@ import TeacherForm from "./TeacherForm";
 import StudentForm from "./StudentForm";
 import { useDeleteTeacher } from "@/hooks/useTeachers";
 import { FormContainerProps } from "./FormContainer";
+import { useDeleteStudent } from "@/hooks/useStudents";
 
 const forms: {
   [key: string]: (
@@ -21,7 +22,12 @@ const forms: {
     />
   ),
   student: (setOpen, type, data, relatedData) => (
-    <StudentForm type={type} data={data} />
+    <StudentForm
+      type={type}
+      data={data}
+      setOpen={setOpen}
+      relatedData={relatedData}
+    />
   ),
 };
 
@@ -41,8 +47,10 @@ const FormModal = ({
         : "bg-lamaPurple";
 
   const deleteTeacher = useDeleteTeacher();
+  const deleteStudent = useDeleteStudent();
   const deleteActionMap = {
     teacher: deleteTeacher,
+    student: deleteStudent,
   };
 
   const [open, setOpen] = useState(false);

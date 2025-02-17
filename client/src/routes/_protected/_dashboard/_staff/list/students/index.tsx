@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import FormModal from "@/components/forms/FormModal";
 import Pagination from "@/components/tables/Pagination";
 import Table from "@/components/tables/Table";
 import TableSearch from "@/components/tables/TableSearch";
@@ -7,6 +6,7 @@ import { useGetStudents } from "@/hooks/useStudents";
 import { z } from "zod";
 import { PageLoader } from "@/components/PageLoader";
 import { useGetRole } from "@/hooks/useGetRole";
+import FormContainer from "@/components/forms/FormContainer";
 
 const getAllStudentsQuerySchema = z.object({
   page: z.number().optional(),
@@ -119,8 +119,8 @@ const StudentListPage = () => {
 
           {role === "admin" && (
             <>
-              <FormModal table="student" type="update" data={item} />
-              <FormModal table="student" type="delete" id={item.id} />
+              <FormContainer table="student" type="update" data={item} />
+              <FormContainer table="student" type="delete" id={item.id} />
             </>
           )}
         </div>
@@ -141,7 +141,9 @@ const StudentListPage = () => {
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <img src="/sort.png" alt="" width={14} height={14} />
             </button>
-            {role === "admin" && <FormModal table="student" type="create" />}
+            {role === "admin" && (
+              <FormContainer table="student" type="create" />
+            )}
           </div>
         </div>
       </div>

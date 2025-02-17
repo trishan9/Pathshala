@@ -11,5 +11,15 @@ classRouter.get(
   isAuthenticated,
   classControllers.getClassByStudentId,
 );
+classRouter.get(
+  "/students",
+  isAuthenticated,
+  classControllers.getStudentClasses,
+);
+classRouter.get(
+  "/grades/students",
+  isAuthenticated,
+  classControllers.getStudentGrades,
+);
 
 export { classRouter };

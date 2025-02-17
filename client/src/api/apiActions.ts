@@ -59,6 +59,19 @@ export const apiActions = {
     getById: async (id: string) => {
       return await api.get(`${API_URLS.STUDENT}/${id}`);
     },
+    create: async (data: CreateTeacherInputs) => {
+      return await api.post(API_URLS.STUDENT, data, MULTIPART_FORM_DATA_CONFIG);
+    },
+    update: async (id: string, data: Partial<TeacherFormData>) => {
+      return await api.patch(
+        `${API_URLS.STUDENT}/${id}`,
+        data,
+        MULTIPART_FORM_DATA_CONFIG,
+      );
+    },
+    delete: async (id: string) => {
+      return await api.delete(`${API_URLS.STUDENT}/${id}`);
+    },
   },
   subject: {
     getAll: async (query: useGetSubjectsProps) => {
@@ -74,6 +87,12 @@ export const apiActions = {
     },
     getByStudentId: async () => {
       return await api.get(API_URLS.CLASS.STUDENT);
+    },
+    getStudentClasses: async () => {
+      return await api.get(API_URLS.CLASS.STUDENT_CLASSES);
+    },
+    getStudentGrades: async () => {
+      return await api.get(API_URLS.CLASS.STUDENT_GRADES);
     },
   },
   lesson: {

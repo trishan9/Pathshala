@@ -33,3 +33,25 @@ export const getClassByStudentId = asyncHandler(
     });
   },
 );
+
+export const getStudentClasses = asyncHandler(
+  async (req: Request, res: Response) => {
+    const studentClasses = await classServices.getStudentClasses();
+
+    return apiResponse(res, StatusCodes.OK, {
+      studentClasses,
+      message: "Student classes fetched successfully",
+    });
+  },
+);
+
+export const getStudentGrades = asyncHandler(
+  async (req: Request, res: Response) => {
+    const studentGrades = await classServices.getStudentGrades();
+
+    return apiResponse(res, StatusCodes.OK, {
+      studentGrades,
+      message: "Student grades fetched successfully",
+    });
+  },
+);

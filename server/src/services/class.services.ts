@@ -46,3 +46,15 @@ export const getClassByStudentId = async (studentId: string) => {
   });
   return classItem?.[0];
 };
+
+export const getStudentClasses = async () => {
+  return await client.class.findMany({
+    include: { _count: { select: { students: true } } },
+  });
+};
+
+export const getStudentGrades = async () => {
+  return await client.grade.findMany({
+    include: { _count: { select: { students: true } } },
+  });
+};

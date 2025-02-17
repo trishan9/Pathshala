@@ -1,5 +1,6 @@
 import { apiActions } from "@/api";
-import { useQuery } from "@tanstack/react-query";
+import { CreateTeacherInputs } from "@/components/forms/TeacherForm";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export interface useGetStudentsProps {
   page?: number | null;
@@ -30,4 +31,65 @@ export const useGetStudents = ({
   });
 
   return query;
+};
+
+export const useCreateStudent = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: CreateTeacherInputs) => {
+      const response = await apiActions.student.create(data);
+      if (!response.data) {
+        throw new Error("Failed to create student");
+      }
+
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["students"] });
+    },
+  });
+};
+
+export const useUpdateStudent = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      id,
+      data,
+    }: {
+      id: string;
+      data: Partial<CreateTeacherInputs>;
+    }) => {
+      const response = await apiActions.student.update(id, data);
+      if (!response.data) {
+        throw new Error("Failed to update student");
+      }
+      return response.data;
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["students"] });
+      queryClient.invalidateQueries({
+        queryKey: ["student", variables.id],
+      });
+    },
+  });
+};
+
+export const useDeleteStudent = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await apiActions.student.delete(id);
+      if (!response.data) {
+        throw new Error("Failed to delete student");
+      }
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["students"] });
+    },
+  });
 };

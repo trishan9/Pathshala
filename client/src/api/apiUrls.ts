@@ -14,6 +14,8 @@ export const API_URLS = {
   CLASS: {
     "/": "/class",
     STUDENT: "/class/student",
+    STUDENT_CLASSES: "/class/students",
+    STUDENT_GRADES: "/class/grades/students",
   },
   LESSON: {
     "/": "/lesson",
