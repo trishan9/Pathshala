@@ -22,6 +22,7 @@ export const API_URLS = {
   LESSON: {
     "/": "/lesson",
     SCHEDULE: "/lesson/schedule",
+    CLASS_LESSONS: "/lesson/class"
   },
   EXAM: "/exam",
   ASSIGNMENT: "/assignment",

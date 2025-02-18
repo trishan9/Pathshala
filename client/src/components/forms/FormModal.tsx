@@ -12,6 +12,8 @@ import AnnouncementForm from "./AnnouncementForm";
 import EventForm from "./EventForm";
 import { useDeleteEvent } from "@/hooks/useEvents";
 import { useDeleteAnnouncement } from "@/hooks/useAnnouncements";
+import ExamForm from "./ExamForm";
+import AssignmentForm from "./AssignmentForm";
 
 const forms: {
   [key: string]: (
@@ -63,6 +65,22 @@ const forms: {
   ),
   event: (setOpen, type, data, relatedData) => (
     <EventForm
+      type={type}
+      data={data}
+      setOpen={setOpen}
+      relatedData={relatedData}
+    />
+  ),
+  exam: (setOpen, type, data, relatedData) => (
+    <ExamForm
+      type={type}
+      data={data}
+      setOpen={setOpen}
+      relatedData={relatedData}
+    />
+  ),
+  assignment: (setOpen, type, data, relatedData) => (
+    <AssignmentForm
       type={type}
       data={data}
       setOpen={setOpen}

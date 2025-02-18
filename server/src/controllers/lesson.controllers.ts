@@ -33,3 +33,17 @@ export const getSchedule = asyncHandler(async (req: Request, res: Response) => {
     message: "Schedule fetched successfully!",
   });
 });
+
+export const getExamLessons = asyncHandler(
+  async (req: Request, res: Response) => {
+    const role = res.locals.user.role;
+    const currUserId = res.locals.user.id;
+
+    const examLessons = await lessonServices.getExamLessons(role, currUserId);
+
+    return apiResponse(res, StatusCodes.OK, {
+      examLessons,
+      message: "Exam lessons fetched successfully",
+    });
+  },
+);

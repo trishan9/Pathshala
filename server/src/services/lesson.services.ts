@@ -74,3 +74,12 @@ export const getSchedule = async (params: GetLessonParams) => {
     where: whereClause,
   });
 };
+
+export const getExamLessons = async (role: string, currUserId: string) => {
+  return await client.lesson.findMany({
+    where: {
+      ...(role === "teacher" ? { teacherId: currUserId! } : {}),
+    },
+    select: { id: true, name: true },
+  });
+};

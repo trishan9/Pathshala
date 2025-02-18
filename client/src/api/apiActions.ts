@@ -13,6 +13,8 @@ import { useGetResultsProps } from "@/hooks/useResults";
 import { CreateTeacherInputs } from "@/components/forms/TeacherForm";
 import { EventSchema } from "@/components/forms/EventForm";
 import { AnnouncementSchema } from "@/components/forms/AnnouncementForm";
+import { ExamSchema } from "@/components/forms/ExamForm";
+import { AssignmentSchema } from "@/components/forms/AssignmentForm";
 
 export const apiActions = {
   auth: {
@@ -128,15 +130,36 @@ export const apiActions = {
     getSchedule: async (query: useGetLessonsProps) => {
       return await api.get(API_URLS.LESSON.SCHEDULE, { params: query });
     },
+    getExamLessons: async () => {
+      return await api.get(API_URLS.LESSON.CLASS_LESSONS);
+    },
   },
   exam: {
     getAll: async (query: useGetExamsProps) => {
       return await api.get(API_URLS.EXAM, { params: query });
     },
+    create: async (data: ExamSchema) => {
+      return await api.post(API_URLS.EXAM, data);
+    },
+    update: async (id: string, data: Partial<ExamSchema>) => {
+      return await api.patch(`${API_URLS.EXAM}/${id}`, data);
+    },
+    delete: async (id: string) => {
+      return await api.delete(`${API_URLS.EXAM}/${id}`);
+    },
   },
   assignment: {
     getAll: async (query: useGetAssignmentsProps) => {
       return await api.get(API_URLS.ASSIGNMENT, { params: query });
+    },
+    create: async (data: AssignmentSchema) => {
+      return await api.post(API_URLS.ASSIGNMENT, data);
+    },
+    update: async (id: string, data: Partial<AssignmentSchema>) => {
+      return await api.patch(`${API_URLS.ASSIGNMENT}/${id}`, data);
+    },
+    delete: async (id: string) => {
+      return await api.delete(`${API_URLS.ASSIGNMENT}/${id}`);
     },
   },
   result: {

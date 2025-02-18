@@ -88,6 +88,19 @@ const FormContainer = ({ table, type, data, id }: FormContainerProps) => {
     },
   });
 
+  const { data: examLessons } = useQuery({
+    queryKey: ["examLessons"],
+    queryFn: async () => {
+      const response = await apiActions.lesson.getExamLessons();
+
+      if (!response.data) {
+        throw new Error("Failed to get exam lessons");
+      }
+
+      return response.data.examLessons;
+    },
+  });
+
   if (type !== "delete") {
     switch (table) {
       case "teacher":
@@ -104,6 +117,12 @@ const FormContainer = ({ table, type, data, id }: FormContainerProps) => {
         break;
       case "event":
         relatedData = { classes: studentClasses };
+        break;
+      case "exam":
+        relatedData = { lessons: examLessons };
+        break;
+      case "assignment":
+        relatedData = { lessons: examLessons };
         break;
       default:
         break;

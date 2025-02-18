@@ -1,5 +1,6 @@
 import { apiActions } from "@/api";
-import { useQuery } from "@tanstack/react-query";
+import { AssignmentSchema } from "@/components/forms/AssignmentForm";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export interface useGetAssignmentsProps {
   page?: number | null;
@@ -33,4 +34,61 @@ export const useGetAssignments = ({
   });
 
   return query;
+};
+
+export const useCreateAssignment = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: AssignmentSchema) => {
+      const response = await apiActions.assignment.create(data);
+      if (!response.data) {
+        throw new Error("Failed to create assignment");
+      }
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["assignments"] });
+    },
+  });
+};
+
+export const useUpdateAssignment = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      id,
+      data,
+    }: {
+      id: string;
+      data: Partial<AssignmentSchema>;
+    }) => {
+      const response = await apiActions.assignment.update(id, data);
+      if (!response.data) {
+        throw new Error("Failed to update assignment");
+      }
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["assignments"] });
+    },
+  });
+};
+
+export const useDeleteAssignment = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await apiActions.assignment.delete(id);
+      if (!response.data) {
+        throw new Error("Failed to delete assignment");
+      }
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["assignments"] });
+    },
+  });
 };

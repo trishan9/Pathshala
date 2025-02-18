@@ -7,5 +7,6 @@ const lessonRouter = Router();
 
 lessonRouter.get("/", isAuthenticated, lessonControllers.getAllLessons);
 lessonRouter.get("/schedule", isAuthenticated, lessonControllers.getSchedule);
+lessonRouter.get("/class", isAuthenticated, lessonControllers.getExamLessons);
 
 export { lessonRouter };

@@ -1,5 +1,6 @@
 import { apiActions } from "@/api";
-import { useQuery } from "@tanstack/react-query";
+import { ExamSchema } from "@/components/forms/ExamForm";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export interface useGetExamsProps {
   page?: number | null;
@@ -33,4 +34,61 @@ export const useGetExams = ({
   });
 
   return query;
+};
+
+export const useCreateExam = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: ExamSchema) => {
+      const response = await apiActions.exam.create(data);
+      if (!response.data) {
+        throw new Error("Failed to create exam");
+      }
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["exams"] });
+    },
+  });
+};
+
+export const useUpdateExam = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      id,
+      data,
+    }: {
+      id: string;
+      data: Partial<ExamSchema>;
+    }) => {
+      const response = await apiActions.exam.update(id, data);
+      if (!response.data) {
+        throw new Error("Failed to update exam");
+      }
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["exams"] });
+    },
+  });
+};
+
+export const useDeleteExam = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await apiActions.exam.delete(id);
+      if (!response.data) {
+        throw new Error("Failed to delete exam");
+      }
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["exams"] });
+    },
+  });
 };
