@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import InputField from "../InputField";
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
-import { format } from "path";
+import { useCreateEvent, useUpdateEvent } from "@/hooks/useEvents";
 
 export interface FormProps {
   type: "create" | "update";
@@ -55,13 +55,34 @@ const EventForm: React.FC<FormProps> = ({
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<EventSchema>({
     resolver: zodResolver(eventSchema),
   });
 
+  const createEvent = useCreateEvent();
+  const updateEvent = useUpdateEvent();
+
   const onSubmit = handleSubmit((values: EventSchema) => {
-    console.log(values);
+    if (type === "create") {
+      createEvent.mutate(values, {
+        onSuccess: () => {
+          reset();
+          setOpen(false);
+        },
+      });
+    } else if (type === "update") {
+      updateEvent.mutate(
+        { id: data?.id || "", data: values },
+        {
+          onSuccess: () => {
+            reset();
+            setOpen(false);
+          },
+        },
+      );
+    }
   });
 
   const { classes } = relatedData;

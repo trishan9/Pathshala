@@ -3,6 +3,10 @@ import { useForm } from "react-hook-form";
 import InputField from "../InputField";
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
+import {
+  useCreateAnnouncement,
+  useUpdateAnnouncement,
+} from "@/hooks/useAnnouncements";
 
 export interface FormProps {
   type: "create" | "update";
@@ -28,14 +32,35 @@ const AnnouncementForm: React.FC<FormProps> = ({
 }) => {
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<AnnouncementSchema>({
     resolver: zodResolver(announcementSchema),
   });
 
+  const createAnnouncement = useCreateAnnouncement();
+  const updateAnnoucement = useUpdateAnnouncement();
+
   const onSubmit = handleSubmit((values: AnnouncementSchema) => {
-    console.log(values);
+    if (type === "create") {
+      createAnnouncement.mutate(values, {
+        onSuccess: () => {
+          reset();
+          setOpen(false);
+        },
+      });
+    } else if (type === "update") {
+      updateAnnoucement.mutate(
+        { id: data?.id || "", data: values },
+        {
+          onSuccess: () => {
+            reset();
+            setOpen(false);
+          },
+        },
+      );
+    }
   });
 
   const { classes } = relatedData;

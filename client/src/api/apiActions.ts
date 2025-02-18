@@ -11,6 +11,8 @@ import { useGetExamsProps } from "@/hooks/useExams";
 import { useGetAssignmentsProps } from "@/hooks/useAssignments";
 import { useGetResultsProps } from "@/hooks/useResults";
 import { CreateTeacherInputs } from "@/components/forms/TeacherForm";
+import { EventSchema } from "@/components/forms/EventForm";
+import { AnnouncementSchema } from "@/components/forms/AnnouncementForm";
 
 export const apiActions = {
   auth: {
@@ -149,10 +151,28 @@ export const apiActions = {
     getCalendar: async (query: { dateParam: string }) => {
       return await api.get(API_URLS.EVENT.CALENDAR, { params: query });
     },
+    create: async (data: EventSchema) => {
+      return await api.post(API_URLS.EVENT["/"], data);
+    },
+    update: async (id: string, data: Partial<EventSchema>) => {
+      return await api.patch(`${API_URLS.EVENT["/"]}/${id}`, data);
+    },
+    delete: async (id: string) => {
+      return await api.delete(`${API_URLS.EVENT["/"]}/${id}`);
+    },
   },
   announcement: {
     getAll: async (query: useGetAssignmentsProps) => {
       return await api.get(API_URLS.ANNOUNCEMENT, { params: query });
+    },
+    create: async (data: AnnouncementSchema) => {
+      return await api.post(API_URLS.ANNOUNCEMENT, data);
+    },
+    update: async (id: string, data: Partial<AnnouncementSchema>) => {
+      return await api.patch(`${API_URLS.ANNOUNCEMENT}/${id}`, data);
+    },
+    delete: async (id: string) => {
+      return await api.delete(`${API_URLS.ANNOUNCEMENT}/${id}`);
     },
   },
   user: {
