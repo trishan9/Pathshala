@@ -84,7 +84,6 @@ const FormContainer = ({ table, type, data, id }: FormContainerProps) => {
         throw new Error("Failed to get class teachers");
       }
 
-      console.log(response);
       return response.data.classTeachers;
     },
   });
@@ -99,6 +98,9 @@ const FormContainer = ({ table, type, data, id }: FormContainerProps) => {
         break;
       case "class":
         relatedData = { teachers: classTeachers, grades: classGrades };
+        break;
+      case "announcement":
+        relatedData = { classes: studentClasses };
         break;
       default:
         break;

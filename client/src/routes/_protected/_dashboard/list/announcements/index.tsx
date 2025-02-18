@@ -8,6 +8,7 @@ import { Class } from "../../_staff/list/classes";
 import { useGetAnnouncements } from "@/hooks/useAnnouncements";
 import { PageLoader } from "@/components/PageLoader";
 import { useGetRole } from "@/hooks/useGetRole";
+import FormContainer from "@/components/forms/FormContainer";
 
 const getAllAnnouncementsQuerySchema = z.object({
   page: z.number().optional(),
@@ -79,8 +80,8 @@ const AnnouncementListPage = () => {
         <div className="flex items-center gap-2">
           {role === "admin" && (
             <>
-              <FormModal table="announcement" type="update" data={item} />
-              <FormModal table="announcement" type="delete" id={item.id} />
+              <FormContainer table="announcement" type="update" data={item} />
+              <FormContainer table="announcement" type="delete" id={item.id} />
             </>
           )}
         </div>
@@ -104,7 +105,7 @@ const AnnouncementListPage = () => {
               <img src="/sort.png" alt="" width={14} height={14} />
             </button>
             {role === "admin" && (
-              <FormModal table="announcement" type="create" />
+              <FormContainer table="announcement" type="create" />
             )}
           </div>
         </div>
