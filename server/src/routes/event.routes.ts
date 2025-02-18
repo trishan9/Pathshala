@@ -11,5 +11,8 @@ eventRouter.get(
   isAuthenticated,
   eventControllers.getEventsCalendar,
 );
+eventRouter.post("/", isAuthenticated, eventControllers.createEvent);
+eventRouter.patch("/:eventId", isAuthenticated, eventControllers.updateEvent);
+eventRouter.delete("/:eventId", isAuthenticated, eventControllers.deleteEvent);
 
 export { eventRouter };

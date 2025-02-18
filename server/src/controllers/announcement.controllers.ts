@@ -23,3 +23,43 @@ export const getAllAnnouncements = asyncHandler(
     });
   },
 );
+
+export const createAnnouncement = asyncHandler(
+  async (req: Request, res: Response) => {
+    const body = req.body;
+    const announcement = await announcementServices.createAnnouncement(body);
+
+    return apiResponse(res, StatusCodes.CREATED, {
+      announcement,
+      message: "Announcement created successfully",
+    });
+  },
+);
+
+export const updateAnnouncement = asyncHandler(
+  async (req: Request, res: Response) => {
+    const body = req.body;
+    const { announcementId } = req.params;
+
+    const announcement = await announcementServices.updateAnnouncement(
+      announcementId,
+      body,
+    );
+
+    return apiResponse(res, StatusCodes.OK, {
+      announcement,
+      message: "Announcement updated successfully",
+    });
+  },
+);
+
+export const deleteAnnouncement = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { announcementId } = req.params;
+    await announcementServices.deleteAnnouncement(announcementId);
+
+    return apiResponse(res, StatusCodes.OK, {
+      message: "Announcement deleted successfully",
+    });
+  },
+);

@@ -39,3 +39,34 @@ export const getEventsCalendar = asyncHandler(
     });
   },
 );
+
+export const createEvent = asyncHandler(async (req: Request, res: Response) => {
+  const body = req.body;
+  const event = await eventServices.createEvent(body);
+
+  return apiResponse(res, StatusCodes.CREATED, {
+    event,
+    message: "Event created successfully",
+  });
+});
+
+export const updateEvent = asyncHandler(async (req: Request, res: Response) => {
+  const body = req.body;
+  const { eventId } = req.params;
+
+  const event = await eventServices.updateEvent(eventId, body);
+
+  return apiResponse(res, StatusCodes.OK, {
+    event,
+    message: "Event updated successfully",
+  });
+});
+
+export const deleteEvent = asyncHandler(async (req: Request, res: Response) => {
+  const { eventId } = req.params;
+  await eventServices.deleteEvent(eventId);
+
+  return apiResponse(res, StatusCodes.OK, {
+    message: "Event deleted successfully",
+  });
+});
