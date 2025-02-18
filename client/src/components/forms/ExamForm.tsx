@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import InputField from "../InputField";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { z } from "zod";
+import { useCreateExam, useUpdateExam } from "@/hooks/useExams";
 
 export const examSchema = z.object({
     id: z.coerce.number().optional(),
@@ -27,17 +28,36 @@ const ExamForm = ({
 }) => {
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<ExamSchema>({
     resolver: zodResolver(examSchema),
   });
 
-
-  const onSubmit = handleSubmit((values) => {
-    console.log(values);
+  const createExam = useCreateExam();
+  const updateExam = useUpdateExam();
+  
+  const onSubmit = handleSubmit((values: ExamSchema) => {
+    if (type === "create") {
+      createExam.mutate(values, {
+        onSuccess: () => {
+          reset();
+          setOpen(false);
+        },
+      });
+    } else if (type === "update") {
+      updateExam.mutate(
+        { id: data?.id || "", data: values },
+        {
+          onSuccess: () => {
+            reset();
+            setOpen(false);
+          },
+        },
+      );
+    }
   });
-
 
   const { lessons } = relatedData;
 
@@ -83,7 +103,7 @@ const ExamForm = ({
           <select
             className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
             {...register("lessonId")}
-            defaultValue={data?.teachers}
+            defaultValue={data?.lessonId}
           >
             {lessons?.map((lesson: { id: number; name: string }) => (
               <option value={lesson.id} key={lesson.id}>

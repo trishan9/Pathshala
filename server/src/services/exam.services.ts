@@ -1,6 +1,9 @@
 import client from "@/db";
 import { ITEM_PER_PAGE } from "@/lib/settings";
+import { ApiError } from "@/utils/apiError";
 import { Prisma, User } from "@prisma/client";
+import { StatusCodes } from "http-status-codes";
+import { date, z } from "zod";
 
 export interface GetExamParams {
   page?: number;
@@ -58,4 +61,76 @@ export const getAllExams = async (params: GetExamParams, currUser: User) => {
   ]);
 
   return { exams, examsCount };
+};
+
+export const examSchema = z.object({
+  id: z.coerce.number().optional(),
+  title: z.string().min(1, { message: "Title name is required!" }),
+  startTime: z.coerce.date({ message: "Start time is required!" }),
+  endTime: z.coerce.date({ message: "End time is required!" }),
+  lessonId: z.coerce.string({ message: "Lesson is required!" }),
+});
+
+export type ExamSchema = z.infer<typeof examSchema>;
+
+export const createExam = async (params: ExamSchema) => {
+  return await client.exam.create({
+    data: {
+      title: params.title,
+      startTime: params.startTime,
+      endTime: params.endTime,
+      lessonId: params.lessonId
+    },
+  });
+};
+
+export const updateExam = async (
+  id: string,
+  params: ExamSchema,
+) => {
+  const existingExam = await client.exam.findFirst({
+    where: {
+      id,
+    },
+  });
+
+  if (!existingExam) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      "This exam doesn't exist!",
+    );
+  }
+
+  return await client.exam.update({
+    where: {
+      id,
+    },
+    data: {
+      title: params.title,
+      startTime: params.startTime,
+      endTime: params.endTime,
+      lessonId: params.lessonId
+    },
+  });
+};
+
+export const deleteExam = async (id: string) => {
+  const existingExam = await client.exam.findFirst({
+    where: {
+      id,
+    },
+  });
+
+  if (!existingExam) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      "This exam doesn't exist!",
+    );
+  }
+
+  return await client.exam.delete({
+    where: {
+      id,
+    },
+  });
 };

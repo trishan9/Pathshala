@@ -52,6 +52,10 @@ const LessonListPage = () => {
 
   const columns = [
     {
+      header: "Lesson Name",
+      accessor: "lessonName",
+    },
+    {
       header: "Subject Name",
       accessor: "name",
     },
@@ -79,7 +83,8 @@ const LessonListPage = () => {
       key={item.id}
       className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
     >
-      <td className="flex items-center gap-4 p-4">{item.subject.name}</td>
+      <td className="flex items-center gap-4 p-4">{item.name}</td>
+      <td>{item.subject.name}</td>
       <td>{item.class.name}</td>
       <td className="hidden md:table-cell">{item.teacher.name}</td>
       <td>

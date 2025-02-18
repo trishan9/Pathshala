@@ -1,8 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import InputField from "../InputField";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
+import { useCreateAssignment, useUpdateAssignment } from "@/hooks/useAssignments";
 
 export const assignmentSchema = z.object({
     id: z.coerce.number().optional(),
@@ -28,13 +29,34 @@ const AssignmentForm = ({
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<AssignmentSchema>({
     resolver: zodResolver(assignmentSchema),
   });
 
-  const onSubmit = handleSubmit((values) => {
-    console.log(values);
+  const createAssignment = useCreateAssignment();
+  const updateAssignment = useUpdateAssignment();
+  
+  const onSubmit = handleSubmit((values: AssignmentSchema) => {
+    if (type === "create") {
+      createAssignment.mutate(values, {
+        onSuccess: () => {
+          reset();
+          setOpen(false);
+        },
+      });
+    } else if (type === "update") {
+      updateAssignment.mutate(
+        { id: data?.id || "", data: values },
+        {
+          onSuccess: () => {
+            reset();
+            setOpen(false);
+          },
+        },
+      );
+    }
   });
 
   const { lessons } = relatedData;
@@ -81,7 +103,7 @@ const AssignmentForm = ({
           <select
             className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
             {...register("lessonId")}
-            defaultValue={data?.teachers}
+            defaultValue={data?.lessonId}
           >
             {lessons?.map((lesson: { id: number; name: string }) => (
               <option value={lesson.id} key={lesson.id}>

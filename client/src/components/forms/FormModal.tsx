@@ -14,6 +14,8 @@ import { useDeleteEvent } from "@/hooks/useEvents";
 import { useDeleteAnnouncement } from "@/hooks/useAnnouncements";
 import ExamForm from "./ExamForm";
 import AssignmentForm from "./AssignmentForm";
+import { useDeleteExam } from "@/hooks/useExams";
+import { useDeleteAssignment } from "@/hooks/useAssignments";
 
 const forms: {
   [key: string]: (
@@ -110,6 +112,8 @@ const FormModal = ({
   const deleteClass = useDeleteClass();
   const deleteEvent = useDeleteEvent();
   const deleteAnnouncement = useDeleteAnnouncement();
+  const deleteExam = useDeleteExam();
+  const deleteAssignment = useDeleteAssignment();
 
   const deleteActionMap = {
     teacher: deleteTeacher,
@@ -118,6 +122,8 @@ const FormModal = ({
     class: deleteClass,
     event: deleteEvent,
     announcement: deleteAnnouncement,
+    exam: deleteExam,
+    assignment: deleteAssignment
   };
 
   const [open, setOpen] = useState(false);
