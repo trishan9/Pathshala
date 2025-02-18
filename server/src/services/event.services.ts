@@ -117,7 +117,7 @@ export const createEvent = async (params: EventSchema) => {
       description: params.description,
       startTime: params.startTime,
       endTime: params.endTime,
-      classId: params.classId,
+      ...(params.classId != 0 && { classId: params.classId }),
     },
   });
 };
@@ -142,7 +142,7 @@ export const updateEvent = async (id: string, params: EventSchema) => {
       description: params.description,
       startTime: params.startTime,
       endTime: params.endTime,
-      classId: params.classId,
+      ...(params.classId != 0 && { classId: params.classId }),
     },
   });
 };

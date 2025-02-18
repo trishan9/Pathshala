@@ -20,7 +20,7 @@ const announcementSchema = z.object({
   title: z.string().min(1, { message: "Title is required!" }),
   description: z.string().min(1, { message: "Description is required!" }),
   date: z.coerce.date({ message: "Date is required!" }),
-  classId: z.coerce.number().min(1, { message: "Class is required!" }),
+  classId: z.coerce.number().optional(),
 });
 export type AnnouncementSchema = z.infer<typeof announcementSchema>;
 
@@ -105,7 +105,7 @@ const AnnouncementForm: React.FC<FormProps> = ({
             {...register("classId")}
             defaultValue={data?.classId}
           >
-            <option selected value="">
+            <option selected value={0}>
               Select Class
             </option>
 

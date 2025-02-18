@@ -76,7 +76,7 @@ export const createAnnouncement = async (params: AnnouncementSchema) => {
       title: params.title,
       description: params.description,
       date: params.date,
-      classId: params.classId,
+      ...(params.classId != 0 && { classId: params.classId }),
     },
   });
 };
@@ -106,7 +106,7 @@ export const updateAnnouncement = async (
       title: params.title,
       description: params.description,
       date: params.date,
-      classId: params.classId,
+      ...(params.classId != 0 && { classId: params.classId }),
     },
   });
 };

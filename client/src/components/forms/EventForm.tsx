@@ -18,7 +18,7 @@ const eventSchema = z.object({
   description: z.string().min(1, { message: "Description is required!" }),
   startTime: z.coerce.date({ message: "Start date is required!" }),
   endTime: z.coerce.date({ message: "End date is required!" }),
-  classId: z.coerce.number().min(1, { message: "Class is required!" }),
+  classId: z.coerce.number().optional(),
 });
 export type EventSchema = z.infer<typeof eventSchema>;
 
@@ -132,7 +132,7 @@ const EventForm: React.FC<FormProps> = ({
             {...register("classId")}
             defaultValue={data?.classId}
           >
-            <option selected value="">
+            <option selected value={0}>
               Select Class
             </option>
 
