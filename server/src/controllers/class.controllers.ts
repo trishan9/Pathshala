@@ -55,3 +55,34 @@ export const getStudentGrades = asyncHandler(
     });
   },
 );
+
+export const createClass = asyncHandler(async (req: Request, res: Response) => {
+  const body = req.body;
+  const classData = await classServices.createClass(body);
+
+  return apiResponse(res, StatusCodes.CREATED, {
+    class: classData,
+    message: "Class created successfully",
+  });
+});
+
+export const updateClass = asyncHandler(async (req: Request, res: Response) => {
+  const body = req.body;
+  const { classId } = req.params;
+
+  const classData = await classServices.updateClass(+classId, body);
+
+  return apiResponse(res, StatusCodes.OK, {
+    class: classData,
+    message: "Class updated successfully",
+  });
+});
+
+export const deleteClass = asyncHandler(async (req: Request, res: Response) => {
+  const { classId } = req.params;
+  await classServices.deleteClass(+classId);
+
+  return apiResponse(res, StatusCodes.OK, {
+    message: "Class deleted successfully",
+  });
+});
