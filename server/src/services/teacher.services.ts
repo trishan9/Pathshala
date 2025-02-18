@@ -57,6 +57,12 @@ export const getTeacherById = async (id: string) => {
   });
 };
 
+export const getClassTeachers = async () => {
+  return await client.teacher.findMany({
+    select: { id: true, name: true },
+  });
+};
+
 export interface CreateTeacherParams {
   username: string;
   name: string;

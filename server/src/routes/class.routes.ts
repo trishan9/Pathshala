@@ -21,6 +21,7 @@ classRouter.get(
   isAuthenticated,
   classControllers.getStudentGrades,
 );
+classRouter.get("/grades", isAuthenticated, classControllers.getClassGrades);
 classRouter.post("/", isAuthenticated, classControllers.createClass);
 classRouter.patch("/:classId", isAuthenticated, classControllers.updateClass);
 classRouter.delete("/:classId", isAuthenticated, classControllers.deleteClass);

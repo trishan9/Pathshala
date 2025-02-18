@@ -34,6 +34,17 @@ export const getTeacherById = asyncHandler(
   },
 );
 
+export const getClassTeachers = asyncHandler(
+  async (req: Request, res: Response) => {
+    const classTeachers = await teacherServices.getClassTeachers();
+
+    return apiResponse(res, StatusCodes.OK, {
+      classTeachers,
+      message: "Class teachers fetched successfully",
+    });
+  },
+);
+
 export const createTeacher = asyncHandler(
   async (req: Request, res: Response) => {
     const body = req.body;

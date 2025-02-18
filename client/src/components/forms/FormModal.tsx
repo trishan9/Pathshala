@@ -6,6 +6,8 @@ import { FormContainerProps } from "./FormContainer";
 import { useDeleteStudent } from "@/hooks/useStudents";
 import { useDeleteSubject } from "@/hooks/useSubjects";
 import SubjectForm from "./SubjectForm";
+import { useDeleteClass } from "@/hooks/useClasses";
+import ClassForm from "./ClassForm";
 
 const forms: {
   [key: string]: (
@@ -39,6 +41,14 @@ const forms: {
       relatedData={relatedData}
     />
   ),
+  class: (setOpen, type, data, relatedData) => (
+    <ClassForm
+      type={type}
+      data={data}
+      setOpen={setOpen}
+      relatedData={relatedData}
+    />
+  ),
 };
 
 const FormModal = ({
@@ -59,11 +69,13 @@ const FormModal = ({
   const deleteTeacher = useDeleteTeacher();
   const deleteStudent = useDeleteStudent();
   const deleteSubject = useDeleteSubject();
+  const deleteClass = useDeleteClass();
 
   const deleteActionMap = {
     teacher: deleteTeacher,
     student: deleteStudent,
     subject: deleteSubject,
+    class: deleteClass,
   };
 
   const [open, setOpen] = useState(false);

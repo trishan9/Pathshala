@@ -62,6 +62,12 @@ export const getStudentGrades = async () => {
   });
 };
 
+export const getClassGrades = async () => {
+  return await client.grade.findMany({
+    select: { id: true, level: true },
+  });
+};
+
 export const classSchema = z.object({
   id: z.coerce.number().optional(),
   name: z.string().min(1, { message: "Class name is required!" }),

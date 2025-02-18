@@ -5,7 +5,7 @@ import { loginFormSchema, signupFormSchema } from "@/schemas";
 import { TeacherFormData, useGetTeachersProps } from "@/hooks/useTeachers";
 import { useGetStudentsProps } from "@/hooks/useStudents";
 import { useGetSubjectsProps } from "@/hooks/useSubjects";
-import { useGetClassesProps } from "@/hooks/useClasses";
+import { ClassSchema, useGetClassesProps } from "@/hooks/useClasses";
 import { useGetLessonsProps } from "@/hooks/useLessons";
 import { useGetExamsProps } from "@/hooks/useExams";
 import { useGetAssignmentsProps } from "@/hooks/useAssignments";
@@ -50,6 +50,9 @@ export const apiActions = {
     },
     getById: async (id: string) => {
       return await api.get(`${API_URLS.TEACHER}/${id}`);
+    },
+    getClassTeachers: async () => {
+      return await api.get(API_URLS.CLASS_TEACHERS);
     },
   },
   student: {
@@ -102,6 +105,18 @@ export const apiActions = {
     },
     getStudentGrades: async () => {
       return await api.get(API_URLS.CLASS.STUDENT_GRADES);
+    },
+    getClassGrades: async () => {
+      return await api.get(API_URLS.CLASS.CLASS_GRADES);
+    },
+    create: async (data: ClassSchema) => {
+      return await api.post(API_URLS.CLASS["/"], data);
+    },
+    update: async (id: number, data: Partial<ClassSchema>) => {
+      return await api.patch(`${API_URLS.CLASS["/"]}/${id}`, data);
+    },
+    delete: async (id: number) => {
+      return await api.delete(`${API_URLS.CLASS["/"]}/${id}`);
     },
   },
   lesson: {

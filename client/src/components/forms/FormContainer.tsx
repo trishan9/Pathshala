@@ -62,6 +62,33 @@ const FormContainer = ({ table, type, data, id }: FormContainerProps) => {
     },
   });
 
+  const { data: classGrades } = useQuery({
+    queryKey: ["classGrades"],
+    queryFn: async () => {
+      const response = await apiActions.class.getClassGrades();
+
+      if (!response.data) {
+        throw new Error("Failed to get class grades");
+      }
+
+      return response.data.classGrades;
+    },
+  });
+
+  const { data: classTeachers } = useQuery({
+    queryKey: ["classTeachers"],
+    queryFn: async () => {
+      const response = await apiActions.teacher.getClassTeachers();
+
+      if (!response.data) {
+        throw new Error("Failed to get class teachers");
+      }
+
+      console.log(response);
+      return response.data.classTeachers;
+    },
+  });
+
   if (type !== "delete") {
     switch (table) {
       case "teacher":
@@ -69,6 +96,9 @@ const FormContainer = ({ table, type, data, id }: FormContainerProps) => {
         break;
       case "student":
         relatedData = { classes: studentClasses, grades: studentGrades };
+        break;
+      case "class":
+        relatedData = { teachers: classTeachers, grades: classGrades };
         break;
       default:
         break;

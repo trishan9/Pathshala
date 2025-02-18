@@ -8,6 +8,11 @@ const teacherRouter = Router();
 
 teacherRouter.get("/", isAuthenticated, teacherControllers.getAllTeachers);
 teacherRouter.get(
+  "/class",
+  isAuthenticated,
+  teacherControllers.getClassTeachers,
+);
+teacherRouter.get(
   "/:teacherId",
   isAuthenticated,
   teacherControllers.getTeacherById,

@@ -56,6 +56,17 @@ export const getStudentGrades = asyncHandler(
   },
 );
 
+export const getClassGrades = asyncHandler(
+  async (req: Request, res: Response) => {
+    const classGrades = await classServices.getClassGrades();
+
+    return apiResponse(res, StatusCodes.OK, {
+      classGrades,
+      message: "Class grades fetched successfully",
+    });
+  },
+);
+
 export const createClass = asyncHandler(async (req: Request, res: Response) => {
   const body = req.body;
   const classData = await classServices.createClass(body);

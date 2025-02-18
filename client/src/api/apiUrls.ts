@@ -8,6 +8,7 @@ export const API_URLS = {
     ME: "/auth/me",
   },
   TEACHER: "/teacher",
+  CLASS_TEACHERS: "/teacher/class",
   STUDENT: "/student",
   SUBJECT: "/subject",
   TEACHER_SUBJECTS: "/subject/teachers",
@@ -16,6 +17,7 @@ export const API_URLS = {
     STUDENT: "/class/student",
     STUDENT_CLASSES: "/class/students",
     STUDENT_GRADES: "/class/grades/students",
+    CLASS_GRADES: "/class/grades",
   },
   LESSON: {
     "/": "/lesson",
