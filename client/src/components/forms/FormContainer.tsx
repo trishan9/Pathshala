@@ -102,6 +102,9 @@ const FormContainer = ({ table, type, data, id }: FormContainerProps) => {
       case "announcement":
         relatedData = { classes: studentClasses };
         break;
+      case "event":
+        relatedData = { classes: studentClasses };
+        break;
       default:
         break;
     }

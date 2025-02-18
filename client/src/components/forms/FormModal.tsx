@@ -9,6 +9,7 @@ import SubjectForm from "./SubjectForm";
 import { useDeleteClass } from "@/hooks/useClasses";
 import ClassForm from "./ClassForm";
 import AnnouncementForm from "./AnnouncementForm";
+import EventForm from "./EventForm";
 
 const forms: {
   [key: string]: (
@@ -52,6 +53,14 @@ const forms: {
   ),
   announcement: (setOpen, type, data, relatedData) => (
     <AnnouncementForm
+      type={type}
+      data={data}
+      setOpen={setOpen}
+      relatedData={relatedData}
+    />
+  ),
+  event: (setOpen, type, data, relatedData) => (
+    <EventForm
       type={type}
       data={data}
       setOpen={setOpen}

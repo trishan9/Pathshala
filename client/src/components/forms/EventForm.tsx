@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import InputField from "../InputField";
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
+import { format } from "path";
 
 export interface FormProps {
   type: "create" | "update";
@@ -11,16 +12,41 @@ export interface FormProps {
   relatedData?: any;
 }
 
-const announcementSchema = z.object({
+const eventSchema = z.object({
   id: z.string().optional(),
   title: z.string().min(1, { message: "Title is required!" }),
   description: z.string().min(1, { message: "Description is required!" }),
-  date: z.coerce.date({ message: "Date is required!" }),
+  startTime: z.coerce.date({ message: "Start date is required!" }),
+  endTime: z.coerce.date({ message: "End date is required!" }),
   classId: z.coerce.number().min(1, { message: "Class is required!" }),
 });
-export type AnnouncementSchema = z.infer<typeof announcementSchema>;
+export type EventSchema = z.infer<typeof eventSchema>;
 
-const AnnouncementForm: React.FC<FormProps> = ({
+function formatDateTime(startTime: string, timeZone = "Asia/Kathmandu") {
+  const formatter = new Intl.DateTimeFormat("en-GB", {
+    timeZone: timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+
+  const dateParts = formatter.format(new Date(startTime)).split("/");
+  const dateString =
+    dateParts[2].split(", ")[0] +
+    "-" +
+    dateParts[1] +
+    "-" +
+    dateParts[0] +
+    "T" +
+    dateParts[2].split(", ")[1];
+
+  return dateString;
+}
+
+const EventForm: React.FC<FormProps> = ({
   type,
   data,
   setOpen,
@@ -30,11 +56,11 @@ const AnnouncementForm: React.FC<FormProps> = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<AnnouncementSchema>({
-    resolver: zodResolver(announcementSchema),
+  } = useForm<EventSchema>({
+    resolver: zodResolver(eventSchema),
   });
 
-  const onSubmit = handleSubmit((values: AnnouncementSchema) => {
+  const onSubmit = handleSubmit((values: EventSchema) => {
     console.log(values);
   });
 
@@ -43,9 +69,7 @@ const AnnouncementForm: React.FC<FormProps> = ({
   return (
     <form className="flex flex-col gap-8" onSubmit={onSubmit}>
       <h1 className="text-xl font-semibold">
-        {type === "create"
-          ? "Create a new announcement"
-          : "Update announcement"}
+        {type === "create" ? "Create a new event" : "Update event"}
       </h1>
       <div className="flex justify-between flex-wrap gap-4">
         <InputField
@@ -63,14 +87,21 @@ const AnnouncementForm: React.FC<FormProps> = ({
           error={errors?.description}
         />
         <InputField
-          label="Date"
-          name="date"
-          defaultValue={
-            data?.date && new Date(data?.date)?.toISOString().split("T")[0]
-          }
+          label="Start Time"
+          name="startTime"
+          defaultValue={data?.startTime && formatDateTime(data?.startTime)}
           register={register}
-          error={errors?.date}
-          type="date"
+          error={errors?.startTime}
+          type="datetime-local"
+        />
+
+        <InputField
+          label="End Time"
+          name="endTime"
+          defaultValue={data?.endTime && formatDateTime(data?.endTime)}
+          register={register}
+          error={errors?.endTime}
+          type="datetime-local"
         />
 
         <div className="flex flex-col gap-2 w-full md:w-1/4">
@@ -90,6 +121,7 @@ const AnnouncementForm: React.FC<FormProps> = ({
               </option>
             ))}
           </select>
+
           {errors.classId?.message && (
             <p className="text-xs text-red-400">
               {errors.classId.message.toString()}
@@ -108,4 +140,4 @@ const AnnouncementForm: React.FC<FormProps> = ({
   );
 };
 
-export default AnnouncementForm;
+export default EventForm;
