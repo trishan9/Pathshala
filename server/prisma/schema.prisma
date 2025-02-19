@@ -86,10 +86,10 @@ model Class {
 }
 
 model Subject {
-  id       String    @id @default(uuid())
-  name     String    @unique
-  teachers Teacher[]
-  lessons  Lesson[]
+  id         String       @id @default(uuid())
+  name       String       @unique
+  teachers   Teacher[]
+  lessons    Lesson[]
 }
 
 model Lesson {
@@ -151,8 +151,8 @@ model Attendance {
 
   studentId String
   student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  Lesson    Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   lessonId  String
-  lesson    Lesson  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 }
 
 model Event {

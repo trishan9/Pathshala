@@ -16,7 +16,7 @@ function RouteComponent() {
       return <Navigate to="/admin" replace />;
     } else if (currUser?.role === "teacher") {
       return (
-        <div className="h-[120svh]">
+        <div className="h-full">
           <Outlet />
         </div>
       );

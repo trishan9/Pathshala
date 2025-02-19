@@ -14,3 +14,40 @@ export const getAttendanceAnalytics = asyncHandler(
     });
   },
 );
+
+export const getLessons = asyncHandler(
+  async (req: Request, res: Response) => {
+    const {teacherId} = req.params
+    const data = await attendanceServices.getLessons(teacherId);
+
+    return apiResponse(res, StatusCodes.OK, {
+      data,
+      message: "Lessons data fetched succesfully",
+    });
+  },
+);
+
+export const getClassStudents = asyncHandler(
+  async (req: Request, res: Response) => {
+    const {lessonId} = req.params
+    const data = await attendanceServices.getClassStudents(lessonId);
+
+    return apiResponse(res, StatusCodes.OK, {
+      data,
+      message: "Class students data fetched succesfully",
+    });
+  },
+);
+
+export const recordAttendance = asyncHandler(
+  async (req: Request, res: Response) => {
+    const {lessonId} = req.params
+    const body = req.body
+    const data = await attendanceServices.recordAttendance(lessonId, body);
+
+    return apiResponse(res, StatusCodes.OK, {
+      data,
+      message: "Attendance recorded succesfully",
+    });
+  },
+);

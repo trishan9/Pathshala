@@ -10,5 +10,20 @@ attendanceRouter.get(
   isAuthenticated,
   attendanceControllers.getAttendanceAnalytics,
 );
+attendanceRouter.get(
+  "/teacher/:teacherId/lessons",
+  isAuthenticated,
+  attendanceControllers.getLessons,
+);
+attendanceRouter.get(
+  "/lesson/:lessonId/students",
+  isAuthenticated,
+  attendanceControllers.getClassStudents,
+);
+attendanceRouter.post(
+  "/lesson/:lessonId",
+  isAuthenticated,
+  attendanceControllers.recordAttendance,
+);
 
 export { attendanceRouter };

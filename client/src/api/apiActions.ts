@@ -230,6 +230,15 @@ export const apiActions = {
         return await api.get(API_URLS.ATTENDANCE.ANALYTICS);
       },
     },
+    getLessons: async (teacherId: string) => {
+      return await api.get(`${API_URLS.ATTENDANCE.TEACHER}/${teacherId}/lessons`);
+    },
+    getClassStudents: async (lessonId: string) => {
+      return await api.get(`${API_URLS.ATTENDANCE.LESSON}/${lessonId}/students`);
+    },
+    recordAttendance: async (lessonId: string, data: any) => {
+      return await api.post(`${API_URLS.ATTENDANCE.RECORD_ATTENDANCE}/${lessonId}`, data.attendanceRecords);
+    }
   },
 };
 
