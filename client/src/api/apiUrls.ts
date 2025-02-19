@@ -27,6 +27,9 @@ export const API_URLS = {
   EXAM: "/exam",
   ASSIGNMENT: "/assignment",
   RESULT: "/result",
+  RESULT_STUDENTS_LIST: "/result/students-list",
+  RESULT_EXAMS_LIST: "/result/exams-list",
+  RESULT_ASSIGNMENTS_LIST: "/result/assignments-list",
   EVENT: {
     "/": "/event",
     CALENDAR: "/event/calendar",

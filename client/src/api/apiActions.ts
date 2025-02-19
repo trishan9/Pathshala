@@ -16,6 +16,7 @@ import { AnnouncementSchema } from "@/components/forms/AnnouncementForm";
 import { ExamSchema } from "@/components/forms/ExamForm";
 import { AssignmentSchema } from "@/components/forms/AssignmentForm";
 import { GetAttendanceParams } from "@/routes/_protected/_dashboard/_admin/list/attendance";
+import { ResultSchema } from "@/components/forms/ResultForm";
 
 export const apiActions = {
   auth: {
@@ -167,6 +168,24 @@ export const apiActions = {
     getAll: async (query: useGetResultsProps) => {
       return await api.get(API_URLS.RESULT, { params: query });
     },
+    create: async (data: ResultSchema) => {
+      return await api.post(API_URLS.RESULT, data);
+    },
+    update: async (id: string, data: Partial<ResultSchema>) => {
+      return await api.patch(`${API_URLS.RESULT}/${id}`, data);
+    },
+    delete: async (id: string) => {
+      return await api.delete(`${API_URLS.RESULT}/${id}`);
+    },
+    getStudentsList: async () => {
+      return await api.get(API_URLS.RESULT_STUDENTS_LIST);
+    },
+    getExamsList: async () => {
+      return await api.get(API_URLS.RESULT_EXAMS_LIST);
+    },
+    getAssignmentsList: async () => {
+      return await api.get(API_URLS.RESULT_ASSIGNMENTS_LIST);
+    }
   },
   event: {
     getAll: async (query: useGetExamsProps) => {

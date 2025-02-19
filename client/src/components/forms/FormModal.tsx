@@ -16,6 +16,8 @@ import ExamForm from "./ExamForm";
 import AssignmentForm from "./AssignmentForm";
 import { useDeleteExam } from "@/hooks/useExams";
 import { useDeleteAssignment } from "@/hooks/useAssignments";
+import { useDeleteResult } from "@/hooks/useResults";
+import ResultForm from "./ResultForm";
 
 const forms: {
   [key: string]: (
@@ -89,6 +91,14 @@ const forms: {
       relatedData={relatedData}
     />
   ),
+  result: (setOpen, type, data, relatedData) => (
+    <ResultForm
+      type={type}
+      data={data}
+      setOpen={setOpen}
+      relatedData={relatedData}
+    />
+  ),
 };
 
 const FormModal = ({
@@ -114,6 +124,7 @@ const FormModal = ({
   const deleteAnnouncement = useDeleteAnnouncement();
   const deleteExam = useDeleteExam();
   const deleteAssignment = useDeleteAssignment();
+  const deleteResult = useDeleteResult();
 
   const deleteActionMap = {
     teacher: deleteTeacher,
@@ -123,7 +134,8 @@ const FormModal = ({
     event: deleteEvent,
     announcement: deleteAnnouncement,
     exam: deleteExam,
-    assignment: deleteAssignment
+    assignment: deleteAssignment,
+    result: deleteResult
   };
 
   const [open, setOpen] = useState(false);

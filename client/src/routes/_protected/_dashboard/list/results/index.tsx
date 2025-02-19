@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import FormModal from "@/components/forms/FormModal";
 import Pagination from "@/components/tables/Pagination";
 import Table from "@/components/tables/Table";
 import TableSearch from "@/components/tables/TableSearch";
@@ -7,6 +6,7 @@ import { z } from "zod";
 import { useGetResults } from "@/hooks/useResults";
 import { PageLoader } from "@/components/PageLoader";
 import { useGetRole } from "@/hooks/useGetRole";
+import FormContainer from "@/components/forms/FormContainer";
 
 const getAllResultsQuerySchema = z.object({
   page: z.number().optional(),
@@ -100,8 +100,8 @@ const ResultListPage = () => {
         <div className="flex items-center gap-2">
           {(role === "admin" || role === "teacher") && (
             <>
-              <FormModal table="result" type="update" data={item} />
-              <FormModal table="result" type="delete" id={item.id} />
+              <FormContainer table="result" type="update" data={item} />
+              <FormContainer table="result" type="delete" id={item.id} />
             </>
           )}
         </div>
@@ -123,7 +123,7 @@ const ResultListPage = () => {
               <img src="/sort.png" alt="" width={14} height={14} />
             </button>
             {(role === "admin" || role === "teacher") && (
-              <FormModal table="result" type="create" />
+              <FormContainer table="result" type="create" />
             )}
           </div>
         </div>

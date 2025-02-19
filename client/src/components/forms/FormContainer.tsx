@@ -101,6 +101,45 @@ const FormContainer = ({ table, type, data, id }: FormContainerProps) => {
     },
   });
 
+  const { data: studentsList } = useQuery({
+    queryKey: ["studentsList"],
+    queryFn: async () => {
+      const response = await apiActions.result.getStudentsList();
+
+      if (!response.data) {
+        throw new Error("Failed to get students");
+      }
+
+      return response.data.studentsList;
+    },
+  });
+
+  const { data: examsList } = useQuery({
+    queryKey: ["examsList"],
+    queryFn: async () => {
+      const response = await apiActions.result.getExamsList();
+
+      if (!response.data) {
+        throw new Error("Failed to get exams");
+      }
+
+      return response.data.examsList;
+    },
+  });
+
+  const { data: assignmentsList } = useQuery({
+    queryKey: ["assignmentsList"],
+    queryFn: async () => {
+      const response = await apiActions.result.getAssignmentsList();
+
+      if (!response.data) {
+        throw new Error("Failed to get assignments");
+      }
+
+      return response.data.assignmentsList;
+    },
+  });
+
   if (type !== "delete") {
     switch (table) {
       case "teacher":
@@ -124,6 +163,9 @@ const FormContainer = ({ table, type, data, id }: FormContainerProps) => {
       case "assignment":
         relatedData = { lessons: examLessons };
         break;
+      case "result":
+          relatedData = { students: studentsList, exams: examsList, assignments: assignmentsList };
+          break;
       default:
         break;
     }
