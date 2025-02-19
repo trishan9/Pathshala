@@ -38,6 +38,7 @@
     "react-day-picker": "8.10.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.2",
+    "react-quill": "^2.0.0",
     "react-toastify": "^10.0.6",
     "recharts": "^2.15.1",
     "swiper": "^11.1.15",

@@ -1,18 +1,23 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import InputField from "../InputField";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { z } from "zod";
 import { useCreateAssignment, useUpdateAssignment } from "@/hooks/useAssignments";
+import { Editor } from "../Editor";
+import { Pencil, X } from "lucide-react";
+import { Button } from "../ui/button";
+import { Preview } from "../Preview";
 
 export const assignmentSchema = z.object({
-    id: z.coerce.number().optional(),
-    title: z.string().min(1, { message: "Assignment name is required!" }),
-    startDate: z.coerce.date({ message: "Start date is required!" }),
-    dueDate: z.coerce.date({ message: "Due date is required!" }),
-    lessonId: z.coerce.string({ message: "Lesson is required!" }),
-  });
-  
+  id: z.coerce.number().optional(),
+  title: z.string().min(1, { message: "Assignment name is required!" }),
+  startDate: z.coerce.date({ message: "Start date is required!" }),
+  dueDate: z.coerce.date({ message: "Due date is required!" }),
+  lessonId: z.coerce.string({ message: "Lesson is required!" }),
+  question: z.coerce.string().optional(),
+});
+
 export type AssignmentSchema = z.infer<typeof assignmentSchema>;
 
 const AssignmentForm = ({
@@ -21,11 +26,25 @@ const AssignmentForm = ({
   setOpen,
   relatedData,
 }: {
-  type: "create" | "update";
+  type: "create" | "update" | "view";
   data?: any;
   setOpen: Dispatch<SetStateAction<boolean>>;
   relatedData?: any;
 }) => {
+  if (type === "view") {
+    return (
+      <div>
+        <p className="text-lg font-semibold">Question</p>
+
+        {data?.question ? (
+          <Preview value={data?.question} />
+        ) : (
+          <span className="text-muted-foreground mt-2">No question yet</span>
+        )}
+      </div>
+    )
+  }
+
   const {
     register,
     handleSubmit,
@@ -37,10 +56,17 @@ const AssignmentForm = ({
 
   const createAssignment = useCreateAssignment();
   const updateAssignment = useUpdateAssignment();
-  
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [value, setValue] = useState(data?.question);
+
   const onSubmit = handleSubmit((values: AssignmentSchema) => {
+    const finalValues: AssignmentSchema = {
+      ...values,
+      question: value
+    }
     if (type === "create") {
-      createAssignment.mutate(values, {
+      createAssignment.mutate(finalValues, {
         onSuccess: () => {
           reset();
           setOpen(false);
@@ -48,7 +74,7 @@ const AssignmentForm = ({
       });
     } else if (type === "update") {
       updateAssignment.mutate(
-        { id: data?.id || "", data: values },
+        { id: data?.id || "", data: finalValues },
         {
           onSuccess: () => {
             reset();
@@ -111,7 +137,7 @@ const AssignmentForm = ({
               </option>
             ))}
           </select>
-          
+
           {errors.lessonId?.message && (
             <p className="text-xs text-red-400">
               {errors.lessonId.message.toString()}
@@ -119,7 +145,46 @@ const AssignmentForm = ({
           )}
         </div>
       </div>
-     
+
+      <div className="p-4 border rounded-lg">
+        <div className="flex items-center justify-between mb-4">
+          <p className="text-lg font-semibold">Question</p>
+
+          <Button
+            onClick={() => setIsEditing((prev) => !prev)}
+            size="sm"
+            variant="outline"
+            type="button"
+          >
+            {isEditing ? (
+              <X className="size-4 mr-2" />
+            ) : (
+              <Pencil className="size-4 mr-2" />
+            )}
+            {isEditing ? "Cancel" : "Edit"}
+          </Button>
+        </div>
+
+        {isEditing ? (
+          <div className="flex flex-col gap-y-4">
+            <Editor
+              value={
+                value
+              }
+              onChange={setValue}
+            />
+          </div>
+        ) : (
+          <div>
+            {data?.question ? (
+              <Preview value={data?.question} />
+            ) : value ? (<Preview value={value} />) : (
+              <span className="text-muted-foreground">No question set</span>
+            )}
+          </div>
+        )}
+      </div>
+
       <button className="bg-blue-400 text-white p-2 rounded-md">
         {type === "create" ? "Create" : "Update"}
       </button>

@@ -72,6 +72,7 @@ export const assignmentSchema = z.object({
   startDate: z.coerce.date({ message: "Start date is required!" }),
   dueDate: z.coerce.date({ message: "Due date is required!" }),
   lessonId: z.coerce.string({ message: "Lesson is required!" }),
+  question: z.coerce.string().optional(),
 });
 
 export type AssignmentSchema = z.infer<typeof assignmentSchema>;
@@ -82,7 +83,8 @@ export const createAssignment = async (params: AssignmentSchema) => {
       title: params.title,
       startDate: params.startDate,
       dueDate: params.dueDate,
-      lessonId: params.lessonId
+      lessonId: params.lessonId,
+      question: params.question
     },
   });
 };
@@ -112,7 +114,8 @@ export const updateAssignment = async (
       title: params.title,
       startDate: params.startDate,
       dueDate: params.dueDate,
-      lessonId: params.lessonId
+      lessonId: params.lessonId,
+      question: params.question
     },
   });
 };

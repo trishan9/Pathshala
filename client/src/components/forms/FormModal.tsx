@@ -102,9 +102,9 @@ const FormModal = ({
   const bgColor =
     type === "create"
       ? "bg-lamaYellow"
-      : type === "update"
-        ? "bg-lamaSky"
-        : "bg-lamaPurple";
+      : type === "delete"
+        ? "bg-lamaPurple"
+        : "bg-lamaSky";
 
   const deleteTeacher = useDeleteTeacher();
   const deleteStudent = useDeleteStudent();
@@ -141,6 +141,7 @@ const FormModal = ({
   }, [open]);
 
   const Form = () => {
+    //@ts-ignore
     const mutater = deleteActionMap[table];
 
     const handleDelete = (id: string | number) => {
@@ -159,7 +160,8 @@ const FormModal = ({
           Delete
         </button>
       </div>
-    ) : type === "create" || type === "update" ? (
+    ) : type === "create" || type === "update" || type === "view" ? (
+      //@ts-ignore
       forms[table](setOpen, type, data, relatedData)
     ) : (
       "Form not found!"
@@ -180,12 +182,12 @@ const FormModal = ({
           <div className="bg-white p-4 rounded-md relative w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[40%]">
             <Form />
 
-            <div
+            <button
               className="absolute top-4 right-4 cursor-pointer"
               onClick={() => setOpen(false)}
             >
               <img src="/close.png" alt="" width={14} height={14} />
-            </div>
+            </button>
           </div>
         </div>
       )}

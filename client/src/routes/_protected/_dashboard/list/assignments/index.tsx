@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import Pagination from "@/components/tables/Pagination";
 import Table from "@/components/tables/Table";
 import TableSearch from "@/components/tables/TableSearch";
@@ -87,6 +87,11 @@ const AssignmentListPage = () => {
             <>
               <FormContainer table="assignment" type="update" data={item} />
               <FormContainer table="assignment" type="delete" id={item.id} />
+            </>
+          )}
+          {(role === "student") && (
+            <>
+              <FormContainer table="assignment" type="view" data={item} />
             </>
           )}
         </div>

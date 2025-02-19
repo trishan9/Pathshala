@@ -45,11 +45,6 @@ const studentRoutes = [
     href: "/list/results",
   },
   {
-    icon: CalendarCheck,
-    label: "Attendance",
-    href: "/list/attendance",
-  },
-  {
     icon: CalendarRange,
     label: "Events",
     href: "/list/events",
