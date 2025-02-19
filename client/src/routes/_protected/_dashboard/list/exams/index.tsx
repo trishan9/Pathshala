@@ -27,14 +27,20 @@ function RouteComponent() {
 
 type Exam = {
   id: number;
+  title: string;
   startTime: Date;
   lesson: Lesson;
 };
 
 const columns = [
   {
+    header: "Title",
+    accessor: "title",
+  },
+  {
     header: "Subject Name",
     accessor: "name",
+    className: "hidden md:table-cell",
   },
   {
     header: "Class",
@@ -72,6 +78,9 @@ const ExamListPage = () => {
       className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
     >
       <td className="flex items-center gap-4 p-4">
+        {item.title}
+      </td>
+      <td className="hidden md:table-cell">
         {item.lesson.subject.name}
       </td>
       <td>{item.lesson.class.name}</td>
@@ -85,6 +94,11 @@ const ExamListPage = () => {
             <>
               <FormContainer table="exam" type="update" data={item} />
               <FormContainer table="exam" type="delete" id={item.id} />
+            </>
+          )}
+          {(role === "student") && (
+            <>
+              <FormContainer table="exam" type="view" data={item} />
             </>
           )}
         </div>

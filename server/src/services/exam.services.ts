@@ -69,6 +69,7 @@ export const examSchema = z.object({
   startTime: z.coerce.date({ message: "Start time is required!" }),
   endTime: z.coerce.date({ message: "End time is required!" }),
   lessonId: z.coerce.string({ message: "Lesson is required!" }),
+  instruction: z.coerce.string().optional(),
 });
 
 export type ExamSchema = z.infer<typeof examSchema>;
@@ -79,7 +80,8 @@ export const createExam = async (params: ExamSchema) => {
       title: params.title,
       startTime: params.startTime,
       endTime: params.endTime,
-      lessonId: params.lessonId
+      lessonId: params.lessonId,
+      instruction: params.instruction
     },
   });
 };
@@ -109,7 +111,8 @@ export const updateExam = async (
       title: params.title,
       startTime: params.startTime,
       endTime: params.endTime,
-      lessonId: params.lessonId
+      lessonId: params.lessonId,
+      instruction: params.instruction
     },
   });
 };

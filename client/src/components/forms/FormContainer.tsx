@@ -130,7 +130,7 @@ const FormContainer = ({ table, type, data, id }: FormContainerProps) => {
   }
 
   return (
-    <div className="">
+    <div>
       <FormModal
         table={table}
         type={type}

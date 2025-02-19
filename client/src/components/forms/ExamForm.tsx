@@ -1,18 +1,23 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import InputField from "../InputField";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { z } from "zod";
 import { useCreateExam, useUpdateExam } from "@/hooks/useExams";
+import { Preview } from "../Preview";
+import { Button } from "../ui/button";
+import { Pencil, X } from "lucide-react";
+import { Editor } from "../Editor";
 
 export const examSchema = z.object({
-    id: z.coerce.number().optional(),
-    title: z.string().min(1, { message: "Title name is required!" }),
-    startTime: z.coerce.date({ message: "Start time is required!" }),
-    endTime: z.coerce.date({ message: "End time is required!" }),
-    lessonId: z.coerce.string({ message: "Lesson is required!" }),
-  });
-  
+  id: z.coerce.number().optional(),
+  title: z.string().min(1, { message: "Title name is required!" }),
+  startTime: z.coerce.date({ message: "Start time is required!" }),
+  endTime: z.coerce.date({ message: "End time is required!" }),
+  lessonId: z.coerce.string({ message: "Lesson is required!" }),
+  instruction: z.coerce.string().optional(),
+});
+
 export type ExamSchema = z.infer<typeof examSchema>;
 
 const ExamForm = ({
@@ -21,11 +26,25 @@ const ExamForm = ({
   setOpen,
   relatedData,
 }: {
-  type: "create" | "update";
+  type: "create" | "update" | "view";
   data?: any;
   setOpen: Dispatch<SetStateAction<boolean>>;
   relatedData?: any;
 }) => {
+  if (type === "view") {
+    return (
+      <div>
+        <p className="text-lg font-semibold">Instructions</p>
+
+        {data?.instruction ? (
+          <Preview value={data?.instruction} />
+        ) : (
+          <span className="text-muted-foreground mt-2">No instructions yet</span>
+        )}
+      </div>
+    )
+  }
+
   const {
     register,
     reset,
@@ -37,10 +56,17 @@ const ExamForm = ({
 
   const createExam = useCreateExam();
   const updateExam = useUpdateExam();
-  
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [value, setValue] = useState(data?.instruction);
+
   const onSubmit = handleSubmit((values: ExamSchema) => {
+    const finalValues: ExamSchema = {
+          ...values,
+          instruction: value
+        }
     if (type === "create") {
-      createExam.mutate(values, {
+      createExam.mutate(finalValues, {
         onSuccess: () => {
           reset();
           setOpen(false);
@@ -48,7 +74,7 @@ const ExamForm = ({
       });
     } else if (type === "update") {
       updateExam.mutate(
-        { id: data?.id || "", data: values },
+        { id: data?.id || "", data: finalValues },
         {
           onSuccess: () => {
             reset();
@@ -111,7 +137,7 @@ const ExamForm = ({
               </option>
             ))}
           </select>
-          
+
           {errors.lessonId?.message && (
             <p className="text-xs text-red-400">
               {errors.lessonId.message.toString()}
@@ -119,7 +145,46 @@ const ExamForm = ({
           )}
         </div>
       </div>
-     
+
+      <div className="p-4 border rounded-lg">
+        <div className="flex items-center justify-between mb-4">
+          <p className="text-lg font-semibold">Instruction</p>
+
+          <Button
+            onClick={() => setIsEditing((prev) => !prev)}
+            size="sm"
+            variant="outline"
+            type="button"
+          >
+            {isEditing ? (
+              <X className="size-4 mr-2" />
+            ) : (
+              <Pencil className="size-4 mr-2" />
+            )}
+            {isEditing ? "Cancel" : "Edit"}
+          </Button>
+        </div>
+
+        {isEditing ? (
+          <div className="flex flex-col gap-y-4">
+            <Editor
+              value={
+                value
+              }
+              onChange={setValue}
+            />
+          </div>
+        ) : (
+          <div>
+            {data?.instruction ? (
+              <Preview value={data?.instruction} />
+            ) : value ? (<Preview value={value} />) : (
+              <span className="text-muted-foreground">No instruction set</span>
+            )}
+          </div>
+        )}
+      </div>
+
       <button className="bg-blue-400 text-white p-2 rounded-md">
         {type === "create" ? "Create" : "Update"}
       </button>

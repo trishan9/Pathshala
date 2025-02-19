@@ -29,6 +29,7 @@ function RouteComponent() {
 
 type Assignment = {
   id: number;
+  title: string;
   dueDate: Date;
   lesson: Lesson;
 };
@@ -45,8 +46,13 @@ const AssignmentListPage = () => {
 
   const columns = [
     {
+      header: "Title",
+      accessor: "title",
+    },
+    {
       header: "Subject Name",
       accessor: "name",
+      className: "hidden md:table-cell",
     },
     {
       header: "Class",
@@ -74,6 +80,9 @@ const AssignmentListPage = () => {
       className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
     >
       <td className="flex items-center gap-4 p-4">
+        {item.title}
+      </td>
+      <td className="hidden md:table-cell">
         {item.lesson.subject.name}
       </td>
       <td>{item.lesson.class.name}</td>
