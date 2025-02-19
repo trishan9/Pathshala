@@ -35,6 +35,7 @@ import { Route as ProtectedDashboardStaffListStudentsIndexImport } from './route
 import { Route as ProtectedDashboardStaffListLessonsIndexImport } from './routes/_protected/_dashboard/_staff/list/lessons/index'
 import { Route as ProtectedDashboardStaffListClassesIndexImport } from './routes/_protected/_dashboard/_staff/list/classes/index'
 import { Route as ProtectedDashboardAdminListSubjectsIndexImport } from './routes/_protected/_dashboard/_admin/list/subjects/index'
+import { Route as ProtectedDashboardAdminListAttendanceIndexImport } from './routes/_protected/_dashboard/_admin/list/attendance/index'
 import { Route as ProtectedDashboardTeacherListAttendanceMarkImport } from './routes/_protected/_dashboard/_teacher/list/attendance/mark'
 import { Route as ProtectedDashboardStaffListTeachersIdImport } from './routes/_protected/_dashboard/_staff/list/teachers/$id'
 import { Route as ProtectedDashboardStaffListStudentsIdImport } from './routes/_protected/_dashboard/_staff/list/students/$id'
@@ -194,6 +195,13 @@ const ProtectedDashboardAdminListSubjectsIndexRoute =
   ProtectedDashboardAdminListSubjectsIndexImport.update({
     id: '/list/subjects/',
     path: '/list/subjects/',
+    getParentRoute: () => ProtectedDashboardAdminRoute,
+  } as any)
+
+const ProtectedDashboardAdminListAttendanceIndexRoute =
+  ProtectedDashboardAdminListAttendanceIndexImport.update({
+    id: '/list/attendance/',
+    path: '/list/attendance/',
     getParentRoute: () => ProtectedDashboardAdminRoute,
   } as any)
 
@@ -369,6 +377,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedDashboardTeacherListAttendanceMarkImport
       parentRoute: typeof ProtectedDashboardTeacherImport
     }
+    '/_protected/_dashboard/_admin/list/attendance/': {
+      id: '/_protected/_dashboard/_admin/list/attendance/'
+      path: '/list/attendance'
+      fullPath: '/list/attendance'
+      preLoaderRoute: typeof ProtectedDashboardAdminListAttendanceIndexImport
+      parentRoute: typeof ProtectedDashboardAdminImport
+    }
     '/_protected/_dashboard/_admin/list/subjects/': {
       id: '/_protected/_dashboard/_admin/list/subjects/'
       path: '/list/subjects'
@@ -411,6 +426,7 @@ declare module '@tanstack/react-router' {
 
 interface ProtectedDashboardAdminRouteChildren {
   ProtectedDashboardAdminAdminIndexRoute: typeof ProtectedDashboardAdminAdminIndexRoute
+  ProtectedDashboardAdminListAttendanceIndexRoute: typeof ProtectedDashboardAdminListAttendanceIndexRoute
   ProtectedDashboardAdminListSubjectsIndexRoute: typeof ProtectedDashboardAdminListSubjectsIndexRoute
 }
 
@@ -418,6 +434,8 @@ const ProtectedDashboardAdminRouteChildren: ProtectedDashboardAdminRouteChildren
   {
     ProtectedDashboardAdminAdminIndexRoute:
       ProtectedDashboardAdminAdminIndexRoute,
+    ProtectedDashboardAdminListAttendanceIndexRoute:
+      ProtectedDashboardAdminListAttendanceIndexRoute,
     ProtectedDashboardAdminListSubjectsIndexRoute:
       ProtectedDashboardAdminListSubjectsIndexRoute,
   }
@@ -555,6 +573,7 @@ export interface FileRoutesByFullPath {
   '/list/students/$id': typeof ProtectedDashboardStaffListStudentsIdRoute
   '/list/teachers/$id': typeof ProtectedDashboardStaffListTeachersIdRoute
   '/list/attendance/mark': typeof ProtectedDashboardTeacherListAttendanceMarkRoute
+  '/list/attendance': typeof ProtectedDashboardAdminListAttendanceIndexRoute
   '/list/subjects': typeof ProtectedDashboardAdminListSubjectsIndexRoute
   '/list/classes': typeof ProtectedDashboardStaffListClassesIndexRoute
   '/list/lessons': typeof ProtectedDashboardStaffListLessonsIndexRoute
@@ -579,6 +598,7 @@ export interface FileRoutesByTo {
   '/list/students/$id': typeof ProtectedDashboardStaffListStudentsIdRoute
   '/list/teachers/$id': typeof ProtectedDashboardStaffListTeachersIdRoute
   '/list/attendance/mark': typeof ProtectedDashboardTeacherListAttendanceMarkRoute
+  '/list/attendance': typeof ProtectedDashboardAdminListAttendanceIndexRoute
   '/list/subjects': typeof ProtectedDashboardAdminListSubjectsIndexRoute
   '/list/classes': typeof ProtectedDashboardStaffListClassesIndexRoute
   '/list/lessons': typeof ProtectedDashboardStaffListLessonsIndexRoute
@@ -609,6 +629,7 @@ export interface FileRoutesById {
   '/_protected/_dashboard/_staff/list/students/$id': typeof ProtectedDashboardStaffListStudentsIdRoute
   '/_protected/_dashboard/_staff/list/teachers/$id': typeof ProtectedDashboardStaffListTeachersIdRoute
   '/_protected/_dashboard/_teacher/list/attendance/mark': typeof ProtectedDashboardTeacherListAttendanceMarkRoute
+  '/_protected/_dashboard/_admin/list/attendance/': typeof ProtectedDashboardAdminListAttendanceIndexRoute
   '/_protected/_dashboard/_admin/list/subjects/': typeof ProtectedDashboardAdminListSubjectsIndexRoute
   '/_protected/_dashboard/_staff/list/classes/': typeof ProtectedDashboardStaffListClassesIndexRoute
   '/_protected/_dashboard/_staff/list/lessons/': typeof ProtectedDashboardStaffListLessonsIndexRoute
@@ -635,6 +656,7 @@ export interface FileRouteTypes {
     | '/list/students/$id'
     | '/list/teachers/$id'
     | '/list/attendance/mark'
+    | '/list/attendance'
     | '/list/subjects'
     | '/list/classes'
     | '/list/lessons'
@@ -658,6 +680,7 @@ export interface FileRouteTypes {
     | '/list/students/$id'
     | '/list/teachers/$id'
     | '/list/attendance/mark'
+    | '/list/attendance'
     | '/list/subjects'
     | '/list/classes'
     | '/list/lessons'
@@ -686,6 +709,7 @@ export interface FileRouteTypes {
     | '/_protected/_dashboard/_staff/list/students/$id'
     | '/_protected/_dashboard/_staff/list/teachers/$id'
     | '/_protected/_dashboard/_teacher/list/attendance/mark'
+    | '/_protected/_dashboard/_admin/list/attendance/'
     | '/_protected/_dashboard/_admin/list/subjects/'
     | '/_protected/_dashboard/_staff/list/classes/'
     | '/_protected/_dashboard/_staff/list/lessons/'
@@ -759,6 +783,7 @@ export const routeTree = rootRoute
       "parent": "/_protected/_dashboard",
       "children": [
         "/_protected/_dashboard/_admin/admin/",
+        "/_protected/_dashboard/_admin/list/attendance/",
         "/_protected/_dashboard/_admin/list/subjects/"
       ]
     },
@@ -836,6 +861,10 @@ export const routeTree = rootRoute
     "/_protected/_dashboard/_teacher/list/attendance/mark": {
       "filePath": "_protected/_dashboard/_teacher/list/attendance/mark.tsx",
       "parent": "/_protected/_dashboard/_teacher"
+    },
+    "/_protected/_dashboard/_admin/list/attendance/": {
+      "filePath": "_protected/_dashboard/_admin/list/attendance/index.tsx",
+      "parent": "/_protected/_dashboard/_admin"
     },
     "/_protected/_dashboard/_admin/list/subjects/": {
       "filePath": "_protected/_dashboard/_admin/list/subjects/index.tsx",

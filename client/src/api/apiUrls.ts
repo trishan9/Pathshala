@@ -43,6 +43,7 @@ export const API_URLS = {
     },
   },
   ATTENDANCE: {
+    "/" : "/attendance",
     ANALYTICS: "/attendance/analytics",
     TEACHER: "/attendance/teacher",
     LESSON: "/attendance/lesson",

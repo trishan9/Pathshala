@@ -1,4 +1,5 @@
 import client from "@/db";
+import { Prisma, User } from "@prisma/client";
 
 export const getAttendanceAnalytics = async () => {
   const today = new Date();
@@ -30,7 +31,7 @@ export const getLessons = async (teacherId: string) => {
       id: true,
       name: true,
       day: true,
-      class: {select: {id: true}},
+      class: { select: { id: true } },
       startTime: true,
       endTime: true,
     },
@@ -41,7 +42,7 @@ export const getClassStudents = async (lessonId: string) => {
   return client.student.findMany({
     where: {
       class: {
-        lessons: {some: {id: lessonId}}
+        lessons: { some: { id: lessonId } },
       },
     },
     select: {
@@ -54,15 +55,18 @@ export const getClassStudents = async (lessonId: string) => {
       },
     },
   });
-}
+};
 
-export const recordAttendance = async(lessonId: string, attendanceRecords: { studentId: string; present: boolean }[]) => {
+export const recordAttendance = async (
+  lessonId: string,
+  attendanceRecords: { studentId: string; present: boolean }[],
+) => {
   const today = new Date();
   return client.$transaction(async (tx) => {
     await tx.attendance.deleteMany({
       where: {
         lessonId,
-        date: today
+        date: today,
       },
     });
 
@@ -74,8 +78,89 @@ export const recordAttendance = async(lessonId: string, attendanceRecords: { stu
           present: record.present,
           date: today,
         },
-      })
+      }),
     );
     return Promise.all(records);
   });
+};
+
+export interface AttendanceRecord {
+  id: string;
+  date: Date;
+  present: boolean;
+  student: {
+    id: string;
+    name: string;
+  };
+  lesson: {
+    id: string;
+    name: string;
+    subject: {
+      name: string;
+    };
+    teacher: {
+      name: string;
+    };
+    class: {
+      name: string;
+    };
+  };
 }
+
+export interface GetAttendanceParams {
+  page?: number;
+  startDate?: Date;
+  endDate?: Date;
+  classId?: string;
+  teacherId?: string;
+  lessonId?: string;
+  search?: string;
+}
+
+export const getAttendanceDetails = async (
+  params: GetAttendanceParams,
+) => {
+  const {
+    startDate,
+    endDate,
+  } = params;
+  
+  const whereClause: Prisma.AttendanceWhereInput = {
+    ...(startDate &&
+      endDate && {
+        date: {
+          gte: new Date(startDate),
+          lte: new Date(endDate),
+        },
+      }),
+  };
+
+  const [records, totalCount] = await client.$transaction([
+    client.attendance.findMany({
+      where: whereClause,
+      include: {
+        student: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        Lesson: {
+          select: {
+            id: true,
+            name: true,
+            subject: { select: { name: true } },
+            teacher: { select: { name: true } },
+            class: { select: { name: true } },
+          },
+        },
+      },
+      orderBy: {
+        date: "desc",
+      },
+    }),
+    client.attendance.count({ where: whereClause }),
+  ]);
+
+  return { records, totalCount };
+};

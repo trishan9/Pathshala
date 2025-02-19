@@ -15,10 +15,20 @@ export const getAttendanceAnalytics = asyncHandler(
   },
 );
 
-export const getLessons = asyncHandler(
+export const getLessons = asyncHandler(async (req: Request, res: Response) => {
+  const { teacherId } = req.params;
+  const data = await attendanceServices.getLessons(teacherId);
+
+  return apiResponse(res, StatusCodes.OK, {
+    data,
+    message: "Lessons data fetched succesfully",
+  });
+});
+
+export const getAttendanceDetails = asyncHandler(
   async (req: Request, res: Response) => {
-    const {teacherId} = req.params
-    const data = await attendanceServices.getLessons(teacherId);
+    const params = req.query;
+    const data = await attendanceServices.getAttendanceDetails(params);
 
     return apiResponse(res, StatusCodes.OK, {
       data,
@@ -29,7 +39,7 @@ export const getLessons = asyncHandler(
 
 export const getClassStudents = asyncHandler(
   async (req: Request, res: Response) => {
-    const {lessonId} = req.params
+    const { lessonId } = req.params;
     const data = await attendanceServices.getClassStudents(lessonId);
 
     return apiResponse(res, StatusCodes.OK, {
@@ -41,8 +51,8 @@ export const getClassStudents = asyncHandler(
 
 export const recordAttendance = asyncHandler(
   async (req: Request, res: Response) => {
-    const {lessonId} = req.params
-    const body = req.body
+    const { lessonId } = req.params;
+    const body = req.body;
     const data = await attendanceServices.recordAttendance(lessonId, body);
 
     return apiResponse(res, StatusCodes.OK, {
@@ -51,3 +61,4 @@ export const recordAttendance = asyncHandler(
     });
   },
 );
+

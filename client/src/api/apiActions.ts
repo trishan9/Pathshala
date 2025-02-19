@@ -15,6 +15,7 @@ import { EventSchema } from "@/components/forms/EventForm";
 import { AnnouncementSchema } from "@/components/forms/AnnouncementForm";
 import { ExamSchema } from "@/components/forms/ExamForm";
 import { AssignmentSchema } from "@/components/forms/AssignmentForm";
+import { GetAttendanceParams } from "@/routes/_protected/_dashboard/_admin/list/attendance";
 
 export const apiActions = {
   auth: {
@@ -229,6 +230,9 @@ export const apiActions = {
       get: async () => {
         return await api.get(API_URLS.ATTENDANCE.ANALYTICS);
       },
+    },
+    getAttendanceDetails: (params: GetAttendanceParams) => {
+      return api.get(API_URLS.ATTENDANCE["/"], { params });
     },
     getLessons: async (teacherId: string) => {
       return await api.get(`${API_URLS.ATTENDANCE.TEACHER}/${teacherId}/lessons`);

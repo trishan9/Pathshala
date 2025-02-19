@@ -11,6 +11,12 @@ attendanceRouter.get(
   attendanceControllers.getAttendanceAnalytics,
 );
 attendanceRouter.get(
+  "/",
+  isAuthenticated,
+  attendanceControllers.getAttendanceDetails,
+);
+
+attendanceRouter.get(
   "/teacher/:teacherId/lessons",
   isAuthenticated,
   attendanceControllers.getLessons,
