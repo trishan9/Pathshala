@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
 
 import { useEffect, useState } from "react";
 import { Check, X } from "lucide-react";
@@ -19,19 +19,18 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { apiActions } from '@/api';
-import { useAuthStore } from '@/stores/authStore';
+import { apiActions } from "@/api";
+import { useAuthStore } from "@/stores/authStore";
 
 export const Route = createFileRoute(
-  '/_protected/_dashboard/_teacher/list/attendance/',
+  "/_protected/_dashboard/_teacher/list/attendance/mark",
 )({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  return <AttendancePage/>
+  return <AttendancePage />;
 }
-
 
 interface Student {
   id: string;
@@ -57,16 +56,18 @@ export default function AttendancePage() {
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const teacherId = useAuthStore(state => state.user)?.id
+  const teacherId = useAuthStore((state) => state.user)?.id;
 
   // Fetch subjects when component mounts
   useEffect(() => {
     const fetchLessons = async () => {
       try {
         setLoading(true);
-        const response = await apiActions.attendance.getLessons(teacherId || "");
+        const response = await apiActions.attendance.getLessons(
+          teacherId || "",
+        );
         console.log(response.data);
-        setLessons(response.data.data)
+        setLessons(response.data.data);
       } catch (err) {
         setError("Failed to fetch lessons");
       } finally {
@@ -84,8 +85,9 @@ export default function AttendancePage() {
     const fetchStudents = async () => {
       try {
         setLoading(true);
-        const response = await apiActions.attendance.getClassStudents(selectedLesson);
-        setStudents(response.data.data)
+        const response =
+          await apiActions.attendance.getClassStudents(selectedLesson);
+        setStudents(response.data.data);
       } catch (err) {
         setError("Failed to fetch students");
       } finally {
@@ -101,29 +103,27 @@ export default function AttendancePage() {
       prev?.map((student) =>
         student.id === studentId
           ? { ...student, present: !student.present }
-          : student
-      )
+          : student,
+      ),
     );
   };
 
   const handleMarkAll = (present: boolean) => {
-    setStudents((prev) =>
-      prev?.map((student) => ({ ...student, present }))
-    );
+    setStudents((prev) => prev?.map((student) => ({ ...student, present })));
   };
 
-  const handleSubmit = async() => {
+  const handleSubmit = async () => {
     if (!selectedLesson || !students) return;
 
     try {
       setLoading(true);
       await apiActions.attendance.recordAttendance(selectedLesson, {
-        attendanceRecords: students.map(student => ({
+        attendanceRecords: students.map((student) => ({
           studentId: student.id,
           present: student.present || false,
-        }))
+        })),
       });
-      
+
       setIsConfirmDialogOpen(false);
     } catch (err) {
       setError("Failed to record attendance");
@@ -202,7 +202,7 @@ export default function AttendancePage() {
                           "transition-all",
                           student.present
                             ? "bg-green-500 hover:bg-green-600"
-                            : "hover:bg-red-50"
+                            : "hover:bg-red-50",
                         )}
                       >
                         {student.present ? (
@@ -240,8 +240,8 @@ export default function AttendancePage() {
           <DialogHeader>
             <DialogTitle>Confirm Attendance Submission</DialogTitle>
             <DialogDescription>
-              Are you sure you want to submit the attendance? This action cannot be
-              undone.
+              Are you sure you want to submit the attendance? This action cannot
+              be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

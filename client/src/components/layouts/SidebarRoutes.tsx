@@ -75,7 +75,7 @@ const teacherRoutes = [
   {
     icon: CalendarCheck,
     label: "Attendance",
-    href: "/list/attendance",
+    href: "/list/attendance/mark",
   },
   {
     icon: NotebookText,
