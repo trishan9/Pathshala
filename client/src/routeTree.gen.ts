@@ -22,6 +22,7 @@ import { Route as ProtectedDashboardTeacherImport } from './routes/_protected/_d
 import { Route as ProtectedDashboardStudentImport } from './routes/_protected/_dashboard/_student'
 import { Route as ProtectedDashboardStaffImport } from './routes/_protected/_dashboard/_staff'
 import { Route as ProtectedDashboardAdminImport } from './routes/_protected/_dashboard/_admin'
+import { Route as ProtectedDashboardStaffEvaluatePerformanceImport } from './routes/_protected/_dashboard/_staff/evaluate-performance'
 import { Route as ProtectedDashboardListResultsIndexImport } from './routes/_protected/_dashboard/list/results/index'
 import { Route as ProtectedDashboardListExamsIndexImport } from './routes/_protected/_dashboard/list/exams/index'
 import { Route as ProtectedDashboardListEventsIndexImport } from './routes/_protected/_dashboard/list/events/index'
@@ -106,6 +107,13 @@ const ProtectedDashboardAdminRoute = ProtectedDashboardAdminImport.update({
   id: '/_admin',
   getParentRoute: () => ProtectedDashboardRoute,
 } as any)
+
+const ProtectedDashboardStaffEvaluatePerformanceRoute =
+  ProtectedDashboardStaffEvaluatePerformanceImport.update({
+    id: '/evaluate-performance',
+    path: '/evaluate-performance',
+    getParentRoute: () => ProtectedDashboardStaffRoute,
+  } as any)
 
 const ProtectedDashboardListResultsIndexRoute =
   ProtectedDashboardListResultsIndexImport.update({
@@ -300,6 +308,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedDashboardAnnouncementsLazyImport
       parentRoute: typeof ProtectedDashboardImport
     }
+    '/_protected/_dashboard/_staff/evaluate-performance': {
+      id: '/_protected/_dashboard/_staff/evaluate-performance'
+      path: '/evaluate-performance'
+      fullPath: '/evaluate-performance'
+      preLoaderRoute: typeof ProtectedDashboardStaffEvaluatePerformanceImport
+      parentRoute: typeof ProtectedDashboardStaffImport
+    }
     '/_protected/_dashboard/_admin/admin/': {
       id: '/_protected/_dashboard/_admin/admin/'
       path: '/admin'
@@ -446,6 +461,7 @@ const ProtectedDashboardAdminRouteWithChildren =
   )
 
 interface ProtectedDashboardStaffRouteChildren {
+  ProtectedDashboardStaffEvaluatePerformanceRoute: typeof ProtectedDashboardStaffEvaluatePerformanceRoute
   ProtectedDashboardStaffListStudentsIdRoute: typeof ProtectedDashboardStaffListStudentsIdRoute
   ProtectedDashboardStaffListTeachersIdRoute: typeof ProtectedDashboardStaffListTeachersIdRoute
   ProtectedDashboardStaffListClassesIndexRoute: typeof ProtectedDashboardStaffListClassesIndexRoute
@@ -456,6 +472,8 @@ interface ProtectedDashboardStaffRouteChildren {
 
 const ProtectedDashboardStaffRouteChildren: ProtectedDashboardStaffRouteChildren =
   {
+    ProtectedDashboardStaffEvaluatePerformanceRoute:
+      ProtectedDashboardStaffEvaluatePerformanceRoute,
     ProtectedDashboardStaffListStudentsIdRoute:
       ProtectedDashboardStaffListStudentsIdRoute,
     ProtectedDashboardStaffListTeachersIdRoute:
@@ -562,6 +580,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/': typeof ProtectedIndexRoute
   '/announcements': typeof ProtectedDashboardAnnouncementsLazyRoute
+  '/evaluate-performance': typeof ProtectedDashboardStaffEvaluatePerformanceRoute
   '/admin': typeof ProtectedDashboardAdminAdminIndexRoute
   '/student': typeof ProtectedDashboardStudentStudentIndexRoute
   '/teacher': typeof ProtectedDashboardTeacherTeacherIndexRoute
@@ -587,6 +606,7 @@ export interface FileRoutesByTo {
   '': typeof ProtectedDashboardTeacherRouteWithChildren
   '/': typeof ProtectedIndexRoute
   '/announcements': typeof ProtectedDashboardAnnouncementsLazyRoute
+  '/evaluate-performance': typeof ProtectedDashboardStaffEvaluatePerformanceRoute
   '/admin': typeof ProtectedDashboardAdminAdminIndexRoute
   '/student': typeof ProtectedDashboardStudentStudentIndexRoute
   '/teacher': typeof ProtectedDashboardTeacherTeacherIndexRoute
@@ -618,6 +638,7 @@ export interface FileRoutesById {
   '/_protected/_dashboard/_student': typeof ProtectedDashboardStudentRouteWithChildren
   '/_protected/_dashboard/_teacher': typeof ProtectedDashboardTeacherRouteWithChildren
   '/_protected/_dashboard/announcements': typeof ProtectedDashboardAnnouncementsLazyRoute
+  '/_protected/_dashboard/_staff/evaluate-performance': typeof ProtectedDashboardStaffEvaluatePerformanceRoute
   '/_protected/_dashboard/_admin/admin/': typeof ProtectedDashboardAdminAdminIndexRoute
   '/_protected/_dashboard/_student/student/': typeof ProtectedDashboardStudentStudentIndexRoute
   '/_protected/_dashboard/_teacher/teacher/': typeof ProtectedDashboardTeacherTeacherIndexRoute
@@ -645,6 +666,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/'
     | '/announcements'
+    | '/evaluate-performance'
     | '/admin'
     | '/student'
     | '/teacher'
@@ -669,6 +691,7 @@ export interface FileRouteTypes {
     | ''
     | '/'
     | '/announcements'
+    | '/evaluate-performance'
     | '/admin'
     | '/student'
     | '/teacher'
@@ -698,6 +721,7 @@ export interface FileRouteTypes {
     | '/_protected/_dashboard/_student'
     | '/_protected/_dashboard/_teacher'
     | '/_protected/_dashboard/announcements'
+    | '/_protected/_dashboard/_staff/evaluate-performance'
     | '/_protected/_dashboard/_admin/admin/'
     | '/_protected/_dashboard/_student/student/'
     | '/_protected/_dashboard/_teacher/teacher/'
@@ -791,6 +815,7 @@ export const routeTree = rootRoute
       "filePath": "_protected/_dashboard/_staff.tsx",
       "parent": "/_protected/_dashboard",
       "children": [
+        "/_protected/_dashboard/_staff/evaluate-performance",
         "/_protected/_dashboard/_staff/list/students/$id",
         "/_protected/_dashboard/_staff/list/teachers/$id",
         "/_protected/_dashboard/_staff/list/classes/",
@@ -817,6 +842,10 @@ export const routeTree = rootRoute
     "/_protected/_dashboard/announcements": {
       "filePath": "_protected/_dashboard/announcements.lazy.tsx",
       "parent": "/_protected/_dashboard"
+    },
+    "/_protected/_dashboard/_staff/evaluate-performance": {
+      "filePath": "_protected/_dashboard/_staff/evaluate-performance.tsx",
+      "parent": "/_protected/_dashboard/_staff"
     },
     "/_protected/_dashboard/_admin/admin/": {
       "filePath": "_protected/_dashboard/_admin/admin/index.tsx",

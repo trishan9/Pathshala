@@ -81,6 +81,9 @@ export const apiActions = {
     delete: async (id: string) => {
       return await api.delete(`${API_URLS.STUDENT}/${id}`);
     },
+    evaluatePerformance: async (features: number[]) => {
+      return await api.post(`${API_URLS.STUDENT}/evaluate`, { features });
+    }
   },
   subject: {
     getAll: async (query: useGetSubjectsProps) => {

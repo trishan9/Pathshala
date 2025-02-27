@@ -11,6 +11,7 @@ import {
   Megaphone,
   NotebookPen,
   NotebookText,
+  Sparkles,
   University,
   Users,
 } from "lucide-react";
@@ -118,9 +119,9 @@ const teacherRoutes = [
     href: "/list/announcements",
   },
   {
-    icon: BarChart,
-    label: "Analytics",
-    href: "/instructor/analytics",
+    icon: Sparkles,
+    label: "EvaluateAI",
+    href: "/evaluate-performance",
   },
 ];
 
@@ -184,6 +185,11 @@ const adminRoutes = [
     icon: Megaphone,
     label: "Announcements",
     href: "/list/announcements",
+  },
+  {
+    icon: Sparkles,
+    label: "EvaluateAI",
+    href: "/evaluate-performance",
   },
 ];
 
