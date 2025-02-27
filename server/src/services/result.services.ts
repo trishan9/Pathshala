@@ -13,7 +13,7 @@ export interface GetResultParams {
 
 export const getAllResults = async (
   params: GetResultParams,
-  currUser: User,
+  currUser: Partial<User>,
 ) => {
   const { page = 1, studentId, search } = params;
 
@@ -106,7 +106,7 @@ export const getAllResults = async (
 };
 
 export const resultSchema = z.object({
-  id: z.coerce.string(),
+  id: z.coerce.string().optional(),
   score: z.coerce.number(),
   examId: z.coerce.string().optional(),
   assignmentId: z.coerce.string().optional(),

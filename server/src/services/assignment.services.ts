@@ -14,7 +14,7 @@ export interface GetAssignmentParams {
 
 export const getAllAssignments = async (
   params: GetAssignmentParams,
-  currUser: User,
+  currUser: Partial<User>,
 ) => {
   const { page = 1, classId, teacherId, search } = params;
 
@@ -91,7 +91,7 @@ export const createAssignment = async (params: AssignmentSchema) => {
 
 export const updateAssignment = async (
   id: string,
-  params: AssignmentSchema,
+  params: Partial<AssignmentSchema>,
 ) => {
   const existingAssignment = await client.assignment.findFirst({
     where: {

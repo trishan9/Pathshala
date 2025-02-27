@@ -85,12 +85,12 @@ export const createClass = async (params: ClassSchema) => {
     },
   });
 
-  if (existingClass) {
-    throw new ApiError(
-      StatusCodes.BAD_REQUEST,
-      "Class with this name already exists",
-    );
-  }
+  // if (existingClass) {
+  //   throw new ApiError(
+  //     StatusCodes.BAD_REQUEST,
+  //     "Class with this name already exists",
+  //   );
+  // }
 
   return await client.class.create({
     data: {
@@ -102,7 +102,7 @@ export const createClass = async (params: ClassSchema) => {
   });
 };
 
-export const updateClass = async (id: number, params: ClassSchema) => {
+export const updateClass = async (id: number, params: Partial<ClassSchema>) => {
   const existingClass = await client.class.findFirst({
     where: {
       id,

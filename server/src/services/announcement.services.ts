@@ -12,7 +12,7 @@ export interface GetAnnouncementParams {
 
 export const getAllAnnouncements = async (
   params: GetAnnouncementParams,
-  currUser: User,
+  currUser: Partial<User>,
 ) => {
   const { page = 1, search } = params;
 
@@ -83,7 +83,7 @@ export const createAnnouncement = async (params: AnnouncementSchema) => {
 
 export const updateAnnouncement = async (
   id: string,
-  params: AnnouncementSchema,
+  params: Partial<AnnouncementSchema>,
 ) => {
   const existingAnnouncement = await client.announcement.findFirst({
     where: {

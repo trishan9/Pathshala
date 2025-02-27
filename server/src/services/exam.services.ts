@@ -12,7 +12,7 @@ export interface GetExamParams {
   search?: string;
 }
 
-export const getAllExams = async (params: GetExamParams, currUser: User) => {
+export const getAllExams = async (params: GetExamParams, currUser: Partial<User>) => {
   const { page = 1, classId, teacherId, search } = params;
 
   const whereClause: Prisma.ExamWhereInput = {
@@ -88,7 +88,7 @@ export const createExam = async (params: ExamSchema) => {
 
 export const updateExam = async (
   id: string,
-  params: ExamSchema,
+  params: Partial<ExamSchema>,
 ) => {
   const existingExam = await client.exam.findFirst({
     where: {
