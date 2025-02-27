@@ -178,7 +178,7 @@ export default function MaterialsPage() {
 
   return (
     <div className="p-4">
-      <div className="mb-8 flex items-center justify-between">
+      <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Link href="/courses">
             <Button variant="outline" size="icon">

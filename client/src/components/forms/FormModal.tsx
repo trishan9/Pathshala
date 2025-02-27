@@ -19,6 +19,18 @@ import { useDeleteAssignment } from "@/hooks/useAssignments";
 import { useDeleteResult } from "@/hooks/useResults";
 import ResultForm from "./ResultForm";
 
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Pencil, Trash2 } from "lucide-react";
+import { Button } from "../ui/button";
+
 const forms: {
   [key: string]: (
     setOpen: Dispatch<SetStateAction<boolean>>,
@@ -135,7 +147,7 @@ const FormModal = ({
     announcement: deleteAnnouncement,
     exam: deleteExam,
     assignment: deleteAssignment,
-    result: deleteResult
+    result: deleteResult,
   };
 
   const [open, setOpen] = useState(false);
@@ -153,41 +165,59 @@ const FormModal = ({
   }, [open]);
 
   const Form = () => {
-    //@ts-ignore
-    const mutater = deleteActionMap[table];
+    return forms[table](setOpen, type, data, relatedData);
+  };
 
-    const handleDelete = (id: string | number) => {
-      mutater.mutate(id);
-    };
+  //@ts-expect-error "sdsd"
+  const mutater = deleteActionMap[table];
 
-    return type === "delete" && id ? (
-      <div className="p-4 flex flex-col gap-4">
-        <span className="text-center font-medium">
-          All data will be lost. Are you sure you want to delete this {table}?
-        </span>
-        <button
-          className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center"
-          onClick={() => handleDelete(id)}
-        >
-          Delete
-        </button>
-      </div>
-    ) : type === "create" || type === "update" || type === "view" ? (
-      //@ts-ignore
-      forms[table](setOpen, type, data, relatedData)
-    ) : (
-      "Form not found!"
-    );
+  const handleDelete = (id: string | number) => {
+    mutater.mutate(id);
   };
 
   return (
     <>
-      <button
-        className={`${size} flex items-center justify-center rounded-full ${bgColor}`}
-        onClick={() => setOpen(true)}
-      >
-        <img src={`/${type}.png`} alt="" width={16} height={16} />
-      </button>
+      {type === "create" && (
+        <button
+          className={`${size} flex items-center justify-center rounded-full ${bgColor}`}
+          onClick={() => setOpen(true)}
+        >
+          <img src={`/${type}.png`} alt="" width={16} height={16} />
+        </button>
+      )}
+
+      {type === "update" && (
+        <Button variant="outline" size="icon" onClick={() => setOpen(true)}>
+          <Pencil className="h-4 w-4" />
+        </Button>
+      )}
+
+      {type === "delete" && id && (
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="outline" size="icon" className="text-destructive">
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </AlertDialogTrigger>
+
+          <AlertDialogContent>
+            <AlertDialogTitle>Delete Confirmation</AlertDialogTitle>
+
+            <AlertDialogDescription>
+              All data will be lost. Are you sure you want to delete this{" "}
+              {table}?
+            </AlertDialogDescription>
+
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+
+              <Button variant="destructive" onClick={() => handleDelete(id)}>
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
 
       {open && (
         <div className="w-screen h-screen fixed left-0 top-0 bg-black bg-opacity-60 z-50 flex items-center justify-center">

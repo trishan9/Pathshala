@@ -7,6 +7,8 @@ import { z } from "zod";
 import { PageLoader } from "@/components/PageLoader";
 import { useGetRole } from "@/hooks/useGetRole";
 import FormContainer from "@/components/forms/FormContainer";
+import { Eye } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const getAllStudentsQuerySchema = z.object({
   page: z.number().optional(),
@@ -112,9 +114,9 @@ const StudentListPage = () => {
       <td>
         <div className="flex items-center gap-2">
           <Link to={`/list/students/${item.id}`}>
-            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky">
-              <img src="/view.png" alt="" width={16} height={16} />
-            </button>
+            <Button variant="outline" size="icon">
+              <Eye className="h-4 w-4" />
+            </Button>
           </Link>
 
           {role === "admin" && (

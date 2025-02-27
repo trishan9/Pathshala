@@ -146,6 +146,11 @@ const adminRoutes = [
     href: "/list/subjects",
   },
   {
+    icon: Sparkles,
+    label: "EvaluateAI",
+    href: "/evaluate-performance",
+  },
+  {
     icon: University,
     label: "Classes",
     href: "/list/classes",
@@ -184,11 +189,6 @@ const adminRoutes = [
     icon: Megaphone,
     label: "Announcements",
     href: "/list/announcements",
-  },
-  {
-    icon: Sparkles,
-    label: "EvaluateAI",
-    href: "/evaluate-performance",
   },
 ];
 

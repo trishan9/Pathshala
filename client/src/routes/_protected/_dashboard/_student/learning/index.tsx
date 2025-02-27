@@ -73,7 +73,7 @@ export default function CoursesPage() {
 
   return (
     <div className="p-4">
-      <h1 className="mb-8 text-xl font-bold">Available Courses</h1>
+      <h1 className="mb-4 text-xl font-bold">Available Courses</h1>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {subjects?.map((subject: Subject) => (
