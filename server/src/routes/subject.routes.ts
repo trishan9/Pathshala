@@ -22,5 +22,30 @@ subjectRouter.delete(
   isAuthenticated,
   subjectControllers.deleteSubject,
 );
+subjectRouter.get(
+  "/materials",
+  isAuthenticated,
+  subjectControllers.getAllSubjectsForLearningMaterials,
+);
+subjectRouter.post(
+  "/materials",
+  isAuthenticated,
+  subjectControllers.addLearningMaterials,
+);
+subjectRouter.get(
+  "/materials/subject/:subjectId",
+  isAuthenticated,
+  subjectControllers.getAllLearningMaterialsBySubject,
+);
+subjectRouter.patch(
+  "/materials/:materialId",
+  isAuthenticated,
+  subjectControllers.updateLearningMaterial,
+);
+subjectRouter.delete(
+  "/materials/:materialId",
+  isAuthenticated,
+  subjectControllers.deleteLearningMaterial,
+);
 
 export { subjectRouter };

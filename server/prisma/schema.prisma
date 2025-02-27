@@ -86,10 +86,20 @@ model Class {
 }
 
 model Subject {
-  id       String    @id @default(uuid())
-  name     String    @unique
-  teachers Teacher[]
-  lessons  Lesson[]
+  id                String             @id @default(uuid())
+  name              String             @unique
+  teachers          Teacher[]
+  lessons           Lesson[]
+  learningMaterials LearningMaterial[]
+}
+
+model LearningMaterial {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  
+  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  subjectId String
 }
 
 model Lesson {

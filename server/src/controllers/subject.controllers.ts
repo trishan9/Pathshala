@@ -69,3 +69,65 @@ export const getTeacherSubjects = asyncHandler(
     });
   },
 );
+
+export const getAllSubjectsForLearningMaterials = asyncHandler(
+  async (req: Request, res: Response) => {
+    const query = req.query;
+    const subjects = await subjectServices.getAllSubjectsForLearningMaterials(query);
+
+    return apiResponse(res, StatusCodes.OK, {
+      subjects,
+      message: "Subjects fetched successfully",
+    });
+  },
+);
+
+export const getAllLearningMaterialsBySubject = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { subjectId } = req.params;
+    const learningMaterials = await subjectServices.getAllLearningMaterialsBySubject(subjectId);
+
+    return apiResponse(res, StatusCodes.OK, {
+      learningMaterials,
+      message: "Learning materials fetched successfully",
+    });
+  },
+);
+
+export const addLearningMaterials = asyncHandler(
+  async (req: Request, res: Response) => {
+    const body = req.body;
+    const material = await subjectServices.addLearningMaterials(body);
+
+    return apiResponse(res, StatusCodes.OK, {
+      material,
+      message: "Material created successfully",
+    });
+  },
+);
+
+export const updateLearningMaterial = asyncHandler(
+  async (req: Request, res: Response) => {
+    const body = req.body;
+    const { materialId } = req.params;
+
+    const material = await subjectServices.updateLearningMaterial(materialId, body);
+
+    return apiResponse(res, StatusCodes.OK, {
+      material,
+      message: "Learning material updated successfully",
+    });
+  },
+);
+
+export const deleteLearningMaterial = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { materialId } = req.params;
+    const material = await subjectServices.deleteLearningMaterial(materialId);
+
+    return apiResponse(res, StatusCodes.OK, {
+      material,
+      message: "Learning material deleted successfully",
+    });
+  },
+);

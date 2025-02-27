@@ -76,3 +76,71 @@ export const useDeleteSubject = () => {
     },
   });
 };
+
+export const useAddLearningMaterial = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: {
+      title: string;
+      content: string;
+      subjectId: string;
+    }) => {
+      const response = await apiActions.subject.learningMaterial.add(data);
+      if (!response.data) {
+        throw new Error("Failed to add materials");
+      }
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["materials"] });
+    },
+  });
+};
+
+export const useUpdateLearningMaterial = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      id,
+      data,
+    }: {
+      id: string;
+      data: {
+        title: string;
+        content: string;
+        subjectId: string;
+      };
+    }) => {
+      const response = await apiActions.subject.learningMaterial.update(
+        id,
+        data,
+      );
+      if (!response.data) {
+        throw new Error("Failed to update materials");
+      }
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["materials"] });
+    },
+  });
+};
+
+export const useDeleteLearningMaterial = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await apiActions.subject.learningMaterial.delete(id);
+      if (!response.data) {
+        throw new Error("Failed to delete material");
+      }
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["materials"] });
+    },
+  });
+};

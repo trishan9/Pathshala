@@ -1,5 +1,4 @@
 import {
-  BarChart,
   Book,
   BookOpenText,
   CalendarCheck,
@@ -27,22 +26,22 @@ const studentRoutes = [
   },
   {
     icon: BookOpenText,
-    label: "Courses",
-    href: "/courses",
+    label: "My Learning",
+    href: "/learning",
   },
   {
     icon: NotebookPen,
-    label: "Exams",
+    label: "My Exams",
     href: "/list/exams",
   },
   {
     icon: NotebookText,
-    label: "Assignments",
+    label: "My Assignments",
     href: "/list/assignments",
   },
   {
     icon: ClipboardMinus,
-    label: "Results",
+    label: "My Results",
     href: "/list/results",
   },
   {
@@ -72,6 +71,11 @@ const teacherRoutes = [
     icon: CalendarCheck,
     label: "Attendance",
     href: "/list/attendance/mark",
+  },
+  {
+    icon: Sparkles,
+    label: "EvaluateAI",
+    href: "/evaluate-performance",
   },
   {
     icon: NotebookText,
@@ -117,11 +121,6 @@ const teacherRoutes = [
     icon: Megaphone,
     label: "Announcements",
     href: "/list/announcements",
-  },
-  {
-    icon: Sparkles,
-    label: "EvaluateAI",
-    href: "/evaluate-performance",
   },
 ];
 

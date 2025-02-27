@@ -17,7 +17,7 @@ function DashboardLayoutComponent() {
         <Sidebar />
       </div>
 
-      <main className="h-full md:pl-56 pt-[80px] bg-neutral-50">
+      <main className="min-h-screen md:pl-56 pt-[80px] bg-neutral-50">
         <Outlet />
       </main>
     </div>

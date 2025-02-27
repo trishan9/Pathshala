@@ -83,7 +83,7 @@ export const apiActions = {
     },
     evaluatePerformance: async (features: number[]) => {
       return await api.post(`${API_URLS.STUDENT}/evaluate`, { features });
-    }
+    },
   },
   subject: {
     getAll: async (query: useGetSubjectsProps) => {
@@ -100,6 +100,36 @@ export const apiActions = {
     },
     delete: async (id: string) => {
       return await api.delete(`${API_URLS.SUBJECT}/${id}`);
+    },
+    learningMaterial: {
+      getSubjects: async (query: { teacherId?: string; classId?: string }) => {
+        return await api.get(API_URLS.LEARNING_MATERIALS, { params: query });
+      },
+      getBySubject: async (subjectId: string) => {
+        return await api.get(
+          `${API_URLS.LEARNING_MATERIALS}/subject/${subjectId}`,
+        );
+      },
+      add: async (data: {
+        title: string;
+        content: string;
+        subjectId: string;
+      }) => {
+        return await api.post(API_URLS.LEARNING_MATERIALS, data);
+      },
+      update: async (
+        id: string,
+        data: {
+          title: string;
+          content: string;
+          subjectId: string;
+        },
+      ) => {
+        return await api.patch(`${API_URLS.LEARNING_MATERIALS}/${id}`, data);
+      },
+      delete: async (id: string) => {
+        return await api.delete(`${API_URLS.LEARNING_MATERIALS}/${id}`);
+      },
     },
   },
   class: {
@@ -188,7 +218,7 @@ export const apiActions = {
     },
     getAssignmentsList: async () => {
       return await api.get(API_URLS.RESULT_ASSIGNMENTS_LIST);
-    }
+    },
   },
   event: {
     getAll: async (query: useGetExamsProps) => {
@@ -257,14 +287,21 @@ export const apiActions = {
       return api.get(API_URLS.ATTENDANCE["/"], { params });
     },
     getLessons: async (teacherId: string) => {
-      return await api.get(`${API_URLS.ATTENDANCE.TEACHER}/${teacherId}/lessons`);
+      return await api.get(
+        `${API_URLS.ATTENDANCE.TEACHER}/${teacherId}/lessons`,
+      );
     },
     getClassStudents: async (lessonId: string) => {
-      return await api.get(`${API_URLS.ATTENDANCE.LESSON}/${lessonId}/students`);
+      return await api.get(
+        `${API_URLS.ATTENDANCE.LESSON}/${lessonId}/students`,
+      );
     },
     recordAttendance: async (lessonId: string, data: any) => {
-      return await api.post(`${API_URLS.ATTENDANCE.RECORD_ATTENDANCE}/${lessonId}`, data.attendanceRecords);
-    }
+      return await api.post(
+        `${API_URLS.ATTENDANCE.RECORD_ATTENDANCE}/${lessonId}`,
+        data.attendanceRecords,
+      );
+    },
   },
 };
 
