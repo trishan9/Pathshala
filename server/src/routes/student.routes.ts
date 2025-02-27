@@ -29,5 +29,10 @@ studentRouter.delete(
   isAuthenticated,
   studentControllers.deleteStudent,
 );
+studentRouter.post(
+  "/evaluate",
+  isAuthenticated,
+  studentControllers.evaluateStudentPerformance,
+);
 
 export { studentRouter };

@@ -4,6 +4,9 @@ import * as studentServices from "@/services/student.services";
 import { apiResponse } from "@/utils/apiResponse";
 import { StatusCodes } from "http-status-codes";
 import { responseMessage } from "@/utils/responseMessage";
+import { ApiError } from "@/utils/apiError";
+import modelData from "@/ml-models/random_forest_model.json";
+import { RandomForestClassifier } from "@/lib/randomForest";
 
 export const getAllStudents = asyncHandler(
   async (req: Request, res: Response) => {
@@ -71,6 +74,44 @@ export const deleteStudent = asyncHandler(
 
     return apiResponse(res, StatusCodes.OK, {
       message: responseMessage.STUDENT.DELETED,
+    });
+  },
+);
+
+const gradeMapping = {
+  0: "A (GPA >= 3.5)",
+  1: "B (3.0 <= GPA < 3.5)",
+  2: "C (2.5 <= GPA < 3.0)",
+  3: "D (2.0 <= GPA < 2.5)",
+  4: "F (GPA < 2.0)",
+};
+
+export const evaluateStudentPerformance = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { features } = req.body;
+    if (!features) {
+      throw new ApiError(
+        StatusCodes.BAD_REQUEST,
+        "Please provide the necessary features for evaluation!",
+      );
+    }
+
+    const model = new RandomForestClassifier(modelData);
+
+    const prediction = model.predict(features);
+
+    const probabilities = model.predictProba(features);
+    const formattedProbabilities = Object.fromEntries(
+      Object.entries(probabilities).map(([key, value]) => [
+        gradeMapping[Number(key)],
+        `${(Number(value) * 100000).toFixed(4)}%`,
+      ]),
+    );
+
+    return apiResponse(res, StatusCodes.OK, {
+      prediction: gradeMapping[prediction],
+      probabilities: formattedProbabilities,
+      message: "Evaluation data fetched succesfully",
     });
   },
 );
