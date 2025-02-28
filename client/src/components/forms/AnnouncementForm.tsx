@@ -7,6 +7,7 @@ import {
   useCreateAnnouncement,
   useUpdateAnnouncement,
 } from "@/hooks/useAnnouncements";
+import { Form } from "../ui/form";
 
 export interface FormProps {
   type: "create" | "update";
@@ -30,23 +31,18 @@ const AnnouncementForm: React.FC<FormProps> = ({
   setOpen,
   relatedData,
 }) => {
-  const {
-    register,
-    reset,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<AnnouncementSchema>({
+  const form = useForm<AnnouncementSchema>({
     resolver: zodResolver(announcementSchema),
   });
 
   const createAnnouncement = useCreateAnnouncement();
   const updateAnnoucement = useUpdateAnnouncement();
 
-  const onSubmit = handleSubmit((values: AnnouncementSchema) => {
+  const onSubmit = form.handleSubmit((values: AnnouncementSchema) => {
     if (type === "create") {
       createAnnouncement.mutate(values, {
         onSuccess: () => {
-          reset();
+          form.reset();
           setOpen(false);
         },
       });
@@ -55,7 +51,7 @@ const AnnouncementForm: React.FC<FormProps> = ({
         { id: data?.id || "", data: values },
         {
           onSuccess: () => {
-            reset();
+            form.reset();
             setOpen(false);
           },
         },
@@ -66,70 +62,73 @@ const AnnouncementForm: React.FC<FormProps> = ({
   const { classes } = relatedData;
 
   return (
-    <form className="flex flex-col gap-8" onSubmit={onSubmit}>
-      <h1 className="text-xl font-semibold">
-        {type === "create"
-          ? "Create a new announcement"
-          : "Update announcement"}
-      </h1>
-      <div className="flex justify-between flex-wrap gap-4">
-        <InputField
-          label="Title"
-          name="title"
-          defaultValue={data?.title}
-          register={register}
-          error={errors?.title}
-        />
-        <InputField
-          label="Description"
-          name="description"
-          defaultValue={data?.description}
-          register={register}
-          error={errors?.description}
-        />
-        <InputField
-          label="Date"
-          name="date"
-          defaultValue={
-            data?.date && new Date(data?.date)?.toISOString().split("T")[0]
-          }
-          register={register}
-          error={errors?.date}
-          type="date"
-        />
+    <Form {...form}>
+      <form className="flex flex-col gap-8" onSubmit={onSubmit}>
+        <h1 className="text-xl font-semibold">
+          {type === "create"
+            ? "Create a new announcement"
+            : "Update announcement"}
+        </h1>
+        <div className="flex justify-between flex-wrap gap-4">
+          <InputField
+            label="Title"
+            name="title"
+            defaultValue={data?.title}
+            register={form.register}
+            error={form.formState.errors?.title}
+          />
+          <InputField
+            label="Description"
+            name="description"
+            defaultValue={data?.description}
+            register={form.register}
+            error={form.formState.errors?.description}
+          />
+          <InputField
+            label="Date"
+            name="date"
+            defaultValue={
+              data?.date
+            }
+            register={form.register}
+            error={form.formState.errors?.date}
+            type="date"
+            form={form}
+          />
 
-        <div className="flex flex-col gap-2 w-full md:w-1/4">
-          <label className="text-xs text-gray-500">Class</label>
-          <select
-            className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
-            {...register("classId")}
-            defaultValue={data?.classId}
-          >
-            <option selected value={0}>
-              Select Class
-            </option>
-
-            {classes?.map((classItem: { id: number; name: string }) => (
-              <option value={classItem?.id} key={classItem?.id}>
-                {classItem?.name}
+          <div className="flex flex-col gap-2 w-full md:w-1/4">
+            <label className="text-xs text-gray-500">Class</label>
+            <select
+              className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+              {...form.register("classId")}
+              defaultValue={data?.classId}
+            >
+              <option selected value={0}>
+                Select Class
               </option>
-            ))}
-          </select>
-          {errors.classId?.message && (
-            <p className="text-xs text-red-400">
-              {errors.classId.message.toString()}
-            </p>
-          )}
-        </div>
-      </div>
 
-      <button
-        type="submit"
-        className={`bg-blue-400 text-white p-2 rounded-md `}
-      >
-        {type === "create" ? "Create" : "Update"}
-      </button>
-    </form>
+              {classes?.map((classItem: { id: number; name: string }) => (
+                <option value={classItem?.id} key={classItem?.id}>
+                  {classItem?.name}
+                </option>
+              ))}
+            </select>
+            {form.formState.errors.classId?.message && (
+              <p className="text-xs text-red-400">
+                {form.formState.errors.classId.message.toString()}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          className={`bg-blue-400 text-white p-2 rounded-md `}
+        >
+          {type === "create" ? "Create" : "Update"}
+        </button>
+      </form>
+    </Form>
   );
 };
 

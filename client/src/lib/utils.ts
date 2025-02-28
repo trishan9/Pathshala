@@ -46,3 +46,7 @@ export const adjustScheduleToCurrentWeek = (
     };
   });
 };
+
+export const capitalize = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.toLowerCase().slice(1);
+}

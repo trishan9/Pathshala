@@ -4,18 +4,18 @@ import { apiActions } from "@/api";
 
 export type FormContainerProps = {
   table:
-    | "teacher"
-    | "student"
-    | "parent"
-    | "subject"
-    | "class"
-    | "lesson"
-    | "exam"
-    | "assignment"
-    | "result"
-    | "attendance"
-    | "event"
-    | "announcement";
+  | "teacher"
+  | "student"
+  | "parent"
+  | "subject"
+  | "class"
+  | "lesson"
+  | "exam"
+  | "assignment"
+  | "result"
+  | "attendance"
+  | "event"
+  | "announcement";
   type: "create" | "update" | "delete" | "view";
   data?: any;
   id?: number | string;
@@ -164,8 +164,11 @@ const FormContainer = ({ table, type, data, id }: FormContainerProps) => {
         relatedData = { lessons: examLessons };
         break;
       case "result":
-          relatedData = { students: studentsList, exams: examsList, assignments: assignmentsList };
-          break;
+        relatedData = { students: studentsList, exams: examsList, assignments: assignmentsList };
+        break;
+      case "lesson":
+        relatedData = { classes: studentClasses, teachers: classTeachers, subjects: teacherSubjects };
+        break;
       default:
         break;
     }

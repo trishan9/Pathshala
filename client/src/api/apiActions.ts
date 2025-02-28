@@ -6,7 +6,7 @@ import { TeacherFormData, useGetTeachersProps } from "@/hooks/useTeachers";
 import { useGetStudentsProps } from "@/hooks/useStudents";
 import { useGetSubjectsProps } from "@/hooks/useSubjects";
 import { ClassSchema, useGetClassesProps } from "@/hooks/useClasses";
-import { useGetLessonsProps } from "@/hooks/useLessons";
+import { LessonSchema, useGetLessonsProps } from "@/hooks/useLessons";
 import { useGetExamsProps } from "@/hooks/useExams";
 import { useGetAssignmentsProps } from "@/hooks/useAssignments";
 import { useGetResultsProps } from "@/hooks/useResults";
@@ -167,6 +167,15 @@ export const apiActions = {
     },
     getExamLessons: async () => {
       return await api.get(API_URLS.LESSON.CLASS_LESSONS);
+    },
+    create: async (data: LessonSchema) => {
+      return await api.post(API_URLS.LESSON["/"], data);
+    },
+    update: async (id: string, data: Partial<LessonSchema>) => {
+      return await api.patch(`${API_URLS.LESSON["/"]}/${id}`, data);
+    },
+    delete: async (id: string) => {
+      return await api.delete(`${API_URLS.LESSON["/"]}/${id}`);
     },
   },
   exam: {

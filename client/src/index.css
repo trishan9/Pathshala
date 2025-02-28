@@ -221,3 +221,7 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active {
     @apply bg-background text-foreground;
   }
 }
+
+select {
+  background-color: white !important;
+}

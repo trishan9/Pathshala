@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import FormModal from "@/components/forms/FormModal";
 import Pagination from "@/components/tables/Pagination";
 import Table from "@/components/tables/Table";
 import TableSearch from "@/components/tables/TableSearch";
@@ -10,6 +9,8 @@ import { z } from "zod";
 import { useGetLessons } from "@/hooks/useLessons";
 import { PageLoader } from "@/components/PageLoader";
 import { useGetRole } from "@/hooks/useGetRole";
+import { capitalize } from "@/lib/utils";
+import FormContainer from "@/components/forms/FormContainer";
 
 const getAllLessonsQuerySchema = z.object({
   page: z.number().optional(),
@@ -70,11 +71,11 @@ const LessonListPage = () => {
     },
     ...(role === "admin"
       ? [
-          {
-            header: "Actions",
-            accessor: "action",
-          },
-        ]
+        {
+          header: "Actions",
+          accessor: "action",
+        },
+      ]
       : []),
   ];
 
@@ -91,8 +92,8 @@ const LessonListPage = () => {
         <div className="flex items-center gap-2">
           {role === "admin" && (
             <>
-              <FormModal table="lesson" type="update" data={item} />
-              <FormModal table="lesson" type="delete" id={item.id} />
+              <FormContainer table="lesson" type="update" data={item} />
+              <FormContainer table="lesson" type="delete" id={item.id} />
             </>
           )}
         </div>
@@ -113,7 +114,7 @@ const LessonListPage = () => {
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <img src="/sort.png" alt="" width={14} height={14} />
             </button>
-            {role === "admin" && <FormModal table="lesson" type="create" />}
+            {role === "admin" && <FormContainer table="lesson" type="create" />}
           </div>
         </div>
       </div>

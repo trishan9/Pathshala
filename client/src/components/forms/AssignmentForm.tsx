@@ -8,6 +8,7 @@ import { Editor } from "../Editor";
 import { Pencil, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { Preview } from "../Preview";
+import { Form } from "../ui/form";
 
 export const assignmentSchema = z.object({
   id: z.coerce.number().optional(),
@@ -45,12 +46,7 @@ const AssignmentForm = ({
     )
   }
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<AssignmentSchema>({
+  const form = useForm<AssignmentSchema>({
     resolver: zodResolver(assignmentSchema),
   });
 
@@ -60,7 +56,7 @@ const AssignmentForm = ({
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(data?.question);
 
-  const onSubmit = handleSubmit((values: AssignmentSchema) => {
+  const onSubmit = form.handleSubmit((values: AssignmentSchema) => {
     const finalValues: AssignmentSchema = {
       ...values,
       question: value
@@ -68,7 +64,7 @@ const AssignmentForm = ({
     if (type === "create") {
       createAssignment.mutate(finalValues, {
         onSuccess: () => {
-          reset();
+          form.reset();
           setOpen(false);
         },
       });
@@ -77,7 +73,7 @@ const AssignmentForm = ({
         { id: data?.id || "", data: finalValues },
         {
           onSuccess: () => {
-            reset();
+            form.reset();
             setOpen(false);
           },
         },
@@ -88,107 +84,109 @@ const AssignmentForm = ({
   const { lessons } = relatedData;
 
   return (
-    <form className="flex flex-col gap-8" onSubmit={onSubmit}>
-      <h1 className="text-xl font-semibold">
-        {type === "create" ? "Create a new assignment" : "Update the assignment"}
-      </h1>
+    <Form {...form}>
+      <form className="flex flex-col gap-8" onSubmit={onSubmit}>
+        <h1 className="text-xl font-semibold">
+          {type === "create" ? "Create a new assignment" : "Update the assignment"}
+        </h1>
 
-      <div className="flex justify-between flex-wrap gap-4">
-        <InputField
-          label="Assignment title"
-          name="title"
-          defaultValue={data?.title}
-          register={register}
-          error={errors?.title}
-        />
-        <InputField
-          label="Start Date"
-          name="startDate"
-          defaultValue={
-            data?.startDate &&
-            new Date(data?.startDate)?.toISOString().split("T")[0]
-          }
-          register={register}
-          error={errors?.startDate}
-          type="date"
-        />
-        <InputField
-          label="Due Date"
-          name="dueDate"
-          defaultValue={
-            data?.dueDate &&
-            new Date(data?.dueDate)?.toISOString().split("T")[0]
-          }
-          register={register}
-          error={errors?.dueDate}
-          type="date"
-        />
+        <div className="flex justify-between flex-wrap gap-4">
+          <InputField
+            label="Assignment title"
+            name="title"
+            defaultValue={data?.title}
+            register={form.register}
+            error={form.formState.errors?.title}
+          />
+          <InputField
+            label="Start Date"
+            name="startDate"
+            defaultValue={
+              data?.startDate
+            }
+            register={form.register}
+            error={form.formState.errors?.startDate}
+            type="date"
+            form={form}
+          />
+          <InputField
+            label="Due Date"
+            name="dueDate"
+            defaultValue={
+              data?.dueDate
+            }
+            register={form.register}
+            error={form.formState.errors?.dueDate}
+            type="date"
+            form={form}
+          />
 
-        <div className="flex flex-col gap-2 w-full md:w-1/4">
-          <label className="text-xs text-gray-500">Lesson</label>
-          <select
-            className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
-            {...register("lessonId")}
-            defaultValue={data?.lessonId}
-          >
-            {lessons?.map((lesson: { id: number; name: string }) => (
-              <option value={lesson.id} key={lesson.id}>
-                {lesson.name}
-              </option>
-            ))}
-          </select>
+          <div className="flex flex-col gap-2 w-full md:w-1/4">
+            <label className="text-xs text-gray-500">Lesson</label>
+            <select
+              className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+              {...form.register("lessonId")}
+              defaultValue={data?.lessonId}
+            >
+              {lessons?.map((lesson: { id: number; name: string }) => (
+                <option value={lesson.id} key={lesson.id}>
+                  {lesson.name}
+                </option>
+              ))}
+            </select>
 
-          {errors.lessonId?.message && (
-            <p className="text-xs text-red-400">
-              {errors.lessonId.message.toString()}
-            </p>
+            {form.formState.errors.lessonId?.message && (
+              <p className="text-xs text-red-400">
+                {form.formState.errors.lessonId.message.toString()}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="p-4 border rounded-lg">
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-lg font-semibold">Question</p>
+
+            <Button
+              onClick={() => setIsEditing((prev) => !prev)}
+              size="sm"
+              variant="outline"
+              type="button"
+            >
+              {isEditing ? (
+                <X className="size-4 mr-2" />
+              ) : (
+                <Pencil className="size-4 mr-2" />
+              )}
+              {isEditing ? "Cancel" : "Edit"}
+            </Button>
+          </div>
+
+          {isEditing ? (
+            <div className="flex flex-col gap-y-4">
+              <Editor
+                value={
+                  value
+                }
+                onChange={setValue}
+              />
+            </div>
+          ) : (
+            <div>
+              {data?.question ? (
+                <Preview value={data?.question} />
+              ) : value ? (<Preview value={value} />) : (
+                <span className="text-muted-foreground">No question set</span>
+              )}
+            </div>
           )}
         </div>
-      </div>
 
-      <div className="p-4 border rounded-lg">
-        <div className="flex items-center justify-between mb-4">
-          <p className="text-lg font-semibold">Question</p>
-
-          <Button
-            onClick={() => setIsEditing((prev) => !prev)}
-            size="sm"
-            variant="outline"
-            type="button"
-          >
-            {isEditing ? (
-              <X className="size-4 mr-2" />
-            ) : (
-              <Pencil className="size-4 mr-2" />
-            )}
-            {isEditing ? "Cancel" : "Edit"}
-          </Button>
-        </div>
-
-        {isEditing ? (
-          <div className="flex flex-col gap-y-4">
-            <Editor
-              value={
-                value
-              }
-              onChange={setValue}
-            />
-          </div>
-        ) : (
-          <div>
-            {data?.question ? (
-              <Preview value={data?.question} />
-            ) : value ? (<Preview value={value} />) : (
-              <span className="text-muted-foreground">No question set</span>
-            )}
-          </div>
-        )}
-      </div>
-
-      <button className="bg-blue-400 text-white p-2 rounded-md">
-        {type === "create" ? "Create" : "Update"}
-      </button>
-    </form>
+        <button className="bg-blue-400 text-white p-2 rounded-md">
+          {type === "create" ? "Create" : "Update"}
+        </button>
+      </form>
+    </Form>
   );
 };
 

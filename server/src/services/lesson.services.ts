@@ -1,6 +1,9 @@
 import client from "@/db";
 import { ITEM_PER_PAGE } from "@/lib/settings";
-import { Prisma } from "@prisma/client";
+import { ApiError } from "@/utils/apiError";
+import { Day, Prisma } from "@prisma/client";
+import { StatusCodes } from "http-status-codes";
+import { z } from "zod";
 
 export interface GetLessonParams {
   page?: number;
@@ -83,3 +86,85 @@ export const getExamLessons = async (role: string, currUserId: string) => {
     select: { id: true, name: true },
   });
 };
+
+
+export const lessonSchema = z.object({
+  id: z.coerce.number().optional(),
+  name: z.string().min(1, { message: "Lesson name is required!" }),
+  day: z.string().min(1, { message: "Weekday is required!" }),
+  startTime: z.coerce.date({ message: "Start time is required!" }),
+  endTime: z.coerce.date({ message: "End time is required!" }),
+  subjectId: z.coerce.string({ message: "Subject is required!" }),
+  classId: z.coerce.number({ message: "Class is required!" }),
+  teacherId: z.coerce.string({ message: "Teacher is required!" }),
+});
+
+export type LessonSchema = z.infer<typeof lessonSchema>;
+
+export const createLesson = async (params: LessonSchema) => {
+  return await client.lesson.create({
+    data: {
+      name: params.name,
+      day: params.day as Day,
+      startTime: params.startTime,
+      endTime: params.endTime,
+      subjectId: params.subjectId,
+      classId: params.classId,
+      teacherId: params.teacherId,
+    },
+  });
+};
+
+export const updateLesson = async (
+  id: string,
+  params: Partial<LessonSchema>,
+) => {
+  const existingLesson = await client.lesson.findFirst({
+    where: {
+      id,
+    },
+  });
+
+  if (!existingLesson) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      "This lesson doesn't exist!",
+    );
+  }
+
+  return await client.lesson.update({
+    where: {
+      id,
+    },
+    data: {
+      name: params.name,
+      day: params.day as Day,
+      startTime: params.startTime,
+      endTime: params.endTime,
+      subjectId: params.subjectId,
+      classId: params.classId,
+      teacherId: params.teacherId,
+    },
+  });
+};
+
+export const deleteLesson = async (id: string) => {
+  const existingLesson = await client.lesson.findFirst({
+    where: {
+      id,
+    },
+  });
+
+  if (!existingLesson) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      "This lesson doesn't exist!",
+    );
+  }
+
+  return await client.lesson.delete({
+    where: {
+      id,
+    },
+  });
+}

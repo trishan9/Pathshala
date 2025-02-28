@@ -47,3 +47,43 @@ export const getExamLessons = asyncHandler(
     });
   },
 );
+
+export const createLesson = asyncHandler(
+  async (req: Request, res: Response) => {
+    const body = req.body;
+    const lesson  = await lessonServices.createLesson(body);
+
+    return apiResponse(res, StatusCodes.CREATED, {
+      lesson,
+      message: "Lesson created successfully",
+    });
+  },
+);
+
+export const updateLesson = asyncHandler(
+  async (req: Request, res: Response) => {
+    const body = req.body;
+    const { lessonId } = req.params;
+
+    const lesson = await lessonServices.updateLesson(
+      lessonId,
+      body,
+    );
+
+    return apiResponse(res, StatusCodes.OK, {
+      lesson,
+      message: "Lesson updated successfully",
+    });
+  },
+);
+
+export const deleteLesson = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { lessonId } = req.params;
+    await lessonServices.deleteLesson(lessonId);
+
+    return apiResponse(res, StatusCodes.OK, {
+      message: "Lesson deleted successfully",
+    });
+  },
+);

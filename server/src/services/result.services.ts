@@ -99,6 +99,8 @@ export const getAllResults = async (
       score: item.score,
       className: assessment.lesson.class.name,
       startTime: isExam ? assessment.startTime : assessment.startDate,
+      examId: item.examId,
+      assignmentId: item.assignmentId
     };
   });
 

@@ -4,6 +4,7 @@ import InputField from "../InputField";
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
 import { useCreateEvent, useUpdateEvent } from "@/hooks/useEvents";
+import { Form } from "../ui/form";
 
 export interface FormProps {
   type: "create" | "update";
@@ -22,53 +23,24 @@ const eventSchema = z.object({
 });
 export type EventSchema = z.infer<typeof eventSchema>;
 
-function formatDateTime(startTime: string, timeZone = "Asia/Kathmandu") {
-  const formatter = new Intl.DateTimeFormat("en-GB", {
-    timeZone: timeZone,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
-
-  const dateParts = formatter.format(new Date(startTime)).split("/");
-  const dateString =
-    dateParts[2].split(", ")[0] +
-    "-" +
-    dateParts[1] +
-    "-" +
-    dateParts[0] +
-    "T" +
-    dateParts[2].split(", ")[1];
-
-  return dateString;
-}
-
 const EventForm: React.FC<FormProps> = ({
   type,
   data,
   setOpen,
   relatedData,
 }) => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<EventSchema>({
+  const form = useForm<EventSchema>({
     resolver: zodResolver(eventSchema),
   });
 
   const createEvent = useCreateEvent();
   const updateEvent = useUpdateEvent();
 
-  const onSubmit = handleSubmit((values: EventSchema) => {
+  const onSubmit = form.handleSubmit((values: EventSchema) => {
     if (type === "create") {
       createEvent.mutate(values, {
         onSuccess: () => {
-          reset();
+          form.reset();
           setOpen(false);
         },
       });
@@ -77,7 +49,7 @@ const EventForm: React.FC<FormProps> = ({
         { id: data?.id || "", data: values },
         {
           onSuccess: () => {
-            reset();
+            form.reset();
             setOpen(false);
           },
         },
@@ -88,76 +60,82 @@ const EventForm: React.FC<FormProps> = ({
   const { classes } = relatedData;
 
   return (
-    <form className="flex flex-col gap-8" onSubmit={onSubmit}>
-      <h1 className="text-xl font-semibold">
-        {type === "create" ? "Create a new event" : "Update event"}
-      </h1>
-      <div className="flex justify-between flex-wrap gap-4">
-        <InputField
-          label="Title"
-          name="title"
-          defaultValue={data?.title}
-          register={register}
-          error={errors?.title}
-        />
-        <InputField
-          label="Description"
-          name="description"
-          defaultValue={data?.description}
-          register={register}
-          error={errors?.description}
-        />
-        <InputField
-          label="Start Time"
-          name="startTime"
-          defaultValue={data?.startTime && formatDateTime(data?.startTime)}
-          register={register}
-          error={errors?.startTime}
-          type="datetime-local"
-        />
+    <Form {...form}>
+      <form className="flex flex-col gap-8" onSubmit={onSubmit}>
+        <h1 className="text-xl font-semibold">
+          {type === "create" ? "Create a new event" : "Update event"}
+        </h1>
+        <div className="flex justify-between flex-wrap gap-4">
+          <InputField
+            label="Title"
+            name="title"
+            defaultValue={data?.title}
+            register={form.register}
+            error={form.formState.errors?.title}
+          />
 
-        <InputField
-          label="End Time"
-          name="endTime"
-          defaultValue={data?.endTime && formatDateTime(data?.endTime)}
-          register={register}
-          error={errors?.endTime}
-          type="datetime-local"
-        />
+          <InputField
+            label="Description"
+            name="description"
+            defaultValue={data?.description}
+            register={form.register}
+            error={form.formState.errors?.description}
+          />
 
-        <div className="flex flex-col gap-2 w-full md:w-1/4">
-          <label className="text-xs text-gray-500">Class</label>
-          <select
-            className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
-            {...register("classId")}
-            defaultValue={data?.classId}
-          >
-            <option selected value={0}>
-              Select Class
-            </option>
+          <InputField
+            label="Start Time"
+            name="startTime"
+            defaultValue={data?.startTime}
+            register={form.register}
+            error={form.formState.errors?.startTime}
+            type="datetime-local"
+            form={form}
+          />
 
-            {classes?.map((classItem: { id: number; name: string }) => (
-              <option value={classItem?.id} key={classItem?.id}>
-                {classItem?.name}
+          <InputField
+            label="End Time"
+            name="endTime"
+            defaultValue={data?.endTime}
+            register={form.register}
+            error={form.formState.errors?.endTime}
+            type="datetime-local"
+            form={form}
+          />
+
+          <div className="flex flex-col gap-2 w-full md:w-1/4">
+            <label className="text-xs text-gray-500">Class</label>
+            <select
+              className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+              {...form.register("classId")}
+              defaultValue={data?.classId}
+            >
+              <option selected value={0}>
+                Select Class
               </option>
-            ))}
-          </select>
 
-          {errors.classId?.message && (
-            <p className="text-xs text-red-400">
-              {errors.classId.message.toString()}
-            </p>
-          )}
+              {classes?.map((classItem: { id: number; name: string }) => (
+                <option value={classItem?.id} key={classItem?.id}>
+                  {classItem?.name}
+                </option>
+              ))}
+            </select>
+
+            {form.formState.errors.classId?.message && (
+              <p className="text-xs text-red-400">
+                {form.formState.errors.classId.message.toString()}
+              </p>
+            )}
+          </div>
         </div>
-      </div>
 
-      <button
-        type="submit"
-        className={`bg-blue-400 text-white p-2 rounded-md `}
-      >
-        {type === "create" ? "Create" : "Update"}
-      </button>
-    </form>
+        <button
+          type="submit"
+          className={`bg-blue-400 text-white p-2 rounded-md `}
+        >
+          {type === "create" ? "Create" : "Update"}
+        </button>
+      </form>
+    </Form>
   );
 };
 

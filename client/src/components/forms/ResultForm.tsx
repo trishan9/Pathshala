@@ -61,6 +61,7 @@ const ResultForm: React.FC<FormProps> = ({
     });
 
     const { students, exams, assignments } = relatedData;
+    console.log(data)
 
     return (
         <form className="flex flex-col gap-8" onSubmit={onSubmit}>

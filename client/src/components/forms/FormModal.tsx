@@ -30,6 +30,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Pencil, Trash2 } from "lucide-react";
 import { Button } from "../ui/button";
+import { useDeleteLesson } from "@/hooks/useLessons";
+import LessonForm from "./LessonForm";
 
 const forms: {
   [key: string]: (
@@ -111,6 +113,14 @@ const forms: {
       relatedData={relatedData}
     />
   ),
+  lesson: (setOpen, type, data, relatedData) => (
+    <LessonForm
+      type={type}
+      data={data}
+      setOpen={setOpen}
+      relatedData={relatedData}
+    />
+  ),
 };
 
 const FormModal = ({
@@ -137,6 +147,7 @@ const FormModal = ({
   const deleteExam = useDeleteExam();
   const deleteAssignment = useDeleteAssignment();
   const deleteResult = useDeleteResult();
+  const deleteLesson = useDeleteLesson();
 
   const deleteActionMap = {
     teacher: deleteTeacher,
@@ -148,6 +159,7 @@ const FormModal = ({
     exam: deleteExam,
     assignment: deleteAssignment,
     result: deleteResult,
+    lesson: deleteLesson
   };
 
   const [open, setOpen] = useState(false);
