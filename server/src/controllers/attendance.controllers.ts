@@ -5,8 +5,9 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
 export const getAttendanceAnalytics = asyncHandler(
-  async (_: Request, res: Response) => {
-    const data = await attendanceServices.getAttendanceAnalytics();
+  async (req: Request, res: Response) => {
+    const { isWeekly } = req.query;
+    const data = await attendanceServices.getAttendanceAnalytics(Boolean(isWeekly));
 
     return apiResponse(res, StatusCodes.OK, {
       data,

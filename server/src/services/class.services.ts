@@ -85,12 +85,12 @@ export const createClass = async (params: ClassSchema) => {
     },
   });
 
-  // if (existingClass) {
-  //   throw new ApiError(
-  //     StatusCodes.BAD_REQUEST,
-  //     "Class with this name already exists",
-  //   );
-  // }
+  if (existingClass) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      "Class with this name already exists",
+    );
+  }
 
   return await client.class.create({
     data: {

@@ -1,7 +1,7 @@
 import client from "@/db";
 import { Prisma, User } from "@prisma/client";
 
-export const getAttendanceAnalytics = async () => {
+export const getAttendanceAnalytics = async (isWeekly: boolean) => {
   const today = new Date();
   const dayOfWeek = today.getDay();
   const daysSinceMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
@@ -11,9 +11,11 @@ export const getAttendanceAnalytics = async () => {
 
   return await client.attendance.findMany({
     where: {
-      date: {
-        gte: lastMonday,
-      },
+      ...(isWeekly && {
+        date: {
+          gte: lastMonday,
+        },
+      })
     },
     select: {
       date: true,
@@ -124,15 +126,15 @@ export const getAttendanceDetails = async (
     startDate,
     endDate,
   } = params;
-  
+
   const whereClause: Prisma.AttendanceWhereInput = {
     ...(startDate &&
       endDate && {
-        date: {
-          gte: new Date(startDate),
-          lte: new Date(endDate),
-        },
-      }),
+      date: {
+        gte: new Date(startDate),
+        lte: new Date(endDate),
+      },
+    }),
   };
 
   const [records, totalCount] = await client.$transaction([

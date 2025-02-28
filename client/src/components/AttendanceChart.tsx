@@ -16,7 +16,7 @@ const AttendanceChart = () => {
   const { data: resData } = useQuery({
     queryKey: ["daily-attendance-chart"],
     queryFn: async () => {
-      const response = await apiActions.attendance.analytics.get();
+      const response = await apiActions.attendance.analytics.get(true);
 
       if (!response.data) {
         throw new Error("Failed to get attendance analytics");
@@ -29,13 +29,13 @@ const AttendanceChart = () => {
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 
   const attendanceMap: { [key: string]: { present: number; absent: number } } =
-    {
-      Mon: { present: 0, absent: 0 },
-      Tue: { present: 0, absent: 0 },
-      Wed: { present: 0, absent: 0 },
-      Thu: { present: 0, absent: 0 },
-      Fri: { present: 0, absent: 0 },
-    };
+  {
+    Mon: { present: 0, absent: 0 },
+    Tue: { present: 0, absent: 0 },
+    Wed: { present: 0, absent: 0 },
+    Thu: { present: 0, absent: 0 },
+    Fri: { present: 0, absent: 0 },
+  };
 
   resData?.forEach((item) => {
     const itemDate = new Date(item.date);
