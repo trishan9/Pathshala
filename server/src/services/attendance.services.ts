@@ -1,21 +1,28 @@
 import client from "@/db";
-import { Prisma, User } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
-export const getAttendanceAnalytics = async (isWeekly: boolean) => {
+export const getAttendanceAnalytics = async () => {
+  return await client.attendance.findMany({
+    select: {
+      date: true,
+      present: true,
+    },
+  });
+};
+
+export const getAttendanceAnalyticsDaily = async () => {
   const today = new Date();
   const dayOfWeek = today.getDay();
-  const daysSinceMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+  const daysSinceMonday = dayOfWeek === 0 ? 0 : dayOfWeek;
 
   const lastMonday = new Date(today);
   lastMonday.setDate(today.getDate() - daysSinceMonday);
 
   return await client.attendance.findMany({
     where: {
-      ...(isWeekly && {
-        date: {
-          gte: lastMonday,
-        },
-      })
+      date: {
+        gte: lastMonday,
+      },
     },
     select: {
       date: true,
@@ -111,6 +118,7 @@ export interface AttendanceRecord {
 
 export interface GetAttendanceParams {
   page?: number;
+  date?: Date; // Added single date parameter
   startDate?: Date;
   endDate?: Date;
   classId?: string;
@@ -119,23 +127,39 @@ export interface GetAttendanceParams {
   search?: string;
 }
 
-export const getAttendanceDetails = async (
-  params: GetAttendanceParams,
-) => {
-  const {
-    startDate,
-    endDate,
-  } = params;
+export const getAttendanceDetails = async (params: GetAttendanceParams) => {
+  const { date, startDate, endDate } = params;
 
-  const whereClause: Prisma.AttendanceWhereInput = {
-    ...(startDate &&
-      endDate && {
-      date: {
-        gte: new Date(startDate),
-        lte: new Date(endDate),
-      },
-    }),
-  };
+  const whereClause: Prisma.AttendanceWhereInput = {};
+
+  // Handle single date filter
+  if (date) {
+    // Create a date range for the entire day
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date(date);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    whereClause.date = {
+      gte: startOfDay,
+      lte: endOfDay,
+    };
+  }
+  // Handle date range filter (only if single date is not provided)
+  else if (startDate && endDate) {
+    // Ensure we capture the full days for both start and end dates
+    const startOfDay = new Date(startDate);
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date(endDate);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    whereClause.date = {
+      gte: startOfDay,
+      lte: endOfDay,
+    };
+  }
 
   const [records, totalCount] = await client.$transaction([
     client.attendance.findMany({

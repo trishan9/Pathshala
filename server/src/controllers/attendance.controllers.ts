@@ -6,12 +6,22 @@ import { StatusCodes } from "http-status-codes";
 
 export const getAttendanceAnalytics = asyncHandler(
   async (req: Request, res: Response) => {
-    const { isWeekly } = req.query;
-    const data = await attendanceServices.getAttendanceAnalytics(Boolean(isWeekly));
+    const data = await attendanceServices.getAttendanceAnalytics();
 
     return apiResponse(res, StatusCodes.OK, {
       data,
       message: "Attendance analytics data fetched succesfully",
+    });
+  },
+);
+
+export const getAttendanceAnalyticsDaily = asyncHandler(
+  async (req: Request, res: Response) => {
+    const data = await attendanceServices.getAttendanceAnalyticsDaily();
+
+    return apiResponse(res, StatusCodes.OK, {
+      data,
+      message: "Daily attendance analytics data fetched succesfully",
     });
   },
 );
@@ -62,4 +72,3 @@ export const recordAttendance = asyncHandler(
     });
   },
 );
-

@@ -11,6 +11,11 @@ attendanceRouter.get(
   attendanceControllers.getAttendanceAnalytics,
 );
 attendanceRouter.get(
+  "/analytics/daily",
+  isAuthenticated,
+  attendanceControllers.getAttendanceAnalyticsDaily,
+);
+attendanceRouter.get(
   "/",
   isAuthenticated,
   attendanceControllers.getAttendanceDetails,

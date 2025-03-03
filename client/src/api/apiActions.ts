@@ -288,8 +288,11 @@ export const apiActions = {
   },
   attendance: {
     analytics: {
-      get: async (isWeekly?: boolean) => {
-        return await api.get(API_URLS.ATTENDANCE.ANALYTICS, { params: isWeekly });
+      get: async () => {
+        return await api.get(API_URLS.ATTENDANCE.ANALYTICS);
+      },
+      getDaily: async () => {
+        return await api.get(`${API_URLS.ATTENDANCE.ANALYTICS}/daily`);
       },
     },
     getAttendanceDetails: (params: GetAttendanceParams) => {
