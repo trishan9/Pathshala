@@ -1,6 +1,7 @@
 import { apiActions } from "@/api";
 import { EventSchema } from "@/components/forms/EventForm";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 export interface useGetEventsProps {
   page?: number | null;
@@ -38,7 +39,9 @@ export const useCreateEvent = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+
+    onSuccess: (response) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["events"] });
     },
   });
@@ -61,7 +64,9 @@ export const useUpdateEvent = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+
+    onSuccess: (response) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["events"] });
     },
   });
@@ -78,7 +83,9 @@ export const useDeleteEvent = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+
+    onSuccess: (response) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["events"] });
     },
   });

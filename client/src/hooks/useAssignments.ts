@@ -1,6 +1,7 @@
 import { apiActions } from "@/api";
 import { AssignmentSchema } from "@/components/forms/AssignmentForm";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 export interface useGetAssignmentsProps {
   page?: number | null;
@@ -47,8 +48,9 @@ export const useCreateAssignment = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ["assignments"] });
+      toast.success(response.message);
     },
   });
 };
@@ -70,8 +72,9 @@ export const useUpdateAssignment = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ["assignments"] });
+      toast.success(response.message);
     },
   });
 };
@@ -87,8 +90,10 @@ export const useDeleteAssignment = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ["assignments"] });
+      toast.success(response.message);
     },
   });
 };
+

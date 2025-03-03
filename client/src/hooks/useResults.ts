@@ -1,6 +1,7 @@
 import { apiActions } from "@/api";
 import { ResultSchema } from "@/components/forms/ResultForm";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 export interface useGetResultsProps {
   page?: number | null;
@@ -44,7 +45,9 @@ export const useCreateResult = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+
+    onSuccess: (response) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["results"] });
     },
   });
@@ -67,7 +70,8 @@ export const useUpdateResult = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["results"] });
     },
   });
@@ -84,8 +88,10 @@ export const useDeleteResult = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["results"] });
     },
   });
 };
+

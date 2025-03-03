@@ -30,12 +30,5 @@ export default {
       secret: env.JWT_REFRESH_SECRET,
       expiresIn: env.REFRESH_TOKEN_EXPIRES_IN,
     },
-  },
-  oauth: {
-    google: {
-      client_id: env.GOOGLE_CLIENT_ID,
-      client_secret: env.GOOGLE_CLIENT_SECRET,
-      callback_url: env.GOOGLE_CALLBACK_URL,
-    },
-  },
+  }
 } as const;

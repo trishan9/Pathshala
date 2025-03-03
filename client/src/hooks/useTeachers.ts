@@ -1,6 +1,7 @@
 import { apiActions } from "@/api";
 import { CreateTeacherInputs } from "@/components/forms/TeacherForm";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 export interface useGetTeachersProps {
   page?: number | null;
@@ -60,7 +61,8 @@ export const useCreateTeacher = () => {
 
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["teachers"] });
     },
   });
@@ -84,7 +86,8 @@ export const useUpdateTeacher = () => {
       console.log(response.data);
       return response.data;
     },
-    onSuccess: (_, variables) => {
+    onSuccess: (response, variables) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["teachers"] });
       queryClient.invalidateQueries({
         queryKey: ["teacher", variables.id],
@@ -104,7 +107,8 @@ export const useDeleteTeacher = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["teachers"] });
     },
   });

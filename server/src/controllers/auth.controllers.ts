@@ -19,7 +19,7 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
 
   const result = registerUserValidator.safeParse(body);
   if (!result.success) {
-    throw new ApiError(StatusCodes.FORBIDDEN, result.error.issues);
+    throw new ApiError(StatusCodes.FORBIDDEN, errorResponse.VALIDATION.FAILED);
   }
 
   const { username, email, name, password } = body as registerUserType;
@@ -44,7 +44,7 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
 
   const result = loginUserValidator.safeParse(body);
   if (!result.success) {
-    throw new ApiError(StatusCodes.FORBIDDEN, result.error.issues);
+    throw new ApiError(StatusCodes.FORBIDDEN, errorResponse.VALIDATION.FAILED);
   }
 
   const { username, password } = body as loginUserType;

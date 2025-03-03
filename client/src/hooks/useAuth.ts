@@ -58,7 +58,8 @@ export const useLogout = () => {
 
   return useMutation({
     mutationFn: apiActions.auth.logout,
-    onSuccess: () => {
+    onSuccess: (response) => {
+      toast.success(response.data.message);
       setUser(null);
       setAccessToken(null);
       setIsAuthenticated(false);

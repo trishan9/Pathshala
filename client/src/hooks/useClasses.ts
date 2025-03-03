@@ -1,5 +1,6 @@
 import { apiActions } from "@/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 import { z } from "zod";
 
 export interface useGetClassesProps {
@@ -54,7 +55,9 @@ export const useCreateClass = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+
+    onSuccess: (response) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["classes"] });
     },
   });
@@ -77,7 +80,9 @@ export const useUpdateClass = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+
+    onSuccess: (response) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["classes"] });
     },
   });
@@ -94,7 +99,9 @@ export const useDeleteClass = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+
+    onSuccess: (response) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["classes"] });
     },
   });

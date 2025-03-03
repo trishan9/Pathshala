@@ -1,5 +1,6 @@
 import { apiActions } from "@/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 export interface useGetSubjectsProps {
   page?: number | null;
@@ -37,7 +38,8 @@ export const useCreateSubject = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["subjects"] });
     },
   });
@@ -54,7 +56,8 @@ export const useUpdateSubject = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["subjects"] });
     },
   });
@@ -71,7 +74,8 @@ export const useDeleteSubject = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["subjects"] });
     },
   });

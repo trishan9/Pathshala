@@ -40,6 +40,7 @@ import {
 } from "@/hooks/useSubjects";
 import { Editor } from "@/components/Editor";
 import { Preview } from "@/components/Preview";
+import { toast } from "react-toastify";
 
 interface LearningMaterial {
   id: string;
@@ -94,10 +95,11 @@ export default function MaterialsPage() {
           subjectId,
         },
         {
-          onSuccess: () => {
+          onSuccess: (response) => {
             setIsAddDialogOpen(false);
             setFormData({ title: "" });
             setValue("");
+            toast.success(response.message);
           },
         },
       );
@@ -125,11 +127,12 @@ export default function MaterialsPage() {
           },
         },
         {
-          onSuccess: () => {
+          onSuccess: (response) => {
             setIsEditDialogOpen(false);
             setCurrentMaterial(null);
             setFormData({ title: "" });
             setValue("");
+            toast.success(response.message);
           },
         },
       );
@@ -147,9 +150,10 @@ export default function MaterialsPage() {
 
     try {
       deleteMaterial.mutate(currentMaterial.id, {
-        onSuccess: () => {
+        onSuccess: (response) => {
           setIsDeleteDialogOpen(false);
           setCurrentMaterial(null);
+          toast.success(response.message);
         },
       });
     } catch (err) {

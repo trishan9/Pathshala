@@ -1,6 +1,7 @@
 import { apiActions } from "@/api";
 import { ExamSchema } from "@/components/forms/ExamForm";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 export interface useGetExamsProps {
   page?: number | null;
@@ -47,7 +48,8 @@ export const useCreateExam = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["exams"] });
     },
   });
@@ -70,7 +72,8 @@ export const useUpdateExam = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["exams"] });
     },
   });
@@ -87,7 +90,9 @@ export const useDeleteExam = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+
+    onSuccess: (response) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["exams"] });
     },
   });

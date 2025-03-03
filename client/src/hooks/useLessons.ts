@@ -1,5 +1,6 @@
 import { apiActions } from "@/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 import { z } from "zod";
 
 export interface useGetLessonsProps {
@@ -60,7 +61,9 @@ export const useCreateLesson = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+
+    onSuccess: (response) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["lessons"] });
     },
   });
@@ -83,7 +86,9 @@ export const useUpdateLesson = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+
+    onSuccess: (response) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["lessons"] });
     },
   });
@@ -100,7 +105,8 @@ export const useDeleteLesson = () => {
       }
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["lessons"] });
     },
   });

@@ -12,9 +12,6 @@ const envSchema = z.object({
   JWT_REFRESH_SECRET: z.string(),
   ACCESS_TOKEN_EXPIRES_IN: z.string(),
   REFRESH_TOKEN_EXPIRES_IN: z.string(),
-  GOOGLE_CLIENT_ID: z.string(),
-  GOOGLE_CLIENT_SECRET: z.string(),
-  GOOGLE_CALLBACK_URL: z.string(),
 });
 
 export const env = envSchema.parse(process.env);

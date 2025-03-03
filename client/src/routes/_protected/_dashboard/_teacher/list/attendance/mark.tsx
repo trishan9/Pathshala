@@ -21,6 +21,7 @@ import {
 import { cn } from "@/lib/utils";
 import { apiActions } from "@/api";
 import { useAuthStore } from "@/stores/authStore";
+import { toast } from "react-toastify";
 
 export const Route = createFileRoute(
   "/_protected/_dashboard/_teacher/list/attendance/mark",
@@ -54,24 +55,19 @@ export default function AttendancePage() {
   const [students, setStudents] = useState<Student[]>();
   const [lessons, setLessons] = useState<Lesson[]>();
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const teacherId = useAuthStore((state) => state.user)?.id;
 
   // Fetch subjects when component mounts
   useEffect(() => {
     const fetchLessons = async () => {
       try {
-        setLoading(true);
         const response = await apiActions.attendance.getLessons(
           teacherId || "",
         );
         console.log(response.data);
         setLessons(response.data.data);
       } catch (err) {
-        setError("Failed to fetch lessons");
-      } finally {
-        setLoading(false);
+        console.log(err);
       }
     };
 
@@ -84,14 +80,11 @@ export default function AttendancePage() {
 
     const fetchStudents = async () => {
       try {
-        setLoading(true);
         const response =
           await apiActions.attendance.getClassStudents(selectedLesson);
         setStudents(response.data.data);
       } catch (err) {
-        setError("Failed to fetch students");
-      } finally {
-        setLoading(false);
+        console.log(err);
       }
     };
 
@@ -116,19 +109,19 @@ export default function AttendancePage() {
     if (!selectedLesson || !students) return;
 
     try {
-      setLoading(true);
-      await apiActions.attendance.recordAttendance(selectedLesson, {
-        attendanceRecords: students.map((student) => ({
-          studentId: student.id,
-          present: student.present || false,
-        })),
-      });
-
+      const response = await apiActions.attendance.recordAttendance(
+        selectedLesson,
+        {
+          attendanceRecords: students.map((student) => ({
+            studentId: student.id,
+            present: student.present || false,
+          })),
+        },
+      );
+      toast.success(response.data.message);
       setIsConfirmDialogOpen(false);
     } catch (err) {
-      setError("Failed to record attendance");
-    } finally {
-      setLoading(false);
+      console.log(err);
     }
   };
 

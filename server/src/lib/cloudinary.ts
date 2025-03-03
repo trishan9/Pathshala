@@ -3,9 +3,9 @@ import { v2 as cloudinary } from "cloudinary";
 import { UploadApiResponse } from "cloudinary";
 
 cloudinary.config({
-  cloud_name: "dvrm0w6ox",
-  api_key: "231233948562838",
-  api_secret: "8Amhu7ykQ7lZE31QkwVl9_vVfww",
+  cloud_name: "dnqet3vq1",
+  api_key: "241141791476868",
+  api_secret: "vkvZYuioJ-8u-LZOWHyUwbz46HM",
 });
 
 const uploadToCloudinary = async (

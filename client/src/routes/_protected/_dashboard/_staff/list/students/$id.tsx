@@ -56,7 +56,7 @@ const SingleStudentPage = () => {
             <div className="w-2/3 flex flex-col justify-between gap-4">
               <h1 className="text-xl font-semibold">{data?.name}</h1>
               <p className="text-sm text-gray-500">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                A motivated learner passionate about discovering new ideas and achieving growth, committed to success and embracing challenges.
               </p>
               <div className="flex items-center justify-between gap-2 flex-wrap text-xs font-medium">
                 <div className="w-full md:w-1/3 lg:w-full 2xl:w-1/3 flex items-center gap-2">

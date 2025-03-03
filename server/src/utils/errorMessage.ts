@@ -12,6 +12,11 @@ const errorResponse = {
     INVALID: "Invalid Name",
   },
 
+  VALIDATION: {
+    FAILED:
+      "Some of the input data is invalid. Please review the highlighted fields and try again.",
+  },
+
   USERNAME: {
     CONFLICT: "This username is already associated with an existing account",
     REQUIRED: "Username is required",
